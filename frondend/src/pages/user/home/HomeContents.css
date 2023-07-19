@@ -1,0 +1,86 @@
+/* HomePage.css */
+.homepage-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 50px;
+}
+
+.article-section {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.image-section {
+    width: 100%;
+    text-align: center;
+
+}
+
+.header {
+    display: flex;
+    /* align-items: center; */
+}
+
+.logo1 {
+    /* display: block; */
+    height: 50px;
+    width: 50px;
+    background: rgba(0, 0, 0, 0) url("https://im1.dineout.co.in/images/uploads/misc/2022/Jan/12/download_sprites.png") no-repeat 0 0;
+}
+
+.logo2 {
+    /* display: block; */
+    height: 50px;
+    width: 50px;
+    background: rgba(0, 0, 0, 0) url("https://im1.dineout.co.in/images/uploads/misc/2022/Jan/12/download_sprites.png");
+    background-position: -50px 0
+}
+
+.MainHeader {
+    color: #ff645a;
+    margin-bottom: 30px;
+}
+
+.h6Header {
+    color: #ff645a;
+    margin-left: 10px;
+}
+
+.pTag {
+    margin-left: 60px;
+    margin-top: -25px;
+}
+
+/* Button styles */
+.custom-button {
+    background-color: #ff645a;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+/* Add media query for responsive layout */
+@media (min-width: 768px) {
+    .homepage-container {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: flex-start;
+    }
+
+    .article-section {
+        width: 50%;
+        margin-right: 20px;
+        margin-bottom: 0;
+    }
+
+    .image-section {
+        width: 40%;
+    }
+}
