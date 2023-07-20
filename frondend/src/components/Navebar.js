@@ -1,6 +1,7 @@
 import * as React from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
+import {Link} from 'react-router-dom'
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
@@ -12,8 +13,11 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import SearchIcon from '@mui/icons-material/Search';
-const pages = ['Products', 'Pricing', 'Blog'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const pages = ['Home', 'Find Restaurant', 'Posts'];
+// const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const settings = ['Login', 'Account', 'Add Hotels'];
+
+
 
 function Navebar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -26,11 +30,12 @@ function Navebar() {
     setAnchorElUser(event.currentTarget);
   };
 
-  const handleCloseNavMenu = () => {
+  const handlePages = () => {
     setAnchorElNav(null);
   };
 
-  const handleCloseUserMenu = () => {
+  const handleSettings = () => {
+
     setAnchorElUser(null);
   };
 
@@ -88,13 +93,13 @@ function Navebar() {
                 horizontal: 'left',
               }}
               open={Boolean(anchorElNav)}
-              onClose={handleCloseNavMenu}
+              onClose={handlePages}
               sx={{
                 display: { xs: 'block', md: 'none' },
               }}
             >
               {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
+                <MenuItem key={page} onClick={handlePages}>
                   <Typography textAlign="center">{page}</Typography>
                 </MenuItem>
               ))}
@@ -124,7 +129,7 @@ function Navebar() {
             {pages.map((page) => (
               <Button
                 key={page}
-                onClick={handleCloseNavMenu}
+                onClick={handlePages}
                 sx={{ my: 2, color: 'black', display: 'block' }}
               >
                 {page}
@@ -203,11 +208,12 @@ function Navebar() {
                 horizontal: 'right',
               }}
               open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
+              onClose={handleSettings}
             >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
+              {settings.map((setting,index) => (
+                // <MenuItem key={setting} onClick={()=>handleSettings({setting})}>
+                <MenuItem key={setting} onClick={handleSettings}>
+                  <Typography textAlign="center"><Link to={index==0?'/signin':index==1?'/account':'/addhotel'}>{setting}</Link></Typography>
                 </MenuItem>
               ))}
             </Menu>

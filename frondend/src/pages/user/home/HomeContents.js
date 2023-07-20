@@ -23,7 +23,9 @@ function HomeContents() {
                 <p className='pTag'>
                     Pay your restaurant bills through the Dineout app.
                 </p>
+                <div className='buttonDiv'>
                     <button className="custom-button">Download</button>
+                    </div>
             </div>
             <div className="image-section">
                 <img
