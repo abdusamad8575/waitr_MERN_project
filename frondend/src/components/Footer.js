@@ -1,4 +1,5 @@
 import React from 'react'
+import './Footer.css'
 import { Container, Box, IconButton } from '@mui/material';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import TwitterIcon from '@mui/icons-material/Twitter';
@@ -15,61 +16,75 @@ function Footer() {
       <section className=''>
         <MDBContainer className='text-center text-md-start mt-5'>
           <MDBRow className='mt-3'>
-            <MDBCol md='3' lg='4' xl='3' className='mx-auto mb-4'>
-              <h6 className='text-uppercase fw-bold mb-4' style={{color:'#ff645a'}}>
-                <MDBIcon color='secondary' icon='gem' className='me-3' />
-                Company name
-              </h6>
+            <MDBCol md='2' lg='2' xl='2' className='mx-auto mb-4'>
+              <h6 className='text-uppercase fw-bold mb-4' style={{color:'#ff645a'}}>Discover
+</h6>
               <p>
-                Here you can use rows and columns to organize your footer content. Lorem ipsum dolor sit
-                amet, consectetur adipisicing elit.
+                <a href='#!' className='text-reset'>
+                Trending Restaurants
+                </a>
+              </p>
+              <p>
+                <a href='#!' className='text-reset'>
+                Super Savers
+                </a>
+              </p>
+              <p>
+                <a href='#!' className='text-reset'>
+                Post
+                </a>
+              </p>
+              <p>
+                <a href='#!' className='text-reset'>
+                Contactless Dining
+                </a>
               </p>
             </MDBCol>
 
             <MDBCol md='2' lg='2' xl='2' className='mx-auto mb-4'>
-              <h6 className='text-uppercase fw-bold mb-4' style={{color:'#ff645a'}}>Products</h6>
+              <h6 className='text-uppercase fw-bold mb-4' style={{color:'#ff645a'}}>About</h6>
               <p>
                 <a href='#!' className='text-reset'>
-                  Angular
+                About Us
                 </a>
               </p>
               <p>
                 <a href='#!' className='text-reset'>
-                  React
+                  Post
                 </a>
               </p>
               <p>
                 <a href='#!' className='text-reset'>
-                  Vue
+                Careers
                 </a>
               </p>
               <p>
                 <a href='#!' className='text-reset'>
-                  Laravel
+                Dineout for Business
                 </a>
               </p>
             </MDBCol>
 
             <MDBCol md='3' lg='2' xl='2' className='mx-auto mb-4'>
-              <h6 className='text-uppercase fw-bold mb-4' style={{color:'#ff645a'}}>Useful links</h6>
+              <h6 className='text-uppercase fw-bold mb-4' style={{color:'#ff645a'}}>Top Facilities</h6>
               <p>
                 <a href='#!' className='text-reset'>
-                  Pricing
+                Fine Dining
                 </a>
               </p>
               <p>
                 <a href='#!' className='text-reset'>
-                  Settings
+                5 Star
                 </a>
               </p>
               <p>
                 <a href='#!' className='text-reset'>
-                  Orders
+                4 Star
                 </a>
               </p>
               <p>
                 <a href='#!' className='text-reset'>
-                  Help
+                Rooftop
                 </a>
               </p>
 
@@ -80,17 +95,17 @@ function Footer() {
               <h6 className='text-uppercase fw-bold mb-4' style={{color:'#ff645a'}}>Contact</h6>
               <p>
                 <MDBIcon color='secondary' icon='home' className='me-2' />
-                New York, NY 10012, US
+                Kochi, Panampalli, Kerala
               </p>
               <p>
                 <MDBIcon color='secondary' icon='envelope' className='me-3' />
-                info@example.com
+                waitr@gmail.com
               </p>
               <p>
-                <MDBIcon color='secondary' icon='phone' className='me-3' /> + 01 234 567 88
+                <MDBIcon color='secondary' icon='phone' className='me-3' /> + 91 9544208575
               </p>
               <p>
-                <MDBIcon color='secondary' icon='print' className='me-3' /> + 01 234 567 89
+                <MDBIcon color='secondary' icon='print' className='me-3' /> + 91 8943190615
               </p>
             </MDBCol>
           </MDBRow>

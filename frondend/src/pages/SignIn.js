@@ -1,5 +1,4 @@
 import * as React from 'react';
-import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
@@ -8,46 +7,74 @@ import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { useNavigate } from 'react-router-dom'
-
-
-function Copyright(props) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
-
-// TODO remove, this demo shouldn't need to reset the theme.
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const defaultTheme = createTheme();
 
 export default function SignIn() {
-
   const History = useNavigate();
 
-  const HandleSignup = () => {
-    History('/signup')
-  }
+  const [formData, setFormData] = React.useState({
+    email: '',
+    password: '',
+  });
 
+  const [showErrors, setShowErrors] = React.useState(false);
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [name]: value,
+    }));
+    // Disable validation while the user is filling the form
+    setShowErrors(false);
+  };
+
+  const sendRequest=async()=>{
+    try{
+      const res = await axios.post('http://localhost:8000/signin',formData);
+      const data = res.data;
+      console.log('data =>',data)
+      return data;
+    } catch (err) {
+      console.error('Error submitting data:', err);
+
+    }
+  }
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+    // Enable validation upon form submission
+    setShowErrors(true);
+
+    // Validation logic
+    const errors = {};
+    if (!formData.email.trim()) {
+      errors.email = 'Email is required';
+    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      errors.email = 'Invalid email format';
+    }
+    if (!formData.password.trim()) {
+      errors.password = 'Password is required';
+    }
+
+    // Check if there are any validation errors
+    if (Object.keys(errors).length > 0) {
+      // Validation failed, do not submit the form
+      console.log('Validation errors:', errors);
+      return;
+    }
+
+    // If validation passed, proceed with form submission
+    sendRequest().then(()=>History('/'))
+    // Implement form submission logic here (e.g., send data to the server)
   };
 
   return (
@@ -60,14 +87,19 @@ export default function SignIn() {
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
+            borderRadius: '10px',
+            boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.25)',
+            padding: '30px',
+            color: '#FF645A',
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            Sign in
-          </Typography>
+          <img
+            src="/accets/1689067571491.png"
+            alt="menu3"
+            style={{ width: '70px', height: '30px', margin: '10px' }}
+            onClick={() => History('/')}
+          />
+          <Typography sx={{ fontWeight: '600' }}>Sign In</Typography>
           <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
             <TextField
               margin="normal"
@@ -78,6 +110,10 @@ export default function SignIn() {
               name="email"
               autoComplete="email"
               autoFocus
+              value={formData.email}
+              onChange={handleChange}
+              error={showErrors && (!formData.email.trim() || !/\S+@\S+\.\S+/.test(formData.email))} // Show error if field is empty or has invalid format and showErrors is true
+                  helperText={showErrors && !formData.email.trim() ? 'Email is required' : (showErrors && !/\S+@\S+\.\S+/.test(formData.email) ? 'Invalid email format' : '')}
             />
             <TextField
               margin="normal"
@@ -88,6 +124,10 @@ export default function SignIn() {
               type="password"
               id="password"
               autoComplete="current-password"
+              value={formData.password}
+              onChange={handleChange}
+              error={showErrors && !formData.password.trim()} // Show error if field is empty and showErrors is true
+              helperText={showErrors && !formData.password.trim() ? 'Password is required' : ''}
             />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
@@ -97,25 +137,22 @@ export default function SignIn() {
               type="submit"
               fullWidth
               variant="contained"
-              sx={{ mt: 3, mb: 2 }}
+              sx={{ mt: 3, mb: 2, backgroundColor: '#FF645A' }}
             >
               Sign In
             </Button>
             <Grid container>
               <Grid item xs>
-                <Link variant="body2">
-                  Forgot password?
-                </Link>
+                <Link variant="body2">Forgot password?</Link>
               </Grid>
               <Grid item>
-                <Link onClick={HandleSignup} variant="body2">
+                <Link onClick={() => History('/signup')} variant="body2">
                   {"Don't have an account? Sign Up"}
                 </Link>
               </Grid>
             </Grid>
           </Box>
         </Box>
-        <Copyright sx={{ mt: 8, mb: 4 }} />
       </Container>
     </ThemeProvider>
   );

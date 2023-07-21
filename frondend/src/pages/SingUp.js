@@ -1,43 +1,84 @@
-import * as React from 'react';
-import Avatar from '@mui/material/Avatar';
+import React, { useState } from 'react';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
-function Copyright(props) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
-
-// TODO remove, this demo shouldn't need to reset the theme.
-
 const defaultTheme = createTheme();
 
 export default function SignUp() {
-  const handleSubmit = (event) => {
+  const History = useNavigate();
+  const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    password: '',
+  });
+  const [showErrors, setShowErrors] = useState(false); // Flag to show validation errors
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [name]: value,
+    }));
+    // Disable validation while the user is filling the form
+    setShowErrors(false);
+  };
+
+
+  const sendRequest = async () => {
+    try {
+      // Send the form data to the Node.js server using Axios
+      const res = await axios.post('http://localhost:8000/signup', formData);
+      const data = res.data;
+      console.log('data =>',data)
+      return data;
+    } catch (err) {
+      console.error('Error submitting data:', err);
+    }
+  };
+
+  const handleSubmit = async (event) => {
+    // console.log(formData);
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+    // Enable validation upon form submission
+    setShowErrors(true);
+
+    // Validation logic
+    const errors = {};
+    if (!formData.firstName.trim()) {
+      errors.firstName = 'First Name is required';
+    }
+    if (!formData.lastName.trim()) {
+      errors.lastName = 'Last Name is required';
+    }
+    if (!formData.email.trim()) {
+      errors.email = 'Email is required';
+    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      errors.email = 'Invalid email format';
+    }
+    if (!formData.password.trim()) {
+      errors.password = 'Password is required';
+    }
+
+    // Check if there are any validation errors
+    if (Object.keys(errors).length > 0) {
+      // Validation failed, do not submit the form
+      console.log('Validation errors:', errors);
+      return;
+    }
+
+    // If validation passed, proceed with form submission
+    sendRequest().then(()=>History("/signin"))
+    
   };
 
   return (
@@ -50,14 +91,19 @@ export default function SignUp() {
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
+            borderRadius: '10px',
+            boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.25)',
+            padding: '30px',
+            color: '#FF645A',
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            Sign up
-          </Typography>
+          <img
+            src="/accets/1689067571491.png"
+            alt="menu3"
+            style={{ width: '70px', height: '30px', margin: '10px' }}
+            onClick={() => History('/')}
+          />
+          <Typography sx={{ fontWeight: '600' }}>Sign Up</Typography>
           <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
@@ -69,6 +115,10 @@ export default function SignUp() {
                   id="firstName"
                   label="First Name"
                   autoFocus
+                  value={formData.firstName}
+                  onChange={handleChange}
+                  error={showErrors && !formData.firstName.trim()} // Show error if field is empty and showErrors is true
+                  helperText={showErrors && !formData.firstName.trim() ? 'First Name is required' : ''}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -79,6 +129,10 @@ export default function SignUp() {
                   label="Last Name"
                   name="lastName"
                   autoComplete="family-name"
+                  value={formData.lastName}
+                  onChange={handleChange}
+                  error={showErrors && !formData.lastName.trim()} // Show error if field is empty and showErrors is true
+                  helperText={showErrors && !formData.lastName.trim() ? 'Last Name is required' : ''}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -89,6 +143,10 @@ export default function SignUp() {
                   label="Email Address"
                   name="email"
                   autoComplete="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  error={showErrors && (!formData.email.trim() || !/\S+@\S+\.\S+/.test(formData.email))} // Show error if field is empty or has invalid format and showErrors is true
+                  helperText={showErrors && !formData.email.trim() ? 'Email is required' : (showErrors && !/\S+@\S+\.\S+/.test(formData.email) ? 'Invalid email format' : '')}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -100,12 +158,10 @@ export default function SignUp() {
                   type="password"
                   id="password"
                   autoComplete="new-password"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <FormControlLabel
-                  control={<Checkbox value="allowExtraEmails" color="primary" />}
-                  label="I want to receive inspiration, marketing promotions and updates via email."
+                  value={formData.password}
+                  onChange={handleChange}
+                  error={showErrors && !formData.password.trim()} // Show error if field is empty and showErrors is true
+                  helperText={showErrors && !formData.password.trim() ? 'Password is required' : ''}
                 />
               </Grid>
             </Grid>
@@ -113,20 +169,19 @@ export default function SignUp() {
               type="submit"
               fullWidth
               variant="contained"
-              sx={{ mt: 3, mb: 2 }}
+              sx={{ mt: 3, mb: 2, backgroundColor: '#FF645A' }}
             >
               Sign Up
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link href="#" variant="body2">
+                <Link onClick={() => History('/signin')} variant="body2">
                   Already have an account? Sign in
                 </Link>
               </Grid>
             </Grid>
           </Box>
         </Box>
-        <Copyright sx={{ mt: 5 }} />
       </Container>
     </ThemeProvider>
   );

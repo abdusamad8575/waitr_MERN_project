@@ -1,4 +1,5 @@
 import * as React from 'react';
+import './Navebar.css'
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import {Link} from 'react-router-dom'
@@ -95,12 +96,12 @@ function Navebar() {
               open={Boolean(anchorElNav)}
               onClose={handlePages}
               sx={{
-                display: { xs: 'block', md: 'none' },
+                // display: { xs: 'block', md: 'none' },
               }}
             >
-              {pages.map((page) => (
+              {pages.map((page,index) => (
                 <MenuItem key={page} onClick={handlePages}>
-                  <Typography textAlign="center">{page}</Typography>
+                  <Typography textAlign="center"><Link className='linkStyle' to={index ===0?'/':index === 1?'/findrestaurant':'/post'}>{page}</Link></Typography>
                 </MenuItem>
               ))}
             </Menu>
@@ -126,13 +127,13 @@ function Navebar() {
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }} style={{ marginTop: '12px' }}>
-            {pages.map((page) => (
+            {pages.map((page,index) => (
               <Button
                 key={page}
                 onClick={handlePages}
                 sx={{ my: 2, color: 'black', display: 'block' }}
               >
-                {page}
+               <Link className='linkStyle' to={index ===0?'/':index === 1?'/findrestaurant':'/post'}> {page}</Link>
               </Button>
             ))}
           </Box>
@@ -213,7 +214,7 @@ function Navebar() {
               {settings.map((setting,index) => (
                 // <MenuItem key={setting} onClick={()=>handleSettings({setting})}>
                 <MenuItem key={setting} onClick={handleSettings}>
-                  <Typography textAlign="center"><Link to={index==0?'/signin':index==1?'/account':'/addhotel'}>{setting}</Link></Typography>
+                  <Typography textAlign="center"><Link className='linkStyle' to={index===0?'/signin':index===1?'/account':'/addhotel'}>{setting}</Link></Typography>
                 </MenuItem>
               ))}
             </Menu>
