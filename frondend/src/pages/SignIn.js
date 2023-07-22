@@ -14,10 +14,13 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import {useDispatch} from 'react-redux'
+import {signin} from '../redux-toolkit/userSlice'
 
 const defaultTheme = createTheme();
 
 export default function SignIn() {
+  const dispatch = useDispatch()
   const History = useNavigate();
 
   const [formData, setFormData] = React.useState({
@@ -39,6 +42,7 @@ export default function SignIn() {
 
   const sendRequest=async()=>{
     try{
+      // Implement form submission logic here (e.g., send data to the server)
       const res = await axios.post('http://localhost:8000/signin',formData);
       const data = res.data;
       console.log('data =>',data)
@@ -73,8 +77,12 @@ export default function SignIn() {
     }
 
     // If validation passed, proceed with form submission
-    sendRequest().then(()=>History('/'))
-    // Implement form submission logic here (e.g., send data to the server)
+    sendRequest()
+    .then(()=>dispatch(signin()))
+    .then(()=>History('/'))
+    .catch((err) => {
+      toast.error(err?.response?.data?.message || err.message);
+    });
   };
 
   return (

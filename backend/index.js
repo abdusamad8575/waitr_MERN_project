@@ -5,11 +5,15 @@ const config = require('./config/config')
 const cors = require('cors')
 const path = require('path');
 const user_router =require('./routes/user_router')
+const cookieParser = require('cookie-parser')
 
 const mongodbURL = config.mongodbURL;
+// app.use(express.urlencoded({extended:true}))
 app.use(express.static(path.join(__dirname, 'public')));
+// app.use(express.urlencoded({ extended: false }))
 app.use(express.json()) 
 app.use(cors({credentials:true,origin:"http://localhost:3000"}))
+app.use(cookieParser())
 app.use('/',user_router)
 
 
