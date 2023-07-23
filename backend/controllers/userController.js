@@ -31,8 +31,10 @@ const signin = async (req, res, next) => {
     try {
         const existingUser = await User.findOne({ email: email })
         if (!existingUser) {
+            console.log("1");
             return res.status(400).json({ message: "User not found" })
         } else {
+            console.log("2");
             const isPassword = (await existingUser.matchPasswords(password))
             if (!isPassword) {
                 return res.status(400).json({ message: "Invalid Email Id or password" })

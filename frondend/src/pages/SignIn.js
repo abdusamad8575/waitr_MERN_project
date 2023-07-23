@@ -77,12 +77,12 @@ export default function SignIn() {
     }
 
     // If validation passed, proceed with form submission
-    sendRequest()
-    .then(()=>dispatch(signin()))
-    .then(()=>History('/'))
-    .catch((err) => {
-      toast.error(err?.response?.data?.message || err.message);
-    });
+    console.log(sendRequest()); 
+    // .then(()=>dispatch(signin()))
+    // .then(()=>History('/'))
+    // .catch((err) => {
+    //   toast.error(err?.response?.data?.message || err.message);
+    // });
   };
 
   return (
