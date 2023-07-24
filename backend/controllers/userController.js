@@ -31,10 +31,8 @@ const signin = async (req, res, next) => {
     try {
         const existingUser = await User.findOne({ email: email })
         if (!existingUser) {
-            console.log("1");
             return res.status(400).json({ message: "User not found" })
         } else {
-            console.log("2");
             const isPassword = (await existingUser.matchPasswords(password))
             if (!isPassword) {
                 return res.status(400).json({ message: "Invalid Email Id or password" })
@@ -44,7 +42,7 @@ const signin = async (req, res, next) => {
                    })
                    console.log("token send",token)
                    res.cookie("token", token, {
-                    path: '/signin',
+                    path: '\signin',
                     expires: new Date(Date.now() + 1000 * 60 * 60), // 1 hour expiration
                     httpOnly: true,
                     sameSite: 'lax',
@@ -58,11 +56,20 @@ const signin = async (req, res, next) => {
     } catch (error) {
         return new Error(error)
     }
-    // console.log(email,password);
 }
+const logout = async(req,res) =>{
+    // console.log('logout1');
+    const token = req.cookies.token;
+    jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+        res.clearCookie(`${user.id}`)
+        req.cookies[`${user.id}`] = ""
+        return res.status(200).json({message:"Succefully Logged out"})
+      });
 
+}
 
 module.exports = {
     signup,
-    signin
+    signin,
+    logout,
 }

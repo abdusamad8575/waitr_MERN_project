@@ -2,7 +2,7 @@ import * as React from 'react';
 import './Navebar.css'
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
-import {Link} from 'react-router-dom'
+import {Link, useNavigate} from 'react-router-dom'
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
@@ -14,15 +14,47 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import SearchIcon from '@mui/icons-material/Search';
+import { useDispatch, useSelector } from 'react-redux';
+import axios from 'axios';
+import { logout } from '../redux-toolkit/userSlice';
 const pages = ['Home', 'Find Restaurant', 'Posts'];
 // const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 const settings = ['Login', 'Account', 'Add Hotels'];
+const LogInSettings = ['Account', 'Add Hotels' ,'Logout'];
 
 
 
 function Navebar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const History = useNavigate(); 
+  const sendLogoutReq = async()=>{  
+    const res = await axios.post('http://localhost:8000/logout',null,{withCredentials: true});
+    if (res.status === 200) {
+      return res;
+    }
+    return new Error('Unable to Logout');
+  }
+
+  const handleLogInSettings = (index)=>{
+    if(index === 0){
+      History('/account')
+    }else if(index === 1){
+      History('/addhotel')
+    }else{
+      handleLogout()
+    }
+  }
+
+  const isLoggedIn = useSelector((state)=>{
+    return state.user.isLoggedIn          
+  })
+  const dispatch = useDispatch()
+  const handleLogout = ()=>{
+    sendLogoutReq()
+    .then(()=>dispatch(logout()))
+    .catch((err) => console.log(err)); 
+  }
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -211,7 +243,11 @@ function Navebar() {
               open={Boolean(anchorElUser)}
               onClose={handleSettings}
             >
-              {settings.map((setting,index) => (
+              {isLoggedIn ? LogInSettings.map((settings,index)=> (
+                <MenuItem key={settings} onClick={()=>handleLogInSettings(index)}>
+                <Typography textAlign="center">{settings}</Typography>
+              </MenuItem>
+              )) : settings.map((setting,index) => (
                 // <MenuItem key={setting} onClick={()=>handleSettings({setting})}>
                 <MenuItem key={setting} onClick={handleSettings}>
                   <Typography textAlign="center"><Link className='linkStyle' to={index===0?'/signin':index===1?'/account':'/addhotel'}>{setting}</Link></Typography>

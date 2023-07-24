@@ -45,11 +45,11 @@ export default function SignIn() {
       // Implement form submission logic here (e.g., send data to the server)
       const res = await axios.post('http://localhost:8000/signin',formData);
       const data = res.data;
-      console.log('data =>',data)
+      console.log("data=>"+data)
       return data;
     } catch (err) {
-      console.error('Error submitting data:', err);
-
+      console.error('Error submitting data:', err.message);
+      throw err
     }
   }
 
@@ -77,12 +77,14 @@ export default function SignIn() {
     }
 
     // If validation passed, proceed with form submission
-    console.log(sendRequest()); 
-    // .then(()=>dispatch(signin()))
-    // .then(()=>History('/'))
-    // .catch((err) => {
-    //   toast.error(err?.response?.data?.message || err.message);
-    // });
+    // console.log(sendRequest());
+    sendRequest()
+    .then(()=>dispatch(signin()))
+    .then(()=>History('/'),toast.success('Loginis succes!'))
+    .catch((err) => {
+      console.log('mm');
+      toast.error(err?.response?.data?.message || err.message);
+    });
   };
 
   return (
