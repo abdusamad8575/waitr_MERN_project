@@ -3,7 +3,7 @@ import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import axios from '../axios';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
@@ -37,7 +37,7 @@ export default function SignUp() {
   const sendRequest = async () => {
     try {
       // Send the form data to the Node.js server using Axios
-      const res = await axios.post('http://localhost:8000/signup', formData);
+      const res = await axios.post('/signup', formData);
       const data = res.data;
       console.log('data =>',data)
       return data;

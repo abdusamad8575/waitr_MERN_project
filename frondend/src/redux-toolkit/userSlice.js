@@ -11,7 +11,7 @@ const userSlice = createSlice({
         logout:(state)=>{
             state.isLoggedIn = false;
             sessionStorage.setItem('userLoggedIn','false');
-            sessionStorage.setItem('length',0) 
+            // sessionStorage.setItem('length',0) 
         },
     }
 })

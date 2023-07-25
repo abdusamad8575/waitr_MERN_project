@@ -15,7 +15,7 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import SearchIcon from '@mui/icons-material/Search';
 import { useDispatch, useSelector } from 'react-redux';
-import axios from 'axios';
+import axios from '../axios';
 import { logout } from '../redux-toolkit/userSlice';
 const pages = ['Home', 'Find Restaurant', 'Posts'];
 // const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
@@ -29,7 +29,7 @@ function Navebar() {
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const History = useNavigate(); 
   const sendLogoutReq = async()=>{  
-    const res = await axios.post('http://localhost:8000/logout',null,{withCredentials: true});
+    const res = await axios.post('/logout');
     if (res.status === 200) {
       return res;
     }
