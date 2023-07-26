@@ -45,7 +45,7 @@ export default function SignIn() {
       // Implement form submission logic here (e.g., send data to the server)
       const res = await axios.post('/signin',formData);
       const data = res.data;
-      console.log("data=>"+data)
+      console.log("data=>"+data.role)
       return data;
     } catch (err) {
       console.error('Error submitting data:', err.message);
@@ -79,8 +79,23 @@ export default function SignIn() {
     // If validation passed, proceed with form submission
     // console.log(sendRequest());
     sendRequest()
-    .then(()=>dispatch(signin()))
-    .then(()=>History('/'))
+    // .then(()=>dispatch(signin()))
+    .then((data)=>{
+      const userRole = data.role;
+      dispatch(signin())
+      switch (userRole) {
+        case 'admin':
+          History('/admin'); 
+          break;
+        case 'restaurant':
+          History('/restaurant');
+          break;
+        default:
+          History('/');
+          break;
+      }
+
+    })
     .catch((err) => {
       toast.error(err?.response?.data?.message || err.message);
     });

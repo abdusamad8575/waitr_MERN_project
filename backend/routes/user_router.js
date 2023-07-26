@@ -1,11 +1,11 @@
 const express = require('express');
 const user_router = express.Router();
-const { verifyToken } = require('../middleware/userMiddleware')
 const {signup,signin,logout} =require('../controllers/userController')
+const { verifyToken } = require('../middleware/userMiddleware')
 
 user_router.post('/signup',signup)
 user_router.post('/signin',signin)
-user_router.post('/logout',verifyToken,logout)
+user_router.post('/logout',logout)
 
 
 

@@ -1,3 +1,4 @@
+
 import { createSlice } from '@reduxjs/toolkit';
 
 const userSlice = createSlice({
@@ -11,6 +12,7 @@ const userSlice = createSlice({
         logout:(state)=>{
             state.isLoggedIn = false;
             sessionStorage.setItem('userLoggedIn','false');
+
             // sessionStorage.setItem('length',0) 
         },
     }

@@ -22,6 +22,10 @@ const userSchema = new mongoose.Schema({
         required: true,
         minlength: 6, // Minimum length of the password
     },
+    role: {
+        type: String,
+        default: 'user', // Default role is set to 'user'
+    },
 });
 
 // Encrypt password using bcrypt before saving to the database

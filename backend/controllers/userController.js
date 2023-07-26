@@ -6,7 +6,6 @@ const signup = async (req, res, next) => {
 
     try {
         const existingUser = await User.findOne({ email: email })
-
         if (existingUser) {
             return res.status(400).json({ message: "User already exist" })
         }
@@ -36,19 +35,24 @@ const signin = async (req, res, next) => {
             const isPassword = (await existingUser.matchPasswords(password))
             if (!isPassword) {
                 return res.status(400).json({ message: "Invalid Email Id or password" })
-            }else {
-                const token = jwt.sign({id:existingUser._id},process.env.JWT_SECRET,{
+            } else {
+                const token = jwt.sign({ id: existingUser._id }, process.env.JWT_SECRET, {
                     expiresIn: "1d"
-                   })
-                   console.log("token send",token)
-                   res.cookie("token", token, {
-                    path: '\signin',
-                    expires: new Date(Date.now() + 1000 * 60 * 60), // 1 hour expiration
+                })
+                console.log("token send", token)
+                res.cookie("token", token, {
+                    path: '/',
+                    expires: new Date(Date.now() + 500 * 60 * 60), // 1 hour expiration
                     httpOnly: true,
                     sameSite: 'lax',
-                  });
-                   return res.status(200).json({message:"Successfully Logged in",
-                    user:existingUser,token})
+                });
+                console.log('existingUser=>',existingUser);
+                return res.status(200).json({
+                    message: "Successfully Logged in",
+                    user: existingUser,
+                     token,
+                     role:existingUser.role,
+                })
             }
         }
 
@@ -57,14 +61,13 @@ const signin = async (req, res, next) => {
         return new Error(error)
     }
 }
-const logout = async(req,res) =>{
-    // console.log('logout1');
+const logout = async (req, res) => {
+    console.log('logout1');
     const token = req.cookies.token;
     jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
-        res.clearCookie(`${user.id}`)
-        req.cookies[`${user.id}`] = ""
-        return res.status(200).json({message:"Succefully Logged out"})
-      });
+        res.clearCookie('token')
+        return res.status(200).json({ message: "Succefully Logged out" })
+    });
 
 }
 

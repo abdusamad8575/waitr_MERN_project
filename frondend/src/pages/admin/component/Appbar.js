@@ -1,10 +1,11 @@
 import React from 'react'
 
-const Dashbord = () => {
+const Appbar = () => {
   return (
     <div>
+      
     </div>
   )
 }
 
-export default Dashbord
+export default Appbar

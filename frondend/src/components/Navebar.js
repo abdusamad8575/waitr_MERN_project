@@ -52,7 +52,10 @@ function Navebar() {
   const dispatch = useDispatch()
   const handleLogout = ()=>{
     sendLogoutReq()
-    .then(()=>dispatch(logout()))
+    .then(()=>{
+      dispatch(logout())
+      History('/')
+    })
     .catch((err) => console.log(err)); 
   }
 
