@@ -102,7 +102,7 @@ function Navebar() {
               textDecoration: 'none',
             }}
           >
-            <img src='/accets/1689067571491.png' alt="menu3" style={{ width: '70px', height: '30px' }} />
+            <img src='/assets/1689067571491.png' alt="menu3" style={{ width: '70px', height: '30px' }} />
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -158,7 +158,7 @@ function Navebar() {
               textDecoration: 'none',
             }}
           >
-            <img src='/accets/1689067571491.png' alt="menu3" style={{ width: '70px', height: '30px' }} />
+            <img src='/assets/1689067571491.png' alt="menu3" style={{ width: '70px', height: '30px' }} />
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }} style={{ marginTop: '12px' }}>

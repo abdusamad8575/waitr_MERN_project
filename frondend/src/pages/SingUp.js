@@ -98,7 +98,7 @@ export default function SignUp() {
           }}
         >
           <img
-            src="/accets/1689067571491.png"
+            src="/assets/1689067571491.png"
             alt="menu3"
             style={{ width: '70px', height: '30px', margin: '10px' }}
             onClick={() => History('/')}

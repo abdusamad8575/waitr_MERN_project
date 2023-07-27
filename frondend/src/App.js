@@ -1,23 +1,25 @@
-
+import React from 'react';
 import { ToastContainer } from 'react-toastify';
 import './App.css';
-import SignIn from './pages/SignIn';
-import SignUp from './pages/SingUp';
-import Home from './pages/user/home/Home'
-import Dashbord from './pages/admin/Dashbord'
-import { Route, Routes } from 'react-router-dom'
+import Router from './router/Router';
+import { HelmetProvider } from 'react-helmet-async';
+import ThemeProvider from './pages/admin/theme';
+import { StyledChart } from './pages/admin/components/chart';
+import ScrollToTop from './pages/admin/components/scroll-to-top';
+import Adminroutes from './pages/admin/Adminroutes';
 
 function App() {
   return (
     <>
       <ToastContainer />
-        <Routes>
-          <Route path='/' element={<Home />} />
-          <Route path='/signup' element={<SignUp />} />
-          <Route path='/signin' element={<SignIn />} />
-          <Route path='/admin' element={<Dashbord />} />
-        </Routes>
-
+      <Router />
+      <HelmetProvider>
+        <ThemeProvider>
+          <ScrollToTop />
+          <StyledChart />
+          <Adminroutes />
+        </ThemeProvider>
+      </HelmetProvider>
     </>
   );
 }

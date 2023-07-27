@@ -29,7 +29,7 @@ function HomeContents() {
             </div>
             <div className="image-section">
                 <img
-                    src="/accets/img.webp"
+                    src="/assets/img.webp"
                     alt="Sample"
                     width="300"
                     height="350"

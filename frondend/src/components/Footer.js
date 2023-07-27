@@ -113,7 +113,7 @@ function Footer() {
       </section>
         {/* Logo Image */}
         <Box textAlign="center" mb={2}>
-          <img src="/accets/1689067571491.png" alt="Logo" style={{ width: '150px', height: 'auto' }} />
+          <img src="/assets/1689067571491.png" alt="Logo" style={{ width: '150px', height: 'auto',display: 'inline-block' }} />
         </Box>
 
         <Typography variant="body2" align="center" color="textSecondary">
