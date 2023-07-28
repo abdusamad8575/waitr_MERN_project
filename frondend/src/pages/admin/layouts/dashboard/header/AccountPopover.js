@@ -4,6 +4,10 @@ import { alpha } from '@mui/material/styles';
 import { Box, Divider, Typography, Stack, MenuItem, Avatar, IconButton, Popover } from '@mui/material';
 // mocks_
 import account from '../../../_mock/account';
+import axios  from '../../../../../axios'
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { logout } from '../../../../../redux-toolkit/userSlice';
 
 // ----------------------------------------------------------------------
 
@@ -26,10 +30,25 @@ const MENU_OPTIONS = [
 
 export default function AccountPopover() {
   const [open, setOpen] = useState(null);
+  const dispatch = useDispatch();
+  const History = useNavigate();
 
   const handleOpen = (event) => {
     setOpen(event.currentTarget);
   };
+
+  const handleLogout = async()=>{
+    try {
+      const res =await axios.post('/logout'); 
+      if (res.status === 200) {
+        dispatch(logout())
+        History('/')
+        setOpen(null);
+    }
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   const handleClose = () => {
     setOpen(null);
@@ -97,7 +116,7 @@ export default function AccountPopover() {
 
         <Divider sx={{ borderStyle: 'dashed' }} />
 
-        <MenuItem onClick={handleClose} sx={{ m: 1 }}>
+        <MenuItem onClick={handleLogout} sx={{ m: 1 }}>
           Logout
         </MenuItem>
       </Popover>
