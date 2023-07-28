@@ -7,6 +7,7 @@ import ThemeProvider from './pages/admin/theme';
 import { StyledChart } from './pages/admin/components/chart';
 import ScrollToTop from './pages/admin/components/scroll-to-top';
 import Adminroutes from './pages/admin/Adminroutes';
+import Resroutes from './pages/restaurant/Resroutes';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <ScrollToTop />
           <StyledChart />
           <Adminroutes />
+          <Resroutes />
         </ThemeProvider>
       </HelmetProvider>
     </>

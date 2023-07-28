@@ -87,8 +87,8 @@ export default function SignIn() {
         case 'admin':
           History('/dashboard'); 
           break;
-        case 'restaurant':
-          History('/restaurant');
+        case 'restaurent':
+          History('/restaurent');
           break;
         default:
           History('/');
