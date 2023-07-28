@@ -2,13 +2,13 @@ import React from 'react';
 import { Navigate, useLocation, useRoutes } from 'react-router-dom';
 import DashboardLayout from './layouts/dashboard';
 import SimpleLayout from './layouts/simple';
-import BlogPage from './pages/BlogPage';
 import UserPage from './pages/UserPage';
-import LoginPage from './pages/LoginPage';
 import Page404 from './pages/Page404';
 // import Addhotels from './pages/Addhotels';
 import DashboardAppPage from './pages/DashboardAppPage';
 import Addhotels from './pages/Addhotels';
+import Orders from './pages/Orders';
+import Offres from './pages/Offres';
 
 export default function Adminroutes() {
   const location = useLocation();
@@ -23,12 +23,9 @@ export default function Adminroutes() {
         { path: 'app', element: <DashboardAppPage /> },
         { path: 'user', element: <UserPage /> },
         { path: 'addhotel', element: <Addhotels /> },
-        { path: 'blog', element: <BlogPage /> },
+        { path: 'orders', element: <Orders /> },
+        { path: 'offers', element: <Offres /> },
       ],
-    },
-    {
-      path: 'login',
-      element: <LoginPage />,
     },
     {
       element: <SimpleLayout />,

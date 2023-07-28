@@ -20,6 +20,7 @@ import {
   IconButton,
   TableContainer,
   TablePagination,
+  Dialog, DialogTitle, DialogContent, DialogActions, TextField
 } from '@mui/material';
 // components
 import Label from '../components/label';
@@ -72,7 +73,7 @@ function applySortFilter(array, comparator, query) {
   return stabilizedThis.map((el) => el[0]);
 }
 
-export default function UserPage() {
+export default function Addhotels() {
   const [open, setOpen] = useState(null);
 
   const [page, setPage] = useState(0);
@@ -86,6 +87,16 @@ export default function UserPage() {
   const [filterName, setFilterName] = useState('');
 
   const [rowsPerPage, setRowsPerPage] = useState(5);
+
+  const [openAddDialog, setOpenAddDialog] = useState(false);
+
+  const handleOpenAddDialog = () => {
+    setOpenAddDialog(true);
+  };
+
+  const handleCloseAddDialog = () => {
+    setOpenAddDialog(false);
+  };
 
   const handleOpenMenu = (event) => {
     setOpen(event.currentTarget);
@@ -156,10 +167,30 @@ export default function UserPage() {
           <Typography variant="h4" gutterBottom>
             Restaurant
           </Typography>
-          <Button variant="contained" startIcon={<Iconify icon="eva:plus-fill" />}>
+          <Button variant="contained" startIcon={<Iconify icon="eva:plus-fill" />} onClick={handleOpenAddDialog}>
             Add Restaurant
           </Button>
         </Stack>
+
+        {/* Add Restaurant Dialog */}
+      <Dialog open={openAddDialog} onClose={handleCloseAddDialog}>
+        <DialogTitle>Add Restaurant Details</DialogTitle>
+        <DialogContent>
+          {/* Replace the following TextField components with your desired form fields for adding restaurant details */}
+          <TextField label="Restaurant Name" fullWidth />
+          <TextField label="Location" fullWidth />
+          <TextField label="Restaurant No." fullWidth />
+          {/* Add more form fields as needed */}
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseAddDialog} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={handleCloseAddDialog} color="primary">
+            Add
+          </Button>
+        </DialogActions>
+      </Dialog>
 
         <Card>
           <UserListToolbar numSelected={selected.length} filterName={filterName} onFilterName={handleFilterByName} />
