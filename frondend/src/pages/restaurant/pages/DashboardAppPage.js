@@ -26,7 +26,7 @@ export default function DashboardAppPage() {
   return (
     <>
       <Helmet>
-        <title> waitr admin </title>
+        <title> waitr restaurant </title>
       </Helmet>
 
       <Container maxWidth="xl">
@@ -36,19 +36,19 @@ export default function DashboardAppPage() {
 
         <Grid container spacing={3}>
           <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="Weekly Orders" total={714000} />
+            <AppWidgetSummary title="Weekly Orders" total={2140} />
           </Grid>
 
           <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="New Users" total={13528} color="info" />
+            <AppWidgetSummary title="monthly Orders" total={13528} color="info" />
           </Grid>
 
           <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="Item Orders" total={172335} color="warning" />
+            <AppWidgetSummary title="total Item" total={30} color="warning" />
           </Grid>
 
           <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="Total Hotels" total={2345} color="error"/>
+            <AppWidgetSummary title="order cancel" total={234} color="error"/>
           </Grid>
 
           <Grid item xs={12} md={6} lg={8}>

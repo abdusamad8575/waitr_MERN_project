@@ -13,7 +13,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 const defaultTheme = createTheme();
 
-export default function SignUp() {
+export default function  SignUp() {
   const History = useNavigate();
   const [formData, setFormData] = useState({
     firstName: '',

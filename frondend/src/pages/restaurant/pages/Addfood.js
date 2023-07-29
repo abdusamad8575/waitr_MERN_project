@@ -35,9 +35,9 @@ import USERLIST from '../_mock/user';
 
 const TABLE_HEAD = [
   { id: 'name', label: 'Name', alignRight: false },
-  { id: 'location', label: 'Location', alignRight: false },
-  { id: 'no', label: 'Restaurant No.', alignRight: false },
-  { id: 'isVerified', label: 'Verified', alignRight: false },
+  { id: 'price', label: 'Location', alignRight: false },
+  { id: 'images', label: 'Restaurant No.', alignRight: false },
+  // { id: 'isVerified', label: 'Verified', alignRight: false },
   { id: 'status', label: 'Status', alignRight: false },
   { id: '' },
 ];
@@ -73,7 +73,7 @@ function applySortFilter(array, comparator, query) {
   return stabilizedThis.map((el) => el[0]);
 }
 
-export default function Addhotels() {
+export default function Addfood() {
   const [open, setOpen] = useState(null);
 
   const [page, setPage] = useState(0);
@@ -159,7 +159,7 @@ export default function Addhotels() {
   return (
     <>
       <Helmet>
-        <title> addhotel | dashboard </title>
+        <title> addfood | restaurant </title>
       </Helmet>
 
       <Container>
@@ -168,7 +168,7 @@ export default function Addhotels() {
             Restaurant
           </Typography>
           <Button variant="contained" startIcon={<Iconify icon="eva:plus-fill" />} onClick={handleOpenAddDialog}>
-            Add Restaurant
+            Add Food
           </Button>
         </Stack>
 
@@ -177,9 +177,9 @@ export default function Addhotels() {
         <DialogTitle>Add Restaurant Details</DialogTitle>
         <DialogContent>
           {/* Replace the following TextField components with your desired form fields for adding restaurant details */}
-          <TextField label="Restaurant Name" fullWidth />
-          <TextField label="Location" fullWidth />
-          <TextField label="Restaurant No." fullWidth />
+          <TextField label="food Name" fullWidth />
+          <TextField label="price" fullWidth />
+          <TextField label="images" fullWidth />
           {/* Add more form fields as needed */}
         </DialogContent>
         <DialogActions>
@@ -209,7 +209,7 @@ export default function Addhotels() {
                 />
                 <TableBody>
                   {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                    const { id, name, role, status, company,  isVerified } = row;
+                    const { id, name, role, status, company } = row;
                     const selectedUser = selected.indexOf(name) !== -1;
 
                     return (
@@ -230,7 +230,7 @@ export default function Addhotels() {
 
                         <TableCell align="left">{role}</TableCell>
 
-                        <TableCell align="left">{isVerified ? 'Yes' : 'No'}</TableCell>
+                        {/* <TableCell align="left">{isVerified ? 'Yes' : 'No'}</TableCell> */}
 
                         <TableCell align="left">
                           <Label color={(status === 'banned' && 'error') || 'success'}>{sentenceCase(status)}</Label>

@@ -2,11 +2,9 @@ import React from 'react';
 import { Navigate, useLocation, useRoutes } from 'react-router-dom';
 import DashboardLayout from './layouts/dashboard';
 import SimpleLayout from './layouts/simple';
-import UserPage from './pages/UserPage';
 import Page404 from './pages/Page404';
-// import Addhotels from './pages/Addhotels';
 import DashboardAppPage from './pages/DashboardAppPage';
-import Addhotels from './pages/Addhotels';
+import Addfood from './pages/Addfood';
 import Orders from './pages/Orders';
 import Offres from './pages/Offres';
 
@@ -21,8 +19,7 @@ export default function Resroutes() {
       children: [
         { element: <Navigate to="/restaurent/app" />, index: true },
         { path: 'app', element: <DashboardAppPage /> },
-        { path: 'user', element: <UserPage /> },
-        { path: 'addhotel', element: <Addhotels /> },
+        { path: 'addfood', element: <Addfood /> },
         { path: 'orders', element: <Orders /> },
         { path: 'offers', element: <Offres /> },
       ],

@@ -1,8 +1,8 @@
 // ----------------------------------------------------------------------
 
 const account = {
-  displayName: 'Admin',
-  email: 'Admin@gmail.com',
+  displayName: 'Taj Restaurent',
+  email: 'tajrestaurant@gmail.com',
   photoURL: '/assets/images/avatars/avatar_default.jpg',
 };
 

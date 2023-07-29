@@ -11,14 +11,10 @@ const navConfig = [
     path: '/restaurent/app',
     icon: icon('ic_analytics'),
   },
+ 
   {
-    title: 'user',
-    path: '/restaurent/user',
-    icon: icon('ic_user'),
-  },
-  {
-    title: 'add hotel',
-    path: '/restaurent/addhotel',
+    title: 'add food',
+    path: '/restaurent/addfood',
     icon: icon('ic_cart'),
   },
   {

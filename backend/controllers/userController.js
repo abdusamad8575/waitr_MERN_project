@@ -2,9 +2,9 @@ const User = require('../model/userModel')
 const jwt = require('jsonwebtoken');
 
 const signup = async (req, res, next) => {
-    const { firstName, lastName, email, password } = req.body;
-
+    
     try {
+        const { firstName, lastName, email, password } = req.body;
         const existingUser = await User.findOne({ email: email })
         if (existingUser) {
             return res.status(400).json({ message: "User already exist" })
@@ -26,8 +26,8 @@ const signup = async (req, res, next) => {
 }
 
 const signin = async (req, res, next) => {
-    const { email, password } = req.body;
     try {
+        const { email, password } = req.body;
         const existingUser = await User.findOne({ email: email })
         if (!existingUser) {
             return res.status(400).json({ message: "User not found" })
