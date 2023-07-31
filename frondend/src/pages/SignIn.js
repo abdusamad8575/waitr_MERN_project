@@ -11,7 +11,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
-import axios from '../axios';
+import axiosInstance from '../axios';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {useDispatch} from 'react-redux'
@@ -43,7 +43,7 @@ export default function SignIn() {
   const sendRequest=async()=>{
     try{
       // Implement form submission logic here (e.g., send data to the server)
-      const res = await axios.post('/signin',formData);
+      const res = await axiosInstance.post('/signin',formData);
       const data = res.data;
       console.log("data=>"+data.role)
       return data;
