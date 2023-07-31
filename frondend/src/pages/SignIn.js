@@ -82,7 +82,7 @@ export default function SignIn() {
     // .then(()=>dispatch(signin()))
     .then((data)=>{
       const userRole = data.role;
-      dispatch(signin())
+      dispatch(signin(data.user))
       switch (userRole) {
         case 'admin':
           History('/dashboard'); 

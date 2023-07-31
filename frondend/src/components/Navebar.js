@@ -39,13 +39,24 @@ function Navebar() {
     Rlocation: '',
     Rcontact: '',
   })
-
+  const isLogged = useSelector((state) => {
+    return state.user;
+  })
+  const isLoggedIn = isLogged.isLoggedIn;
+  const userId = isLogged.userId;
+  
   const sendLogoutReq = async () => {
     const res = await axiosInstance.post('/logout');
     if (res.status === 200) {
       return res;
     }
     return new Error('Unable to Logout');
+  }
+
+  const sendAddHotelReq = async() =>{
+    console.log("userId=>",userId);
+    const res = axiosInstance.post(`/addhotelreq?id=${userId}`, addHotel);
+     
   }
 
   const handleOpenAddDialog = () => {
@@ -60,9 +71,6 @@ function Navebar() {
     setOpenAddDialog(false)
   }
 
-  const isLoggedIn = useSelector((state) => {
-    return state.user.isLoggedIn
-  })
   const handleLogout = () => {
     sendLogoutReq()
       .then(() => {
@@ -115,7 +123,7 @@ function Navebar() {
         Rlocation: '',
         Rcontact: '',
       });
-
+      sendAddHotelReq()
       setOpenAddDialog(false);
     }
 

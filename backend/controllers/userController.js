@@ -2,7 +2,7 @@ const User = require('../model/userModel')
 const jwt = require('jsonwebtoken');
 
 const signup = async (req, res, next) => {
-    
+
     try {
         const { firstName, lastName, email, password } = req.body;
         const existingUser = await User.findOne({ email: email })
@@ -46,12 +46,12 @@ const signin = async (req, res, next) => {
                     httpOnly: true,
                     sameSite: 'lax',
                 });
-                console.log('existingUser=>',existingUser);
+                console.log('existingUser=>', existingUser);
                 return res.status(200).json({
                     message: "Successfully Logged in",
                     user: existingUser,
-                     token,
-                     role:existingUser.role,
+                    token,
+                    role: existingUser.role,
                 })
             }
         }
@@ -70,9 +70,51 @@ const logout = async (req, res) => {
     });
 
 }
+const addhotelreq = async (req, res) => {
+    try {
+        const { Rname, Rlocation, Rcontact } = req.body;
+        const userId = req.query.id;
+        console.log('userId=>', userId);
+
+        User.findOneAndUpdate(
+            { _id: userId },
+            {
+                addHotel: {
+                    Rname,
+                    Rlocation,
+                    Rcontact
+                }
+            },
+            { new: true },
+            (err, updatedUser) => {
+                if (err) {
+                    console.error('Error updating user:', err);
+                } else {
+                    console.log('User updated successfully:', updatedUser);
+                }
+            }
+        )
+        // console.log(user);
+        // const user = new User({
+        //     addHotel: {
+        //         Rname,
+        //         Rlocation,
+        //         Rcontact
+        //     }
+        // })
+        // await user.save()
+        return res.status(201).json({ message: 'Add Hotel Request successfully', user });
+    }
+    catch (error) {
+        return new Error(error)
+    }
+
+
+}
 
 module.exports = {
     signup,
     signin,
     logout,
+    addhotelreq
 }
