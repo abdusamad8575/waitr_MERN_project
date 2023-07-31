@@ -17,6 +17,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from '../axios';
 import { logout } from '../redux-toolkit/userSlice';
+import { Dialog, DialogActions, DialogContent, DialogTitle, TextField } from '@mui/material';
 const pages = ['Home', 'Find Restaurant', 'Posts'];
 // const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 const settings = ['Login', 'Account', 'Add Hotels'];
@@ -27,7 +28,10 @@ const LogInSettings = ['Account', 'Add Hotels' ,'Logout'];
 function Navebar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const [openAddDialog,setOpenAddDialog] = React.useState(false)
   const History = useNavigate(); 
+  const dispatch = useDispatch();
+
   const sendLogoutReq = async()=>{  
     const res = await axios.post('/logout');
     if (res.status === 200) {
@@ -36,20 +40,16 @@ function Navebar() {
     return new Error('Unable to Logout');
   }
 
-  const handleLogInSettings = (index)=>{
-    if(index === 0){
-      History('/account')
-    }else if(index === 1){
-      History('/addhotel')
-    }else{
-      handleLogout()
-    }
+  const handleOpenAddDialog = () =>{
+    setOpenAddDialog(true)
+  }
+  const handleCloseAddDialog = ()=>{
+    setOpenAddDialog(false)
   }
 
   const isLoggedIn = useSelector((state)=>{
     return state.user.isLoggedIn          
   })
-  const dispatch = useDispatch()
   const handleLogout = ()=>{
     sendLogoutReq()
     .then(()=>{
@@ -83,6 +83,7 @@ function Navebar() {
   };
 
   return (
+    <>
     <AppBar position="static">
       <Container maxWidth="xl" style={{ backgroundColor: 'white' }}>
         <Toolbar disableGutters>
@@ -247,13 +248,13 @@ function Navebar() {
               onClose={handleSettings}
             >
               {isLoggedIn ? LogInSettings.map((settings,index)=> (
-                <MenuItem key={settings} onClick={()=>handleLogInSettings(index)}>
+                <MenuItem key={settings} onClick={()=>{index === 0 ? History('/account'): index ===1 ?handleOpenAddDialog() : handleLogout()}}>
                 <Typography textAlign="center">{settings}</Typography>
               </MenuItem>
-              )) : settings.map((setting,index) => (
+              )) : settings.map((setting) => (
                 // <MenuItem key={setting} onClick={()=>handleSettings({setting})}>
                 <MenuItem key={setting} onClick={handleSettings}>
-                  <Typography textAlign="center"><Link className='linkStyle' to={index===0?'/signin':index===1?'/account':'/addhotel'}>{setting}</Link></Typography>
+                  <Typography textAlign="center"><Link className='linkStyle' to={'/signin'}>{setting}</Link></Typography>
                 </MenuItem>
               ))}
             </Menu>
@@ -261,6 +262,23 @@ function Navebar() {
         </Toolbar>
       </Container>
     </AppBar>
+    <Dialog open={openAddDialog} onClose={setOpenAddDialog}>
+      <DialogTitle>Send Adding Restaurant request</DialogTitle>
+      <DialogContent>
+      <TextField label="Restaurant Name" fullWidth />
+          <TextField label="Location" fullWidth />
+          <TextField label="Restaurant No." fullWidth />
+      </DialogContent>
+      <DialogActions>
+          <Button onClick={handleCloseAddDialog} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={handleCloseAddDialog} color="primary">
+            Add
+          </Button>
+        </DialogActions>
+    </Dialog>
+    </>
   );
 }
 
