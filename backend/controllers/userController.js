@@ -76,37 +76,26 @@ const addhotelreq = async (req, res) => {
         const userId = req.query.id;
         console.log('userId=>', userId);
 
-        User.findOneAndUpdate(
-            { _id: userId },
-            {
-                addHotel: {
-                    Rname,
-                    Rlocation,
-                    Rcontact
-                }
-            },
-            { new: true },
-            (err, updatedUser) => {
-                if (err) {
-                    console.error('Error updating user:', err);
-                } else {
-                    console.log('User updated successfully:', updatedUser);
-                }
-            }
-        )
-        // console.log(user);
-        // const user = new User({
-        //     addHotel: {
-        //         Rname,
-        //         Rlocation,
-        //         Rcontact
-        //     }
-        // })
-        // await user.save()
+        // Find the user by their ID
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        // Update the addHotel field of the user
+        user.addHotel = {
+            Rname,
+            Rlocation,
+            Rcontact
+        };
+
+        // Save the updated user document
+        await user.save();
+
         return res.status(201).json({ message: 'Add Hotel Request successfully', user });
-    }
-    catch (error) {
-        return new Error(error)
+    } catch (error) {
+        console.error('Error adding hotel request:', error);
+        return res.status(500).json({ message: 'Internal Server Error' });
     }
 
 

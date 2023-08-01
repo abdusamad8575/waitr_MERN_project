@@ -43,7 +43,7 @@ function Navebar() {
     return state.user;
   })
   const isLoggedIn = isLogged.isLoggedIn;
-  const userId = isLogged.userId;
+  const userId = localStorage.getItem('userId')
   
   const sendLogoutReq = async () => {
     const res = await axiosInstance.post('/logout');
