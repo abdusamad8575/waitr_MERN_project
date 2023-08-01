@@ -26,7 +26,7 @@ const userSchema = new mongoose.Schema({
         type: String,
         default: 'user', // Default role is set to 'user'
     },
-    addHotel:{
+    addHotel:[{
         Rname:{
             type:String,
             required:true
@@ -39,8 +39,12 @@ const userSchema = new mongoose.Schema({
             type:Number,
             required: true,
             // minlength:10
+        },
+        adminverify:{
+            type:Boolean,
+            required: true
         }
-    }
+    }]
 });
 
 // Encrypt password using bcrypt before saving to the database

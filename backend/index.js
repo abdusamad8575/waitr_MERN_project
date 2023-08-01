@@ -4,7 +4,8 @@ const mongoose = require('mongoose')
 const config = require('./config/config')
 const cors = require('cors')
 const path = require('path');
-const user_router =require('./routes/user_router')
+const user_router = require('./routes/user_router')
+const admin_router = require('./routes/admin_router')
 const cookieParser = require('cookie-parser')
 
 const mongodbURL = config.mongodbURL;
@@ -13,6 +14,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json()) 
 app.use(cors({credentials:true,origin:"http://localhost:3000"}))
 app.use('/',user_router)
+app.use('/dashboard',admin_router)
 
 
 

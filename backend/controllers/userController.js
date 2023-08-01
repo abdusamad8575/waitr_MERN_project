@@ -105,5 +105,5 @@ module.exports = {
     signup,
     signin,
     logout,
-    addhotelreq
+    addhotelreq,
 }
