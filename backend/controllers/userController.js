@@ -86,7 +86,8 @@ const addhotelreq = async (req, res) => {
         user.addHotel = {
             Rname,
             Rlocation,
-            Rcontact
+            Rcontact,
+            adminverify:true
         };
 
         // Save the updated user document
