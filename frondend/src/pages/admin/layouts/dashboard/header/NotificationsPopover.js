@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import { noCase } from 'change-case';
 import { useEffect, useState } from 'react';
 // @mui
@@ -17,9 +16,8 @@ import {
   ListSubheader,
   ListItemAvatar,
   ListItemButton,
+  Stack,
 } from '@mui/material';
-// utils
-import { fToNow } from '../../../utils/formatTime';
 // components
 import Iconify from '../../../components/iconify';
 import Scrollbar from '../../../components/scrollbar';
@@ -28,9 +26,8 @@ import axiosInstance from '../../../../../axios';
 // ----------------------------------------------------------------------
 
 export default function NotificationsPopover() {
-  // const userId = localStorage.getItem('userId');
   const [notifications, setNotifications] = useState([]);
-  
+
   useEffect(() => {
     const fetchNotificationData = async () => {
       try {
@@ -44,8 +41,8 @@ export default function NotificationsPopover() {
     fetchNotificationData();
   }, []);
 
-  const totalUnRead = notifications.filter((item) => item.addHotel[0]?.adminverify === true)
-  const count = totalUnRead.length
+  const totalUnRead = notifications.filter((item) => item.addHotel[0]?.adminverify === true);
+  const count = totalUnRead.length;
   const [open, setOpen] = useState(null);
 
   const handleOpen = (event) => {
@@ -56,13 +53,18 @@ export default function NotificationsPopover() {
     setOpen(null);
   };
 
-  const handleMarkAllAsRead = () => {
-    setNotifications(
-      notifications.map((notification) => ({
-        ...notification,
-        adminverify: false,
-      }))
-    );
+  const handleAdminVerify = async (id) => {
+    try {
+      await axiosInstance.patch('/dashboard/adminVerify', { id });
+      // Update the local state to reflect the changes made in the backend
+      setNotifications((prevNotifications) =>
+        prevNotifications.map((notification) =>
+          notification._id === id ? { ...notification, addHotel: [{ ...notification.addHotel[0], adminverify: false }] } : notification
+        )
+      );
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -94,47 +96,17 @@ export default function NotificationsPopover() {
               You have {count} unread messages
             </Typography>
           </Box>
-
-          {count > 0 && (
-            <Tooltip title=" Mark all as read">
-              <IconButton color="primary" onClick={handleMarkAllAsRead}>
-                <Iconify icon="eva:done-all-fill" />
-              </IconButton>
-            </Tooltip>
-          )}
         </Box>
 
         <Divider sx={{ borderStyle: 'dashed' }} />
-        
 
-        <Scrollbar sx={{ height: { xs: 340, sm: 'auto' } }}>
-          <List
-            disablePadding
-            subheader={
-              <ListSubheader disableSticky sx={{ py: 1, px: 2.5, typography: 'overline' }}>
-                New
-              </ListSubheader>
-            }
-          >
-            {/* {console.log("no=>",notifications)} */}
+        {count > 0 && <Scrollbar sx={{ height: { xs: 340, sm: 'auto' } }}>
+          <List disablePadding subheader={<ListSubheader disableSticky sx={{ py: 1, px: 2.5, typography: 'overline' }}>New</ListSubheader>}>
             {totalUnRead.map((notification) => (
-              <NotificationItem  notification={notification} />
+              <NotificationItem key={notification._id} notification={notification} handleAdminVerify={handleAdminVerify} />
             ))}
           </List>
-
-          {/* <List
-            disablePadding
-            subheader={
-              <ListSubheader disableSticky sx={{ py: 1, px: 2.5, typography: 'overline' }}>
-                Before that
-              </ListSubheader>
-            }
-          >
-            {notifications.slice(2, 5).map((notification) => (
-              <NotificationItem notification={notification} />
-            ))}
-          </List> */}
-        </Scrollbar>
+        </Scrollbar>}
 
         <Divider sx={{ borderStyle: 'dashed' }} />
 
@@ -150,19 +122,7 @@ export default function NotificationsPopover() {
 
 // ----------------------------------------------------------------------
 
-// NotificationItem.propTypes = {
-//   notification: PropTypes.shape({
-//     createdAt: PropTypes.instanceOf(Date),
-//     // id: PropTypes.string,
-//     adminverify: PropTypes.bool,
-//     Rname: PropTypes.string,
-//     Rlocation: PropTypes.string,
-//     Rcontact: PropTypes.string,
-//     // avatar: PropTypes.any,
-//   }),
-// };
-
-function NotificationItem({ notification }) {
+function NotificationItem({ notification, handleAdminVerify }) {
   const { avatar, Rname } = renderContent(notification);
 
   return (
@@ -171,7 +131,7 @@ function NotificationItem({ notification }) {
         py: 1.5,
         px: 2.5,
         mt: '1px',
-        ...(notification.adminverify && {
+        ...(notification.addHotel[0]?.adminverify && {
           bgcolor: 'action.selected',
         }),
       }}
@@ -182,20 +142,17 @@ function NotificationItem({ notification }) {
       <ListItemText
         primary={Rname}
         secondary={
-          <Typography
-            variant="caption"
-            sx={{
-              mt: 0.5,
-              display: 'flex',
-              alignItems: 'center',
-              color: 'text.disabled',
-            }}
-          >
+          <Typography variant="caption" sx={{ mt: 0.5, display: 'flex', alignItems: 'center', color: 'text.disabled' }}>
             {/* <Iconify icon="eva:clock-outline" sx={{ mr: 0.5, width: 16, height: 16 }} />
             {fToNow(notification.createdAt)} */}
           </Typography>
         }
       />
+      <Tooltip title=" Mark all as read">
+        <IconButton color="primary" onClick={() => handleAdminVerify(notification._id)}>
+          <Iconify icon="eva:done-all-fill" />
+        </IconButton>
+      </Tooltip>
     </ListItemButton>
   );
 }
@@ -203,17 +160,19 @@ function NotificationItem({ notification }) {
 // ----------------------------------------------------------------------
 
 function renderContent(notification) {
-  const Rlocation = notification.addHotel[0]?.Rlocation || "";
+  const Rlocation = notification.addHotel[0]?.Rlocation || '';
   const Rname = (
-    <>
-    <Typography variant="subtitle2">
-      {notification.addHotel[0]?.Rname}
-      <Typography component="span" variant="body2" sx={{ color: 'text.secondary' }}>
-        &nbsp; {noCase(Rlocation)}
-      </Typography>
-    </Typography>
-      Ph:<Typography variant="subtitle3">{notification.addHotel[0]?.Rcontact}</Typography>
-      </>
+    <Stack direction={'row'} sx={{ display: 'flex', justifyContent: 'space-between' }}>
+      <Box>
+        <Typography variant="subtitle2" sx={{ flexGrow: 1 }}>
+          {notification.addHotel[0]?.Rname}
+          <Typography component="span" variant="body2" sx={{ color: 'text.secondary' }}>
+            &nbsp; {noCase(Rlocation)}
+          </Typography>
+        </Typography>
+        <Typography variant="subtitle3">Ph:{notification.addHotel[0]?.Rcontact}</Typography>
+      </Box>
+    </Stack>
   );
   return {
     avatar: notification.avatar ? <img alt={notification.Rname} src={notification.avatar} /> : null,
