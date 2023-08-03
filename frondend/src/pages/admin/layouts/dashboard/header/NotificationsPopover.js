@@ -62,7 +62,6 @@ export default function NotificationsPopover() {
           notification._id === id ? { ...notification, addHotel: [{ ...notification.addHotel[0], adminverify: false }] } : notification
         )
       );
-     count>=0 && handleClose()
     } catch (error) {
       console.log(error);
     }

@@ -1,7 +1,7 @@
 import { Helmet } from 'react-helmet-async';
 import { filter } from 'lodash';
 import { sentenceCase } from 'change-case';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 // @mui
 import {
   Card,
@@ -29,6 +29,7 @@ import Scrollbar from '../components/scrollbar';
 import { UserListHead, UserListToolbar } from '../sections/@dashboard/user';
 // mock
 import USERLIST from '../_mock/user';
+import axiosInstance from '../../../axios';
 
 // ----------------------------------------------------------------------
 
@@ -86,6 +87,16 @@ export default function UserPage() {
   const [filterName, setFilterName] = useState('');
 
   const [rowsPerPage, setRowsPerPage] = useState(5);
+
+  useEffect(()=>{
+    const fetchuserData = async ()=>{
+      const res = await axiosInstance.get('/dashboard/fetchUserData');
+      const userData = res.data.users;
+      console.log("userData1=>",userData);
+
+    }
+    fetchuserData()
+  },[])
 
   const handleOpenMenu = (event) => {
     setOpen(event.currentTarget);

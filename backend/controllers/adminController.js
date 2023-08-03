@@ -3,7 +3,7 @@ const User = require('../model/userModel')
 const notification = async (req, res) => {
     try {
         const notification = await User.find({},'addHotel');
-        console.log("notification", notification);
+        // console.log("notification", notification);
         if (!notification) {
             return res.status(404).json({ message: 'User not found' });
         } else {
@@ -29,11 +29,24 @@ const adminVerify = async(req,res)=>{
         }
 
     }catch(error){
-        res.status(500).json({ message: 'Server Error' });
+        return res.status(500).json({ message: 'Server Error' });
+    }
+}
+const fetchUserData =async(req,res)=>{
+    try{
+        const users = await User.find();
+        if (!users) {
+            return res.status(404).json({ message: 'User not found' });
+        } else {
+            return res.status(200).json({message: 'users data fetch successfuly',users})
+        }
+    }catch(error){
+        return res.status(500).json({ message: 'Server Error' });
     }
 }
 
 module.exports = {
     notification,
-    adminVerify
+    adminVerify,
+    fetchUserData
 }
