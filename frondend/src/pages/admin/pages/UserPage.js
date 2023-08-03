@@ -20,6 +20,7 @@ import {
   IconButton,
   TableContainer,
   TablePagination,
+  Tooltip,
 } from '@mui/material';
 // components
 import Label from '../components/label';
@@ -30,6 +31,7 @@ import { UserListHead, UserListToolbar } from '../sections/@dashboard/user';
 // mock
 import USERLIST from '../_mock/user';
 import axiosInstance from '../../../axios';
+import { useSelector } from 'react-redux';
 
 // ----------------------------------------------------------------------
 
@@ -37,7 +39,7 @@ const TABLE_HEAD = [
   { id: 'name', label: 'Name', alignRight: false },
   { id: 'email', label: 'email', alignRight: false },
   // { id: 'role', label: 'Role', alignRight: false },
-  { id: 'isVerified', label: 'Verified', alignRight: false },
+  { id: 'adminVerify', label: 'AddHOtelREq', alignRight: false },
   { id: 'status', label: 'Status', alignRight: false },
   { id: '' },
 ];
@@ -74,7 +76,12 @@ function applySortFilter(array, comparator, query) {
 }
 
 export default function UserPage() {
+  const userDatas = useSelector((state)=>state.admin.userDatas)
+ 
+
   const [open, setOpen] = useState(null);
+
+  const [userData,setUserData] = useState(userDatas);
 
   const [page, setPage] = useState(0);
 
@@ -88,15 +95,16 @@ export default function UserPage() {
 
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
-  useEffect(()=>{
-    const fetchuserData = async ()=>{
-      const res = await axiosInstance.get('/dashboard/fetchUserData');
-      const userData = res.data.users;
-      console.log("userData1=>",userData);
+  // useEffect(()=>{
+  //   const fetchuserData = async ()=>{
+  //     const res = await axiosInstance.get('/dashboard/fetchUserData');
+  //     const userData = res.data.users;
+  //     setUserData(userData)
+  //     console.log("userData1=>",userData);
 
-    }
-    fetchuserData()
-  },[])
+  //   }
+  //   fetchuserData()
+  // },[])
 
   const handleOpenMenu = (event) => {
     setOpen(event.currentTarget);
@@ -152,9 +160,23 @@ export default function UserPage() {
 
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - USERLIST.length) : 0;
 
-  const filteredUsers = applySortFilter(USERLIST, getComparator(order, orderBy), filterName);
+  const filteredUsers = applySortFilter(userData, getComparator(order, orderBy), filterName);
 
   const isNotFound = !filteredUsers.length && !!filterName;
+
+  const handleAdminVerify = async (id) => {
+    try {
+      await axiosInstance.patch('/dashboard/adminVerify', { id });
+      // Update the local state to reflect the changes made in the backend
+      setUserData((prevUserData) =>
+      prevUserData.map((state) =>
+      state._id === id ? { ...state, addHotel: [{ ...state.addHotel[0], adminverify: false }] } : state
+        )
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <>
@@ -185,33 +207,39 @@ export default function UserPage() {
                   onSelectAllClick={handleSelectAllClick}
                 />
                 <TableBody>
-                  {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                    const { id, name, status, company, avatarUrl, isVerified } = row;
-                    const selectedUser = selected.indexOf(name) !== -1;
+                  {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row,index) => {
+                    const { _id,firstName,lastName,email,addHotel } = row;
+
+                    const selectedUser = selected.indexOf(firstName) !== -1;
 
                     return (
-                      <TableRow hover key={id} tabIndex={-1} role="checkbox" selected={selectedUser}>
+                      <TableRow hover key={_id} tabIndex={-1} role="checkbox" selected={selectedUser}>
                         <TableCell padding="checkbox">
-                          <Checkbox checked={selectedUser} onChange={(event) => handleClick(event, name)} />
+                          <Checkbox checked={selectedUser} onChange={(event) => handleClick(event, firstName)} />
                         </TableCell>
 
                         <TableCell component="th" scope="row" padding="none">
                           <Stack direction="row" alignItems="center" spacing={2}>
-                            <Avatar alt={name} src={avatarUrl} />
+                            {/* <Avatar alt={firstName} src={avatarUrl} /> */}
                             <Typography variant="subtitle2" noWrap>
-                              {name}
+                              {firstName +" "+lastName}
                             </Typography>
                           </Stack>
                         </TableCell>
 
-                        <TableCell align="left">{company}</TableCell>
+                        <TableCell align="left">{email}</TableCell>
 
                         {/* <TableCell align="left">{role}</TableCell> */}
 
-                        <TableCell align="left">{isVerified ? 'Yes' : 'No'}</TableCell>
+                        <TableCell align="left">{addHotel[index]?.adminverify ? 
+                        <Tooltip title=" Mark all as read">
+                        <IconButton color="primary" onClick={() => handleAdminVerify(_id)}>
+                          <Iconify icon="eva:done-all-fill" />
+                        </IconButton>
+                      </Tooltip> : <Label color={'success'}>verified</Label>}</TableCell>
 
                         <TableCell align="left">
-                          <Label color={(status === 'banned' && 'error') || 'success'}>{sentenceCase(status)}</Label>
+                          {/* <Label color={(status === 'banned' && 'error') || 'success'}>{sentenceCase(status)}</Label> */}
                         </TableCell>
 
                         <TableCell align="right">

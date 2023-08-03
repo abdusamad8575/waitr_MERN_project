@@ -5,6 +5,7 @@ const adminSlice = createSlice({
     initialState:{userDatas:[]},
     reducers:{
         setUserDatas:(state,action)=>{
+            // console.log('poi=>',action.payload);
             state.userDatas = action.payload;
         }
     }
