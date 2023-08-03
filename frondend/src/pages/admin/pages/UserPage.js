@@ -31,7 +31,8 @@ import { UserListHead, UserListToolbar } from '../sections/@dashboard/user';
 // mock
 import USERLIST from '../_mock/user';
 import axiosInstance from '../../../axios';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import {setUserDatas} from '../../../redux-toolkit/adminSlice'
 
 // ----------------------------------------------------------------------
 
@@ -76,7 +77,8 @@ function applySortFilter(array, comparator, query) {
 }
 
 export default function UserPage() {
-  const userDatas = useSelector((state)=>state.admin.userDatas)
+  const userDatas = useSelector((state)=>state.admin.userDatas);
+  const dispatch = useDispatch();
  
 
   const [open, setOpen] = useState(null);
@@ -173,6 +175,7 @@ export default function UserPage() {
       state._id === id ? { ...state, addHotel: [{ ...state.addHotel[0], adminverify: false }] } : state
         )
       );
+      dispatch(setUserDatas(userData))
     } catch (error) {
       console.log(error);
     }

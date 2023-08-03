@@ -28,10 +28,10 @@ import {setUserDatas} from '../../../../../redux-toolkit/adminSlice'
 // ----------------------------------------------------------------------
 
 export default function NotificationsPopover() {
-  const notifications = useSelector((state)=>state.admin.userDatas)
+  const userDatas = useSelector((state)=>state.admin.userDatas)
   const dispatch = useDispatch();
   
-  // const [notifications, setNotifications] = useState(userDatas);
+  const [notifications, setNotifications] = useState(userDatas);
 
   // useEffect(() => {
   //   const fetchNotificationData = async () => {
@@ -45,7 +45,7 @@ export default function NotificationsPopover() {
 
   //   fetchNotificationData();
   // }, []);
-console.log("sdcch",notifications);
+// console.log("sdcch",notifications);
   const totalUnRead = notifications.filter((item) => item.addHotel[0]?.adminverify === true);
   const count = totalUnRead.length;
   const [open, setOpen] = useState(null);
@@ -62,11 +62,12 @@ console.log("sdcch",notifications);
     try {
       await axiosInstance.patch('/dashboard/adminVerify', { id });
       // Update the local state to reflect the changes made in the backend
-      // dispatch(setUserDatas((prevNotifications) =>
-      //   prevNotifications.map((notification) =>
-      //     notification._id === id ? { ...notification, addHotel: [{ ...notification.addHotel[0], adminverify: false }] } : notification
-      //   )
-      // ));
+      setNotifications((prevNotifications) =>
+        prevNotifications.map((notification) =>
+          notification._id === id ? { ...notification, addHotel: [{ ...notification.addHotel[0], adminverify: false }] } : notification
+        )
+      );
+      dispatch(setUserDatas(notifications))
     } catch (error) {
       console.log(error);
     }
