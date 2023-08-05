@@ -5,6 +5,7 @@ import SignIn from '../pages/SignIn';
 import SignUp from '../pages/SingUp';
 
 function Router() {
+  console.log('9854');
   return (
     <>
         <Routes>

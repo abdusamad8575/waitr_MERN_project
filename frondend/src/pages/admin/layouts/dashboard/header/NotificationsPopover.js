@@ -22,30 +22,31 @@ import {
 import Iconify from '../../../components/iconify';
 import Scrollbar from '../../../components/scrollbar';
 import axiosInstance from '../../../../../axios';
-import { useDispatch, useSelector } from 'react-redux';
-import {setUserDatas} from '../../../../../redux-toolkit/adminSlice'
+import userData from '../../../pages/UserPage'
+  // import { useDispatch, useSelector } from 'react-redux';
+  // import {setUserDatas} from '../../../../../redux-toolkit/adminSlice'
 
 // ----------------------------------------------------------------------
 
 export default function NotificationsPopover() {
-  const userDatas = useSelector((state)=>state.admin.userDatas)
-  const dispatch = useDispatch();
+  // const userDatas = useSelector((state)=>state.admin.userDatas)
+  // const dispatch = useDispatch();
   
-  const [notifications, setNotifications] = useState(userDatas);
-
-  // useEffect(() => {
-  //   const fetchNotificationData = async () => {
-  //     try {
-  //       const response = await axiosInstance.get('/dashboard/notification');
-  //       setNotifications(response.data.notification);
-  //     } catch (error) {
-  //       console.error('Error fetching notification data:', error);
-  //     }
-  //   };
-
-  //   fetchNotificationData();
-  // }, []);
-// console.log("sdcch",notifications);
+  const [notifications, setNotifications] = useState([]);
+  
+  useEffect(() => {
+    console.log('notiEfect')
+    const fetchNotificationData = async () => {
+      try {
+        const response = await axiosInstance.get('/dashboard/notification');
+        setNotifications(response.data.notification);
+      } catch (error) {
+        console.error('Error fetching notification data:', error);
+      }
+    };
+    
+    fetchNotificationData();
+  },[ ]);
   const totalUnRead = notifications.filter((item) => item.addHotel[0]?.adminverify === true);
   const count = totalUnRead.length;
   const [open, setOpen] = useState(null);
@@ -67,8 +68,10 @@ export default function NotificationsPopover() {
           notification._id === id ? { ...notification, addHotel: [{ ...notification.addHotel[0], adminverify: false }] } : notification
         )
       );
-      dispatch(setUserDatas(notifications))
-    } catch (error) {
+        // dispatch(setUserDatas(notifications))
+        // console.log('notifications1=>',notifications)
+       
+    } catch (error) { 
       console.log(error);
     }
   };

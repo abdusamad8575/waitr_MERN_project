@@ -1,6 +1,5 @@
 import { Helmet } from 'react-helmet-async';
 import { filter } from 'lodash';
-import { sentenceCase } from 'change-case';
 import { useEffect, useState } from 'react';
 // @mui
 import {
@@ -8,7 +7,7 @@ import {
   Table,
   Stack,
   Paper,
-  Avatar,
+  // Avatar,
   Popover,
   Checkbox,
   TableRow,
@@ -31,8 +30,8 @@ import { UserListHead, UserListToolbar } from '../sections/@dashboard/user';
 // mock
 import USERLIST from '../_mock/user';
 import axiosInstance from '../../../axios';
-import { useDispatch, useSelector } from 'react-redux';
-import {setUserDatas} from '../../../redux-toolkit/adminSlice'
+// import { useDispatch, useSelector } from 'react-redux';
+// import {setUserDatas} from '../../../redux-toolkit/adminSlice'
 
 // ----------------------------------------------------------------------
 
@@ -77,13 +76,13 @@ function applySortFilter(array, comparator, query) {
 }
 
 export default function UserPage() {
-  const userDatas = useSelector((state)=>state.admin.userDatas);
-  const dispatch = useDispatch();
+  // const userDatas = useSelector((state)=>state.admin.userDatas);
+  // const dispatch = useDispatch();
  
 
   const [open, setOpen] = useState(null);
 
-  const [userData,setUserData] = useState(userDatas);
+  const [userData,setUserData] = useState([]);
 
   const [page, setPage] = useState(0);
 
@@ -97,16 +96,17 @@ export default function UserPage() {
 
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
-  // useEffect(()=>{
-  //   const fetchuserData = async ()=>{
-  //     const res = await axiosInstance.get('/dashboard/fetchUserData');
-  //     const userData = res.data.users;
-  //     setUserData(userData)
-  //     console.log("userData1=>",userData);
+  useEffect(()=>{
+    console.log('userEfect')
+    const fetchuserData = async ()=>{
+      const res = await axiosInstance.get('/dashboard/fetchUserData');
+      const userData = res.data.users;
+      setUserData(userData)
+      // console.log("userData1=>");
 
-  //   }
-  //   fetchuserData()
-  // },[])
+    }
+    fetchuserData()
+  },[])
 
   const handleOpenMenu = (event) => {
     setOpen(event.currentTarget);
@@ -175,7 +175,8 @@ export default function UserPage() {
       state._id === id ? { ...state, addHotel: [{ ...state.addHotel[0], adminverify: false }] } : state
         )
       );
-      dispatch(setUserDatas(userData))
+      // console.log('userData3=>',userData);
+      // dispatch(setUserDatas(userData))
     } catch (error) {
       console.log(error);
     }

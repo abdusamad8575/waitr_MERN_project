@@ -6,10 +6,12 @@ import { HelmetProvider } from 'react-helmet-async';
 import ThemeProvider from './pages/admin/theme';
 import { StyledChart } from './pages/admin/components/chart';
 import ScrollToTop from './pages/admin/components/scroll-to-top';
-import Adminroutes from './pages/admin/Adminroutes';
-import Resroutes from './pages/restaurant/Resroutes';
+import AdminRoutes from './pages/admin/Adminroutes';
+import ResRoutes from './pages/restaurant/Resroutes';
+// import { Route, Switch } from 'react-router-dom';
 
 function App() {
+  console.log('first');
   return (
     <>
       <ToastContainer />
@@ -18,10 +20,11 @@ function App() {
         <ThemeProvider>
           <ScrollToTop />
           <StyledChart />
-          <Adminroutes />
-          <Resroutes />
+          <AdminRoutes />
+          <ResRoutes />
         </ThemeProvider>
       </HelmetProvider>
+       
     </>
   );
 }
