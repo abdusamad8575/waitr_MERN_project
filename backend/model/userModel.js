@@ -22,6 +22,10 @@ const userSchema = new mongoose.Schema({
         required: true,
         minlength: 6, // Minimum length of the password
     },
+    AdminBlocked:{
+        type: Number,
+        default :1
+    },
     role: {
         type: String,
         default: 'user', // Default role is set to 'user'

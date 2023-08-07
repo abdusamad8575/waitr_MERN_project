@@ -31,7 +31,7 @@ import { UserListHead, UserListToolbar } from '../sections/@dashboard/user';
 import USERLIST from '../_mock/user';
 import axiosInstance from '../../../axios';
 import { useDispatch, useSelector } from 'react-redux';
-import {setUserDatas} from '../../../redux-toolkit/adminSlice'
+import { setUserDatas } from '../../../redux-toolkit/adminSlice'
 
 // ----------------------------------------------------------------------
 
@@ -76,13 +76,13 @@ function applySortFilter(array, comparator, query) {
 }
 
 export default function UserPage() {
-  const userDatas = useSelector((state)=>state.admin.userDatas);
+  const userDatas = useSelector((state) => state.admin.userDatas);
   const dispatch = useDispatch();
- 
+
 
   const [open, setOpen] = useState(null);
 
-  const [userData,setUserData] = useState([]);
+  const [userData, setUserData] = useState([]);
 
   const [page, setPage] = useState(0);
 
@@ -96,18 +96,24 @@ export default function UserPage() {
 
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
-  useEffect(()=>{
-    const fetchuserData = async ()=>{
+  const [clickId, setClickId] = useState('');
+
+  useEffect(() => {
+    const fetchuserData = async () => {
       const res = await axiosInstance.get('/dashboard/fetchUserData');
       const userData = res.data.users;
       setUserData(userData)
     }
     fetchuserData()
-  },[userDatas])
+  }, [userDatas])
 
   const handleOpenMenu = (event) => {
     setOpen(event.currentTarget);
+
   };
+  const handleIdPass = (id) => {
+    setClickId(id)
+  }
 
   const handleCloseMenu = () => {
     setOpen(null);
@@ -166,20 +172,36 @@ export default function UserPage() {
   const handleAdminVerify = async (id) => {
     try {
       await axiosInstance.patch('/dashboard/adminVerify', { id })
-      .then(res=>dispatch(setUserDatas(res.data)))
-      .catch(error => {
-        console.error('Error fetching data:', error);
-      });
+        .then(res => dispatch(setUserDatas(res.data)))
+        .catch(error => {
+          console.error('Error fetching data:', error);
+        });
       // Update the local state to reflect the changes made in the backend
       setUserData((prevUserData) =>
-      prevUserData.map((state) =>
-      state._id === id ? { ...state, addHotel: [{ ...state.addHotel[0], adminverify: false }] } : state
+        prevUserData.map((state) =>
+          state._id === id ? { ...state, addHotel: [{ ...state.addHotel[0], adminverify: false }] } : state
         )
       );
     } catch (error) {
       console.log(error);
     }
   };
+  const handleBlock = async (id) => {
+    await axiosInstance.patch('/dashboard/adminBlocked', { id })
+      .then((res) => {
+        const changeData = res.data.user.AdminBlocked;
+        console.log("changeData", changeData)
+        setUserData((prev) =>
+          prev.map((state) =>
+            state._id === id ? { ...state, AdminBlocked: changeData } : state
+          )
+        )
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error);
+      });
+    setOpen(null)
+  }
 
   return (
     <>
@@ -210,8 +232,8 @@ export default function UserPage() {
                   onSelectAllClick={handleSelectAllClick}
                 />
                 <TableBody>
-                  {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row,index) => {
-                    const { _id,firstName,lastName,email,addHotel } = row;
+                  {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => {
+                    const { _id, firstName, lastName, email, addHotel, AdminBlocked } = row;
 
                     const selectedUser = selected.indexOf(firstName) !== -1;
 
@@ -225,7 +247,7 @@ export default function UserPage() {
                           <Stack direction="row" alignItems="center" spacing={2}>
                             {/* <Avatar alt={firstName} src={avatarUrl} /> */}
                             <Typography variant="subtitle2" noWrap>
-                              {firstName +" "+lastName}
+                              {firstName + " " + lastName}
                             </Typography>
                           </Stack>
                         </TableCell>
@@ -234,22 +256,23 @@ export default function UserPage() {
 
                         {/* <TableCell align="left">{role}</TableCell> */}
 
-                        <TableCell align="left">{addHotel[index]?.adminverify ? 
-                        <Tooltip title=" Mark all as read">
-                        <IconButton color="primary" onClick={() => handleAdminVerify(_id)}>
-                          <Iconify icon="eva:done-all-fill" />
-                        </IconButton>
-                      </Tooltip> : <Label color={'success'}>verified</Label>}</TableCell>
+                        <TableCell align="left">{addHotel[index]?.adminverify ?
+                          <Tooltip title=" Mark all as read">
+                            <IconButton color="primary" onClick={() => handleAdminVerify(_id)}>
+                              <Iconify icon="eva:done-all-fill" />
+                            </IconButton>
+                          </Tooltip> : <Label color={'success'}>verified</Label>}</TableCell>
 
                         <TableCell align="left">
-                          {/* <Label color={(status === 'banned' && 'error') || 'success'}>{sentenceCase(status)}</Label> */}
+                          <Label color={(AdminBlocked === 0 && 'error') || 'success'}>{AdminBlocked === 1 ? 'Available' : 'Blocked'}</Label>
                         </TableCell>
 
-                        <TableCell align="right">
+                        <TableCell align="right" onClick={() => handleIdPass(_id)}>
                           <IconButton size="large" color="inherit" onClick={handleOpenMenu}>
                             <Iconify icon={'eva:more-vertical-fill'} />
                           </IconButton>
                         </TableCell>
+
                       </TableRow>
                     );
                   })}
@@ -298,7 +321,6 @@ export default function UserPage() {
           />
         </Card>
       </Container>
-
       <Popover
         open={Boolean(open)}
         anchorEl={open}
@@ -321,12 +343,14 @@ export default function UserPage() {
           <Iconify icon={'eva:edit-fill'} sx={{ mr: 2 }} />
           Edit
         </MenuItem>
-
-        <MenuItem sx={{ color: 'error.main' }}>
+        {/* {console.log(open)}  */}
+        <MenuItem sx={{ color: 'error.main' }} onClick={() => handleBlock(clickId)}>
           <Iconify icon={'eva:trash-2-outline'} sx={{ mr: 2 }} />
-          Delete
+          Block
         </MenuItem>
       </Popover>
+
+
     </>
   );
 }
