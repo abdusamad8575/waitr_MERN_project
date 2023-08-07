@@ -32,27 +32,32 @@ const signin = async (req, res, next) => {
         if (!existingUser) {
             return res.status(400).json({ message: "User not found" })
         } else {
-            const isPassword = (await existingUser.matchPasswords(password))
-            if (!isPassword) {
-                return res.status(400).json({ message: "Invalid Email Id or password" })
+            const adminBlocked = existingUser.AdminBlocked === 1;
+            if (!adminBlocked) {
+                return res.status(400).json({ message: "this user admin blocked" })                
             } else {
-                const token = jwt.sign({ id: existingUser._id }, process.env.JWT_SECRET, {
-                    expiresIn: "1d"
-                })
-                console.log("token send", token)
-                res.cookie("token", token, {
-                    path: '/',
-                    expires: new Date(Date.now() + 500 * 60 * 60), // 1 hour expiration
-                    httpOnly: true,
-                    sameSite: 'lax',
-                });
-                console.log('existingUser=>', existingUser);
-                return res.status(200).json({
-                    message: "Successfully Logged in",
-                    user: existingUser,
-                    token,
-                    role: existingUser.role,
-                })
+                const isPassword = (await existingUser.matchPasswords(password))
+                if (!isPassword) {
+                    return res.status(400).json({ message: "Invalid Email Id or password" })
+                } else {
+                    const token = jwt.sign({ id: existingUser._id }, process.env.JWT_SECRET, {
+                        expiresIn: "1d"
+                    })
+                    console.log("token send", token)
+                    res.cookie("token", token, {
+                        path: '/',
+                        expires: new Date(Date.now() + 500 * 60 * 60), // 1 hour expiration
+                        httpOnly: true,
+                        sameSite: 'lax',
+                    });
+                    console.log('existingUser=>', existingUser);
+                    return res.status(200).json({
+                        message: "Successfully Logged in",
+                        user: existingUser,
+                        token,
+                        role: existingUser.role,
+                    })
+                }
             }
         }
 
@@ -87,7 +92,7 @@ const addhotelreq = async (req, res) => {
             Rname,
             Rlocation,
             Rcontact,
-            adminverify:true
+            adminverify: true
         };
 
         // Save the updated user document

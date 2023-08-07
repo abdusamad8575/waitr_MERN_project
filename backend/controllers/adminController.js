@@ -34,7 +34,8 @@ const adminVerify = async(req,res)=>{
 }
 const fetchUserData =async(req,res)=>{
     try{
-        const users = await User.find();
+        const users = await User.find({role:'user'});
+
         if (!users) {
             return res.status(404).json({ message: 'User not found' });
         } else {
