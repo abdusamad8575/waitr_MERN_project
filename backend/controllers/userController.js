@@ -107,9 +107,25 @@ const addhotelreq = async (req, res) => {
 
 }
 
+const userDitails = async(req,res)=>{
+    try{
+        const userId = req.query.userId
+        const user = await User.findById(userId)
+        // console.log(user);
+        if(!user){
+            return res.status(400).json({ message: "User not found" })
+        }else{
+            return res.status(200).json({message:"user data fetched",user})
+        }
+    }catch (error) {
+        return res.status(500).json({ message: 'Internal Server Error' });
+    }
+}
+
 module.exports = {
     signup,
     signin,
     logout,
     addhotelreq,
+    userDitails,
 }
