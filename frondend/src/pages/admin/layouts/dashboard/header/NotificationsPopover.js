@@ -23,14 +23,14 @@ import Iconify from '../../../components/iconify';
 import Scrollbar from '../../../components/scrollbar';
 import axiosInstance from '../../../../../axios';
 import userData from '../../../pages/UserPage'
-  // import { useDispatch, useSelector } from 'react-redux';
-  // import {setUserDatas} from '../../../../../redux-toolkit/adminSlice'
+  import { useDispatch, useSelector } from 'react-redux';
+  import {setUserDatas} from '../../../../../redux-toolkit/adminSlice'
 
 // ----------------------------------------------------------------------
 
 export default function NotificationsPopover() {
-  // const userDatas = useSelector((state)=>state.admin.userDatas)
-  // const dispatch = useDispatch();
+  const userDatas = useSelector((state)=>state.admin.userDatas)
+  const dispatch = useDispatch();
   
   const [notifications, setNotifications] = useState([]);
   
@@ -40,13 +40,14 @@ export default function NotificationsPopover() {
       try {
         const response = await axiosInstance.get('/dashboard/notification');
         setNotifications(response.data.notification);
+        
       } catch (error) {
         console.error('Error fetching notification data:', error);
       }
     };
     
     fetchNotificationData();
-  },[ ]);
+  },[ userDatas]);
   const totalUnRead = notifications.filter((item) => item.addHotel[0]?.adminverify === true);
   const count = totalUnRead.length;
   const [open, setOpen] = useState(null);
@@ -61,14 +62,14 @@ export default function NotificationsPopover() {
 
   const handleAdminVerify = async (id) => {
     try {
-      await axiosInstance.patch('/dashboard/adminVerify', { id });
+      await axiosInstance.patch('/dashboard/adminVerify', { id })
+      .then(res=>dispatch(setUserDatas(res.data)))
       // Update the local state to reflect the changes made in the backend
       setNotifications((prevNotifications) =>
         prevNotifications.map((notification) =>
           notification._id === id ? { ...notification, addHotel: [{ ...notification.addHotel[0], adminverify: false }] } : notification
         )
       );
-        // dispatch(setUserDatas(notifications))
         // console.log('notifications1=>',notifications)
        
     } catch (error) { 

@@ -30,8 +30,8 @@ import { UserListHead, UserListToolbar } from '../sections/@dashboard/user';
 // mock
 import USERLIST from '../_mock/user';
 import axiosInstance from '../../../axios';
-// import { useDispatch, useSelector } from 'react-redux';
-// import {setUserDatas} from '../../../redux-toolkit/adminSlice'
+import { useDispatch, useSelector } from 'react-redux';
+import {setUserDatas} from '../../../redux-toolkit/adminSlice'
 
 // ----------------------------------------------------------------------
 
@@ -76,8 +76,8 @@ function applySortFilter(array, comparator, query) {
 }
 
 export default function UserPage() {
-  // const userDatas = useSelector((state)=>state.admin.userDatas);
-  // const dispatch = useDispatch();
+  const userDatas = useSelector((state)=>state.admin.userDatas);
+  const dispatch = useDispatch();
  
 
   const [open, setOpen] = useState(null);
@@ -97,16 +97,13 @@ export default function UserPage() {
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
   useEffect(()=>{
-    console.log('userEfect')
     const fetchuserData = async ()=>{
       const res = await axiosInstance.get('/dashboard/fetchUserData');
       const userData = res.data.users;
       setUserData(userData)
-      // console.log("userData1=>");
-
     }
     fetchuserData()
-  },[])
+  },[userDatas])
 
   const handleOpenMenu = (event) => {
     setOpen(event.currentTarget);
@@ -168,15 +165,17 @@ export default function UserPage() {
 
   const handleAdminVerify = async (id) => {
     try {
-      await axiosInstance.patch('/dashboard/adminVerify', { id });
+      await axiosInstance.patch('/dashboard/adminVerify', { id })
+      .then(res=>dispatch(setUserDatas(res.data)))
+      .catch(error => {
+        console.error('Error fetching data:', error);
+      });
       // Update the local state to reflect the changes made in the backend
       setUserData((prevUserData) =>
       prevUserData.map((state) =>
       state._id === id ? { ...state, addHotel: [{ ...state.addHotel[0], adminverify: false }] } : state
         )
       );
-      // console.log('userData3=>',userData);
-      // dispatch(setUserDatas(userData))
     } catch (error) {
       console.log(error);
     }

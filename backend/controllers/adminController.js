@@ -25,7 +25,7 @@ const adminVerify = async(req,res)=>{
         }else{
             user.addHotel[0].adminverify  = false
             await user.save();
-            return res.status(200).json({ message: 'Adminverify updated successfully' });
+            return res.status(200).json({ message: 'Adminverify updated successfully',user });
         }
 
     }catch(error){
