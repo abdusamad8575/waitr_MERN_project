@@ -1,22 +1,63 @@
 import React, { useEffect, useState } from 'react';
-import { MDBCol, MDBContainer, MDBRow, MDBCard, MDBCardText, MDBCardBody, MDBCardImage, MDBBtn, MDBTypography } from 'mdb-react-ui-kit';
+import { MDBCol, MDBContainer, MDBRow, MDBCard, MDBCardText, MDBCardBody, MDBCardImage, MDBTypography } from 'mdb-react-ui-kit';
 import axiosInstance from '../../../axios';
+import { IconButton } from '@mui/material';
+import './account.css'
+
+
+// import IconButton from '@mui/material/IconButton';
+import EditIcon from '@mui/icons-material/Edit';
+
 
 export default function AccountContant() {
-    const userId = localStorage.getItem('userId')
-    const [user,setUser] = useState('')
-    useEffect(()=>{
-        const fetchUserData = async()=>{
-            await axiosInstance.get('/userDitails',{params: {
-                userId: userId
-              }})
-            .then((res)=>setUser(res.data.user))
-            .catch((error)=>{
-                console.log(error);
-            })
+  const userId = localStorage.getItem('userId')
+
+  const [hovered, setHovered] = useState(false);
+
+  const [user, setUser] = useState('')
+  useEffect(() => {
+    const fetchUserData = async () => {
+      await axiosInstance.get('/userDitails', {
+        params: {
+          userId: userId
         }
-        fetchUserData()
-    },[])
+      })
+        .then((res) => setUser(res.data.user))
+        .catch((error) => {
+          console.log(error);
+        })
+    }
+    fetchUserData()
+  }, [])
+
+
+  const [selectedImage, setSelectedImage] = useState(null);
+
+  const handleImageChange = async (e) => {
+    const selectedFile = e.target.files[0];
+    if (!selectedFile) return;
+  
+    const formData = new FormData();
+    formData.append('image', selectedFile);
+  
+    try {
+      const response = await axiosInstance.post('/uploadProfilepicture', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+  
+      if (response.status === 200) {
+        console.log('Image uploaded successfully');
+      }
+    } catch (error) {
+      console.error('Error uploading image:', error);
+    }
+  };
+  
+
+
+
   return (
     <div className="gradient-custom-2">
       <MDBContainer className="py-5 h-100">
@@ -25,14 +66,55 @@ export default function AccountContant() {
             <MDBCard>
               <div className="rounded-top text-white d-flex flex-row" style={{ backgroundColor: '#FF645A', height: '200px' }}>
                 <div className="ms-4 mt-5 d-flex flex-column" style={{ width: '150px' }}>
-                  <MDBCardImage src={user.profilePic? user.profilePic :'https://cdn3.iconfinder.com/data/icons/avatars-flat/33/man_5-1024.png'}
-                    alt="Generic placeholder image" className="mt-4 mb-2 img-thumbnail" fluid style={{ width: '150px', zIndex: '1' }} />
-                  {/* <MDBBtn outline color="dark" style={{height: '36px', overflow: 'visible'}}>
-                    Edit profile
-                  </MDBBtn> */}
+
+                  {/* <IconButton color="primary" aria-label="upload picture" component="label">
+                    <input hidden accept="image/*" type="file" onChange={handleImageChange} />
+                    <MDBCardImage src={user.profilePic ? user.profilePic : 'https://cdn3.iconfinder.com/data/icons/avatars-flat/33/man_5-1024.png'}
+                      alt="Generic placeholder image" className="mt-4 mb-2 img-thumbnail" fluid style={{ width: '150px', zIndex: '1' }} />
+                  </IconButton> */}
+                  <div className="image-upload-container">
+                    
+                    <IconButton
+                      color="primary"
+                      aria-label="upload picture"
+                      component="label"
+                      onMouseEnter={() => setHovered(true)}
+                      onMouseLeave={() => setHovered(false)}
+                    >
+                      <input
+                      hidden
+                      accept="image/*"
+                      type="file"
+                      onChange={handleImageChange}
+                    />
+                      <MDBCardImage
+                        src={user.profilePic
+                          ? user.profilePic
+                          : 'https://cdn3.iconfinder.com/data/icons/avatars-flat/33/man_5-1024.png'}
+                        alt="User Profile"
+                        className="mt-4 mb-2 img-thumbnail"
+                        fluid
+                        style={{ width: '150px' }}
+                      />
+                      {hovered && (
+                        <div className="edit-icon-container">
+                          <EditIcon className="edit-icon" />
+                        </div>
+                      )}
+                    </IconButton>
+                  </div>
+
+
+
+
+
+
+
+
+                
                 </div>
                 <div className="ms-3" style={{ marginTop: '130px' }}>
-                  <MDBTypography tag="h5">{user.firstName+" "+ user.lastName}</MDBTypography>
+                  <MDBTypography tag="h5">{user.firstName + " " + user.lastName}</MDBTypography>
                   <MDBCardText>{user.email}</MDBCardText>
                 </div>
               </div>
@@ -61,7 +143,7 @@ export default function AccountContant() {
                     <MDBCardText className="font-italic mb-0">Photographer</MDBCardText>
                   </div>
                 </div>
-                
+
               </MDBCardBody>
             </MDBCard>
           </MDBCol>

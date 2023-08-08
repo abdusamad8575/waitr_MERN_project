@@ -177,11 +177,16 @@ async function verify(req,res) {
         // return res.status(200).json({message:"user data fetched"})
     }
 }
+
+const uploadProfilepicture = async(req,res)=>{
+    
+}
 module.exports = {
     signup,
     signin,
     logout,
     addhotelreq,
     userDitails,
-    verify
+    verify,
+    uploadProfilepicture
 }
