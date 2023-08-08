@@ -2,3 +2,11 @@
      text-decoration: none;
      color: rgb(99, 97, 97);
 }
+.mainDiv{
+     margin-bottom: 100px;
+}
+@media (max-width: 768px) {
+     .mainDiv {
+          margin-bottom: 50px;
+     }
+} 

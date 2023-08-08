@@ -46,7 +46,7 @@ export default function SignIn() {
       // Implement form submission logic here (e.g., send data to the server)
       const res = await axiosInstance.post('/signin',formData);
       const data = res.data;
-      // console.log("data=>"+data.role)
+      // console.log("data=>"+data.user)
       return data;
     } catch (err) {
       console.error('Error submitting data:', err.message);

@@ -44,6 +44,10 @@ function Navebar() {
   })
   const isLoggedIn = isLogged.isLoggedIn;
   const userId = localStorage.getItem('userId')
+  const userDetails = localStorage.getItem("user")
+  const user =userDetails? JSON.parse(userDetails) : ''
+
+  // console.log("user-",user);
   
   const sendLogoutReq = async () => {
     const res = await axiosInstance.post('/logout');
@@ -143,9 +147,9 @@ function Navebar() {
   };
 
   return (
-    <>
-      <AppBar position="static">
-        <Container maxWidth="xl" style={{ backgroundColor: 'white' }}>
+    <div className='mainDiv'>
+      <AppBar position="fixed" sx={{backgroundColor:'white'}} >
+        <Container maxWidth="xl" >
           <Toolbar disableGutters>
             {/* <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} /> */}
             <Typography
@@ -288,7 +292,7 @@ function Navebar() {
             <Box sx={{ flexGrow: 0, marginLeft: '10px' }}>
               <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                  <Avatar alt="Remy Sharp" src={user?.profilePic ? user.profilePic :"/static/images/avatar/2.jpg"} />
                 </IconButton>
               </Tooltip>
               <Menu
@@ -345,7 +349,7 @@ function Navebar() {
           </Button>
         </DialogActions>
       </Dialog>
-    </>
+    </div>
   );
 }
 

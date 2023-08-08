@@ -24,6 +24,7 @@ export function Google() {
                         .then((res) => {
                             const data = res.data;
                             const userRole = data.role;
+                            // console.log(data.user);
                             dispatch(signin(data.user))
                             switch (userRole) {
                                 case 'admin':

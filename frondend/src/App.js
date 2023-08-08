@@ -11,7 +11,6 @@ import ResRoutes from './pages/restaurant/Resroutes';
 // import { Route, Switch } from 'react-router-dom';
 
 function App() {
-  console.log('first');
   return (
     <>
       <ToastContainer />
