@@ -16,6 +16,7 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {useDispatch} from 'react-redux'
 import {signin} from '../redux-toolkit/userSlice'
+import { Google } from './google';
 
 const defaultTheme = createTheme();
 
@@ -165,6 +166,7 @@ export default function SignIn() {
             >
               Sign In
             </Button>
+            <Google />
             <Grid container>
               <Grid item xs>
                 <Link variant="body2">Forgot password?</Link>

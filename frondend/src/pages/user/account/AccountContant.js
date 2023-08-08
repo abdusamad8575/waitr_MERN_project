@@ -25,7 +25,7 @@ export default function AccountContant() {
             <MDBCard>
               <div className="rounded-top text-white d-flex flex-row" style={{ backgroundColor: '#FF645A', height: '200px' }}>
                 <div className="ms-4 mt-5 d-flex flex-column" style={{ width: '150px' }}>
-                  <MDBCardImage src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-1.webp"
+                  <MDBCardImage src={user.profilePic? user.profilePic :'https://cdn3.iconfinder.com/data/icons/avatars-flat/33/man_5-1024.png'}
                     alt="Generic placeholder image" className="mt-4 mb-2 img-thumbnail" fluid style={{ width: '150px', zIndex: '1' }} />
                   <MDBBtn outline color="dark" style={{height: '36px', overflow: 'visible'}}>
                     Edit profile

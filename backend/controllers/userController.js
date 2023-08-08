@@ -1,5 +1,6 @@
 const User = require('../model/userModel')
 const jwt = require('jsonwebtoken');
+const { OAuth2Client } = require('google-auth-library');
 
 const signup = async (req, res, next) => {
 
@@ -122,10 +123,65 @@ const userDitails = async(req,res)=>{
     }
 }
 
+
+async function verify(req,res) {
+    const {client_id, jwtToken} = req.body
+    const client = new OAuth2Client(client_id);
+
+    // Call the verifyIdToken to
+    // varify and decode it
+    const ticket = await client.verifyIdToken({
+        idToken: jwtToken,
+        audience: client_id,
+    });
+
+    // Get the JSON with all the user info
+    const payload = ticket.getPayload();
+    const email = payload.email;
+    const existingUser = await User.findOne( {email:email})
+    if(!existingUser){
+        const user = new User({
+            firstName:payload.given_name,
+            lastName:payload.family_name,
+            email,
+            profilePic:payload.picture
+        })
+    
+        await user.save();
+    }
+    else{
+        // This is a JSON object that contains
+        // all the user info
+        const adminBlocked = existingUser.AdminBlocked === 1;
+            if (!adminBlocked) {
+                return res.status(400).json({ message: "this user admin blocked" })                
+            } else {
+                const token = jwt.sign({ id: existingUser._id }, process.env.JWT_SECRET, {
+                    expiresIn: "1d"
+                })
+                // console.log("token send", token)
+                res.cookie("token", token, {
+                    path: '/',
+                    expires: new Date(Date.now() + 500 * 60 * 60), // 1 hour expiration
+                    httpOnly: true,
+                    sameSite: 'lax',
+                });
+                // console.log('existingUser=>', existingUser);
+                return res.status(200).json({
+                    message: "Successfully Logged in",
+                    user: existingUser,
+                    token,
+                    role: existingUser.role,
+                })
+            }
+        // return res.status(200).json({message:"user data fetched"})
+    }
+}
 module.exports = {
     signup,
     signin,
     logout,
     addhotelreq,
     userDitails,
+    verify
 }
