@@ -59,6 +59,21 @@ export default function AccountPopover() {
     setOpen(null);
   };
 
+  const handleSettings = (index)=>{
+    // console.log(index);
+    switch(index){
+      case 0:
+        console.log('1');
+        break;
+      case 1 :
+        History('/dashboard/profile')
+        break;
+      default :
+         console.log('3');
+    }
+    handleClose()
+  }
+
   return (
     <>
       <IconButton
@@ -112,8 +127,8 @@ export default function AccountPopover() {
         <Divider sx={{ borderStyle: 'dashed' }} />
 
         <Stack sx={{ p: 1 }}>
-          {MENU_OPTIONS.map((option) => (
-            <MenuItem key={option.label} onClick={handleClose}>
+          {MENU_OPTIONS.map((option,index) => (
+            <MenuItem key={option.label} onClick={()=>handleSettings(index)}>
               {option.label}
             </MenuItem>
           ))}
