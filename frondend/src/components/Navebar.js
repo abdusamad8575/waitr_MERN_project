@@ -59,7 +59,7 @@ function Navebar() {
 
   const sendAddHotelReq = async() =>{
     console.log("userId=>",userId);
-    const res = axiosInstance.post(`/addhotelreq?id=${userId}`, addHotel);
+    axiosInstance.post(`/addhotelreq?id=${userId}`, addHotel);
      
   }
 

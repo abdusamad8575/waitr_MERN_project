@@ -3,14 +3,17 @@ import { MDBCol, MDBContainer, MDBRow, MDBCard, MDBCardText, MDBCardBody, MDBCar
 import axiosInstance from '../../../axios';
 import { IconButton } from '@mui/material';
 import './account.css'
+import { signin } from '../../../redux-toolkit/userSlice';
 
 
 // import IconButton from '@mui/material/IconButton';
 import EditIcon from '@mui/icons-material/Edit';
+import { useDispatch } from 'react-redux';
 
 
 export default function AccountContant() {
   const userId = localStorage.getItem('userId')
+  const dispatch = useDispatch()
 
   const [hovered, setHovered] = useState(false);
 
@@ -55,7 +58,9 @@ export default function AccountContant() {
   
       if (response.status === 200) {
         // console.log('Image uploaded successfully');
-        setSelectedImage(response.data.url)
+        setSelectedImage(response.data.user.profilePic)
+        dispatch(signin(response.data.user))
+        
       }
     } catch (error) {
       console.error('Error uploading image:', error);
