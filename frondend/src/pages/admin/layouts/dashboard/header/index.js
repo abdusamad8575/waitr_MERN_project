@@ -42,6 +42,7 @@ Header.propTypes = {
 };
 
 export default function Header({ onOpenNav }) {
+
   return (
     <StyledRoot>
       <StyledToolbar>

@@ -29,6 +29,11 @@ const MENU_OPTIONS = [
 // ----------------------------------------------------------------------
 
 export default function AccountPopover() {
+  // const user = useSelector((state)=>state.)
+  const userDetails = localStorage.getItem("user")
+  const user =userDetails? JSON.parse(userDetails) : ''
+
+  
   const [open, setOpen] = useState(null);
   const dispatch = useDispatch();
   const History = useNavigate();
@@ -73,7 +78,7 @@ export default function AccountPopover() {
           }),
         }}
       >
-        <Avatar src={account.photoURL} alt="photoURL" />
+        <Avatar src={user.profilePic?user.profilePic:account.photoURL} alt="photoURL" />
       </IconButton>
 
       <Popover
@@ -97,10 +102,10 @@ export default function AccountPopover() {
       >
         <Box sx={{ my: 1.5, px: 2.5 }}>
           <Typography variant="subtitle2" noWrap>
-            {account.displayName}
+            {user.firstName+ ' ' +user.lastName}
           </Typography>
           <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
-            {account.email}
+            {user.email}
           </Typography>
         </Box>
 

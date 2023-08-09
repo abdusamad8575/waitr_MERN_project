@@ -191,7 +191,6 @@ const uploadProfilepicture = async(req,res)=>{
         },
       });
       const user = await User.findById(id);
-      console.log('profile----', user);
   
       return res.json({ success: true, user});
     } catch (err) {
