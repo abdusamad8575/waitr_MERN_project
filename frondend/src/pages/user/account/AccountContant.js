@@ -22,7 +22,10 @@ export default function AccountContant() {
           userId: userId
         }
       })
-        .then((res) => setUser(res.data.user))
+        .then((res) => {
+          setUser(res.data.user)
+          setSelectedImage(res.data.user.profilePic)
+        })
         .catch((error) => {
           console.log(error);
         })
@@ -41,14 +44,18 @@ export default function AccountContant() {
     formData.append('image', selectedFile);
   
     try {
-      const response = await axiosInstance.post('/uploadProfilepicture', formData, {
+      const response = await axiosInstance.post(`/uploadProfilepicture?id=${userId}`, formData,
+       {
+        withCredentials: true,
         headers: {
           'Content-Type': 'multipart/form-data',
         },
-      });
+      }
+      );
   
       if (response.status === 200) {
-        console.log('Image uploaded successfully');
+        // console.log('Image uploaded successfully');
+        setSelectedImage(response.data.url)
       }
     } catch (error) {
       console.error('Error uploading image:', error);
@@ -56,7 +63,7 @@ export default function AccountContant() {
   };
   
 
-
+console.log(selectedImage);
 
   return (
     <div className="gradient-custom-2">
@@ -88,8 +95,8 @@ export default function AccountContant() {
                       onChange={handleImageChange}
                     />
                       <MDBCardImage
-                        src={user.profilePic
-                          ? user.profilePic
+                        src={selectedImage
+                          ? selectedImage
                           : 'https://cdn3.iconfinder.com/data/icons/avatars-flat/33/man_5-1024.png'}
                         alt="User Profile"
                         className="mt-4 mb-2 img-thumbnail"

@@ -179,6 +179,24 @@ async function verify(req,res) {
 }
 
 const uploadProfilepicture = async(req,res)=>{
+    try {
+        const id = req.query.id
+      if (!req.file) {
+        return res.json({ error: 'Image is required' });
+      }
+      const filepath = req.file.path.replace(/\\/g, '/').slice(7);
+      await User.findByIdAndUpdate(id, {
+        $set: {
+          profilePic: `http://localhost:8000/${filepath}`,
+        },
+      });
+      const user = await User.findById(id);
+      console.log('profile----', user);
+  
+      return res.json({ success: true, url: user.profilePic });
+    } catch (err) {
+      res.status(500).json({ error: 'Internal server error' });
+    }
     
 }
 module.exports = {
