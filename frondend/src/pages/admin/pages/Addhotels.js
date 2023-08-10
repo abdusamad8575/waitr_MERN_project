@@ -31,6 +31,13 @@ import { UserListHead, UserListToolbar } from '../sections/@dashboard/user';
 // mock
 import USERLIST from '../_mock/user';
 
+import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
+import CheckBoxIcon from '@mui/icons-material/CheckBox';
+import Autocomplete from '@mui/material/Autocomplete';
+import DynamicFieldsExample from './sub pages/DynamicFieldsExample ';
+const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
+const checkedIcon = <CheckBoxIcon fontSize="small" />;
+
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
@@ -41,6 +48,8 @@ const TABLE_HEAD = [
   { id: 'status', label: 'Status', alignRight: false },
   { id: '' },
 ];
+
+const mealType = ['Breakfast', 'Lunch', 'Dinner ']
 
 // ----------------------------------------------------------------------
 
@@ -173,28 +182,57 @@ export default function Addhotels() {
         </Stack>
 
         {/* Add Restaurant Dialog */}
-      <Dialog open={openAddDialog} onClose={handleCloseAddDialog}>
-        <DialogTitle>Add Restaurant Details</DialogTitle>
-        <DialogContent>
-          {/* Replace the following TextField components with your desired form fields for adding restaurant details */}
-          <TextField label="Restaurant Name" fullWidth />
-          <TextField label="Location" fullWidth />
-          <TextField label="Restaurant No." fullWidth />
-          {/* Add more form fields as needed */}
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleCloseAddDialog} color="primary">
-            Cancel
-          </Button>
-          <Button onClick={handleCloseAddDialog} color="primary">
-            Add
-          </Button>
-        </DialogActions>
-      </Dialog>
+        <Dialog open={openAddDialog} onClose={handleCloseAddDialog}>
+          <DialogTitle sx={{ pt: 5 }}>Add Restaurant Details</DialogTitle>
+          <DialogContent >
+            <TextField fullWidth label="Restaurant Name" id="Rname" sx={{ mb: 2 }} />
+            <TextField fullWidth label="Location" id="location" sx={{ mb: 2 }} />
+            <Stack direction="row" mb={2}>
+              <TextField label="Start time" sx={{ mr: 1 }} />
+              <TextField label="End time" sx={{ ml: 1 }} />
+            </Stack>
+
+            <Autocomplete
+              multiple
+              id="checkboxes-tags-demo"
+              sx={{ mb: 2 }}
+              options={mealType}
+              fullWidth
+              disableCloseOnSelect
+              getOptionLabel={(option) => option}
+              renderOption={(props, option, { selected }) => (
+                <li {...props}>
+                  <Checkbox
+                    icon={icon}
+                    checkedIcon={checkedIcon}
+                    style={{ marginRight: 8 }}
+                    checked={selected}
+                  />
+                  {option}
+                </li>
+              )}
+              // style={{ width: 500 }}
+              renderInput={(params) => (
+                <TextField {...params} label="Checkboxes" placeholder="Favorites" />
+              )}
+            />
+
+            <DynamicFieldsExample />
+
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleCloseAddDialog} color="primary">
+              Cancel
+            </Button>
+            <Button onClick={handleCloseAddDialog} color="primary">
+              Add
+            </Button>
+          </DialogActions>
+        </Dialog>
 
 
 
-      
+
 
         <Card>
           <UserListToolbar numSelected={selected.length} filterName={filterName} onFilterName={handleFilterByName} />
@@ -213,7 +251,7 @@ export default function Addhotels() {
                 />
                 <TableBody>
                   {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                    const { id, name, role, status, company,  isVerified } = row;
+                    const { id, name, role, status, company, isVerified } = row;
                     const selectedUser = selected.indexOf(name) !== -1;
 
                     return (
