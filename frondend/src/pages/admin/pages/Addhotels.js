@@ -50,6 +50,7 @@ const TABLE_HEAD = [
 ];
 
 const mealType = ['Breakfast', 'Lunch', 'Dinner ']
+const FullWeek = ['Sunday', 'Monday', 'Tuesday ','Wednesday','Thursday','Friday','Saturday']
 
 // ----------------------------------------------------------------------
 
@@ -213,7 +214,32 @@ export default function Addhotels() {
               )}
               // style={{ width: 500 }}
               renderInput={(params) => (
-                <TextField {...params} label="Checkboxes" placeholder="Favorites" />
+                <TextField {...params} label="Meals Type" placeholder="select" />
+              )}
+            />
+
+<Autocomplete
+              multiple
+              id="checkboxes-tags-demo"
+              sx={{ mb: 2 }}
+              options={FullWeek}
+              fullWidth
+              disableCloseOnSelect
+              getOptionLabel={(option) => option}
+              renderOption={(props, option, { selected }) => (
+                <li {...props}>
+                  <Checkbox
+                    icon={icon}
+                    checkedIcon={checkedIcon}
+                    style={{ marginRight: 8 }}
+                    checked={selected}
+                  />
+                  {option}
+                </li>
+              )}
+              // style={{ width: 500 }}
+              renderInput={(params) => (
+                <TextField {...params} label="Of Days" placeholder="select" />
               )}
             />
 

@@ -47,7 +47,7 @@ const DynamicFieldsExample = () => {
                     type="number"
                     value={amount}
                     onChange={handleAmountChange}
-                    sx={{ mb: 2, marginRight: 2 }}
+                    sx={{ marginRight: 2 }}
                 />
                 <Button onClick={handleGenerateFields} variant="contained" color="primary">
                     Add
@@ -76,7 +76,7 @@ const DynamicFieldsExample = () => {
                                     <img
                                         key={imageIndex}
                                         src={URL.createObjectURL(image)}
-                                        alt={`Image ${imageIndex}`}
+                                        alt={` ${imageIndex}`}
                                         style={{ width: '100px', height: '100px', margin: '10px' }}
                                     />
                                 ))}
