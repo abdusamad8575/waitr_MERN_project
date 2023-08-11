@@ -101,9 +101,17 @@ export default function Addhotels() {
   const [openAddDialog, setOpenAddDialog] = useState(false);
 
 
-
-
   const [selectedImages, setSelectedImages] = useState([]);
+
+  const [formData, setFormData] = useState({
+    restaurantName: '',
+    location: '',
+    startTime: '',
+    endTime: '',
+    mealsType: [],
+    daysOfWeek: [],
+  });
+
   const handleImageUpload = (event) => {
     const files = event.target.files;
     const selectedImagesArray = Array.from(files).map((file) => URL.createObjectURL(file));
@@ -111,7 +119,76 @@ export default function Addhotels() {
   };
 
 
+  const [formErrors, setFormErrors] = useState({
+    restaurantName: '',
+    location: '',
+    startTime: '',
+    endTime: '',
+    mealsType: '',
+    daysOfWeek: '',
+  });
 
+  const validateForm = () => {
+    let valid = true;
+    const newFormErrors = { ...formErrors };
+
+    if (formData.restaurantName.trim() === '') {
+      newFormErrors.restaurantName = 'Restaurant name is required';
+      valid = false;
+    } else {
+      newFormErrors.restaurantName = '';
+    }
+
+    if (formData.location.trim() === '') {
+      newFormErrors.location = 'Location is required';
+      valid = false;
+    } else {
+      newFormErrors.location = '';
+    }
+
+    if (formData.startTime.trim() === '') {
+      newFormErrors.startTime = 'Start time is required';
+      valid = false;
+    } else {
+      newFormErrors.startTime = '';
+    }
+
+    if (formData.endTime.trim() === '') {
+      newFormErrors.endTime = 'End time is required';
+      valid = false;
+    } else {
+      newFormErrors.endTime = '';
+    }
+
+    if (formData.mealsType.length === 0) {
+      newFormErrors.mealsType = 'At least one meal type must be selected';
+      valid = false;
+    } else {
+      newFormErrors.mealsType = '';
+    }
+
+    if (formData.daysOfWeek.length === 0) {
+      newFormErrors.daysOfWeek = 'At least one day of the week must be selected';
+      valid = false;
+    } else {
+      newFormErrors.daysOfWeek = '';
+    }
+
+    setFormErrors(newFormErrors);
+    return valid;
+  };
+
+
+
+  const handleSubmit = async () => {
+    const isValid = validateForm();
+
+    if (!isValid) {
+      return;
+    }
+
+    // ... (rest of the handleSubmit logic)
+  };
 
 
 
@@ -183,6 +260,12 @@ export default function Addhotels() {
 
   const isNotFound = !filteredUsers.length && !!filterName;
 
+  const [receivedValue, setReceivedValue] = useState('');
+  const handleValueFromChild = (value) => {
+    setReceivedValue(value);
+  };
+
+  console.log(receivedValue);
   return (
     <>
       <Helmet>
@@ -200,14 +283,30 @@ export default function Addhotels() {
         </Stack>
 
         {/* Add Restaurant Dialog */}
-        <Dialog open={openAddDialog} onClose={handleCloseAddDialog}>
+        <Dialog open={openAddDialog} onClose={handleCloseAddDialog} onSubmit={handleSubmit}>
           <DialogTitle sx={{ pt: 5 }}>Add Restaurant Details</DialogTitle>
           <DialogContent >
-            <TextField fullWidth label="Restaurant Name" id="Rname" sx={{ mb: 2 }} />
-            <TextField fullWidth label="Location" id="location" sx={{ mb: 2 }} />
+            <TextField fullWidth label="Restaurant Name" id="restaurantName" sx={{ mb: 2 }}
+              value={formData.restaurantName}
+              onChange={(e) => setFormData({ ...formData, restaurantName: e.target.value })}
+              error={!!formErrors.restaurantName}
+              helperText={formErrors.restaurantName} />
+            <TextField fullWidth label="Location" sx={{ mb: 2 }}
+              value={formData.location}
+              onChange={(e) => setFormData({ ...formData, location: e.target.value })}
+              error={!!formErrors.location}
+              helperText={formErrors.location} />
             <Stack direction="row" mb={2}>
-              <TextField label="Start time" sx={{ mr: 1 }} />
-              <TextField label="End time" sx={{ ml: 1 }} />
+              <TextField label="Start time" id='startTime' sx={{ mr: 1 }}
+                value={formData.startTime}
+                onChange={(e) => setFormData({ ...formData, startTime: e.target.value })}
+                error={!!formErrors.startTime}
+                helperText={formErrors.startTime} />
+              <TextField label="End time" id='endTime' sx={{ ml: 1 }}
+                value={formData.endTime}
+                onChange={(e) => setFormData({ ...formData, endTime: e.target.value })}
+                error={!!formErrors.endTime}
+                helperText={formErrors.endTime} />
             </Stack>
 
             <Autocomplete
@@ -230,9 +329,15 @@ export default function Addhotels() {
                 </li>
               )}
               // style={{ width: 500 }}
+              value={formData.mealsType} // Set the selected values here
+              onChange={(event, newValue) => setFormData({ ...formData, mealsType: newValue })}
               renderInput={(params) => (
-                <TextField {...params} label="Meals Type" placeholder="select" />
+                <TextField {...params} label="Meals Type" placeholder="select"
+                  error={!!formErrors.mealsType}
+                  helperText={formErrors.mealsType}
+                />
               )}
+
             />
 
             <Autocomplete
@@ -255,8 +360,12 @@ export default function Addhotels() {
                 </li>
               )}
               // style={{ width: 500 }}
+              value={formData.daysOfWeek} // Set the selected values here
+              onChange={(event, newValue) => setFormData({ ...formData, daysOfWeek: newValue })}
               renderInput={(params) => (
-                <TextField {...params} label="Of Days" placeholder="select" />
+                <TextField {...params} label="Of Days" placeholder="select"
+                  error={!!formErrors.daysOfWeek}
+                  helperText={formErrors.daysOfWeek} />
               )}
             />
             <div style={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap' }}>
@@ -264,7 +373,7 @@ export default function Addhotels() {
                 <img
                   key={index}
                   src={imageSrc}
-                  alt={`Selected Image ${index + 1}`}
+                  alt={`${index + 1}`}
                   style={{ maxWidth: '100px', maxHeight: '100px', margin: '10px' }}
                 />
               ))}
@@ -284,14 +393,14 @@ export default function Addhotels() {
               />
             </div>
 
-            <DynamicFieldsExample />
+            <DynamicFieldsExample  onValueChange={handleValueFromChild} />
 
           </DialogContent>
           <DialogActions>
             <Button onClick={handleCloseAddDialog} color="primary">
               Cancel
             </Button>
-            <Button onClick={handleCloseAddDialog} color="primary">
+            <Button onClick={handleSubmit} color="primary" type='submit'>
               Add
             </Button>
           </DialogActions>

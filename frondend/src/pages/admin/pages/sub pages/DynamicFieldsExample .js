@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { TextField, Button, Stack } from '@mui/material';
 
-const DynamicFieldsExample = () => {
+const DynamicFieldsExample = ({ onValueChange }) => {
     const [amount, setAmount] = useState('');
     const [fields, setFields] = useState([]);
 
@@ -25,6 +25,9 @@ const DynamicFieldsExample = () => {
         const updatedFields = [...fields];
         updatedFields[index][field] = value;
         setFields(updatedFields);
+
+        
+        onValueChange(fields);
     };
 
     const handleAddImage = (index) => {
@@ -37,7 +40,7 @@ const DynamicFieldsExample = () => {
         });
         input.click();
     };
-
+// console.log(fields);
     return (
         <div>
             <Stack direction="row" mb={2}>
