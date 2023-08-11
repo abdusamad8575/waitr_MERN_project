@@ -50,7 +50,7 @@ const TABLE_HEAD = [
 ];
 
 const mealType = ['Breakfast', 'Lunch', 'Dinner ']
-const FullWeek = ['Sunday', 'Monday', 'Tuesday ','Wednesday','Thursday','Friday','Saturday']
+const FullWeek = ['Sunday', 'Monday', 'Tuesday ', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
 
 // ----------------------------------------------------------------------
 
@@ -99,6 +99,23 @@ export default function Addhotels() {
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
   const [openAddDialog, setOpenAddDialog] = useState(false);
+
+
+
+
+  const [selectedImages, setSelectedImages] = useState([]);
+  const handleImageUpload = (event) => {
+    const files = event.target.files;
+    const selectedImagesArray = Array.from(files).map((file) => URL.createObjectURL(file));
+    setSelectedImages(selectedImagesArray);
+  };
+
+
+
+
+
+
+
 
   const handleOpenAddDialog = () => {
     setOpenAddDialog(true);
@@ -218,7 +235,7 @@ export default function Addhotels() {
               )}
             />
 
-<Autocomplete
+            <Autocomplete
               multiple
               id="checkboxes-tags-demo"
               sx={{ mb: 2 }}
@@ -242,6 +259,30 @@ export default function Addhotels() {
                 <TextField {...params} label="Of Days" placeholder="select" />
               )}
             />
+            <div style={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap' }}>
+              {selectedImages.map((imageSrc, index) => (
+                <img
+                  key={index}
+                  src={imageSrc}
+                  alt={`Selected Image ${index + 1}`}
+                  style={{ maxWidth: '100px', maxHeight: '100px', margin: '10px' }}
+                />
+              ))}
+            </div>
+            <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
+              <label htmlFor="image-upload">
+                <Button variant="contained" color="primary" component="span">
+                  Upload Restaurant Images
+                </Button>
+              </label>
+              <input
+                type="file"
+                id="image-upload"
+                multiple
+                style={{ display: 'none' }}
+                onChange={handleImageUpload}
+              />
+            </div>
 
             <DynamicFieldsExample />
 
