@@ -110,6 +110,7 @@ export default function Addhotels() {
     endTime: '',
     mealsType: [],
     daysOfWeek: [],
+    addTable:null
   });
 
   const handleImageUpload = (event) => {
@@ -263,9 +264,10 @@ export default function Addhotels() {
   const [receivedValue, setReceivedValue] = useState('');
   const handleValueFromChild = (value) => {
     setReceivedValue(value);
+    setFormData({...formData,addTable:receivedValue})
   };
 
-  console.log(receivedValue);
+  console.log(formData);
   return (
     <>
       <Helmet>
