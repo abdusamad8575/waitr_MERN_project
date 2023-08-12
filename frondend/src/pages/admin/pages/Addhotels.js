@@ -113,12 +113,20 @@ export default function Addhotels() {
     addTable:null
   });
 
+  const allowedImageTypes = ['image/jpeg', 'image/png', 'image/gif'];
+
   const handleImageUpload = (event) => {
     const files = event.target.files;
-    const selectedImagesArray = Array.from(files).map((file) => URL.createObjectURL(file));
-    setSelectedImages(selectedImagesArray);
-  };
+    // const selectedImagesArray = Array.from(files).map((file) => URL.createObjectURL(file));
+    const validFiles = [];
 
+    for (let i = 0; i < files.length; i++) {
+      if (allowedImageTypes.includes(files[i].type)) {
+        validFiles.push(files[i]);
+      }
+    }
+    setSelectedImages(validFiles);
+  };
 
   const [formErrors, setFormErrors] = useState({
     restaurantName: '',
@@ -175,6 +183,13 @@ export default function Addhotels() {
       newFormErrors.daysOfWeek = '';
     }
 
+    if (selectedImages.length === 0) {
+      newFormErrors.images = "Please select at least one image.";
+      valid = false;
+    }else{
+      newFormErrors.images = '';
+    }
+
     setFormErrors(newFormErrors);
     return valid;
   };
@@ -183,12 +198,13 @@ export default function Addhotels() {
 
   const handleSubmit = async () => {
     const isValid = validateForm();
-
+    
     if (!isValid) {
       return;
-    }
+    }else{
+      console.log("25-",formData);
 
-    // ... (rest of the handleSubmit logic)
+    }
   };
 
 
@@ -267,7 +283,7 @@ export default function Addhotels() {
     setFormData({...formData,addTable:receivedValue})
   };
 
-  console.log(formData);
+  
   return (
     <>
       <Helmet>
@@ -374,7 +390,7 @@ export default function Addhotels() {
               {selectedImages.map((imageSrc, index) => (
                 <img
                   key={index}
-                  src={imageSrc}
+                  src={URL.createObjectURL(imageSrc)}
                   alt={`${index + 1}`}
                   style={{ maxWidth: '100px', maxHeight: '100px', margin: '10px' }}
                 />
@@ -390,10 +406,14 @@ export default function Addhotels() {
                 type="file"
                 id="image-upload"
                 multiple
+                accept = 'image/*'
                 style={{ display: 'none' }}
                 onChange={handleImageUpload}
               />
             </div>
+            {formErrors.images && (
+        <p style={{ color: 'red', textAlign: 'center' }}>{formErrors.images}</p>
+      )}
 
             <DynamicFieldsExample  onValueChange={handleValueFromChild} />
 
