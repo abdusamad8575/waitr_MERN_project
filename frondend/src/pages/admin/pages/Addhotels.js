@@ -35,6 +35,7 @@ import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import Autocomplete from '@mui/material/Autocomplete';
 import DynamicFieldsExample from './sub pages/DynamicFieldsExample ';
+import axiosInstance from '../../../axios';
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
@@ -51,6 +52,7 @@ const TABLE_HEAD = [
 
 const mealType = ['Breakfast', 'Lunch', 'Dinner ']
 const FullWeek = ['Sunday', 'Monday', 'Tuesday ', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+const allowedImageTypes = ['image/jpeg', 'image/png', 'image/gif'];
 
 // ----------------------------------------------------------------------
 
@@ -112,8 +114,15 @@ export default function Addhotels() {
     daysOfWeek: [],
     addTable:null
   });
-
-  const allowedImageTypes = ['image/jpeg', 'image/png', 'image/gif'];
+  
+  const [formErrors, setFormErrors] = useState({
+    restaurantName: '',
+    location: '',
+    startTime: '',
+    endTime: '',
+    mealsType: '',
+    daysOfWeek: '',
+  });
 
   const handleImageUpload = (event) => {
     const files = event.target.files;
@@ -128,14 +137,6 @@ export default function Addhotels() {
     setSelectedImages(validFiles);
   };
 
-  const [formErrors, setFormErrors] = useState({
-    restaurantName: '',
-    location: '',
-    startTime: '',
-    endTime: '',
-    mealsType: '',
-    daysOfWeek: '',
-  });
 
   const validateForm = () => {
     let valid = true;
@@ -194,7 +195,10 @@ export default function Addhotels() {
     return valid;
   };
 
-
+const compleateData = {
+  ...formData,
+  images: selectedImages
+}
 
   const handleSubmit = async () => {
     const isValid = validateForm();
@@ -202,7 +206,15 @@ export default function Addhotels() {
     if (!isValid) {
       return;
     }else{
-      console.log("25-",formData);
+      console.log("25-",compleateData);
+      axiosInstance.post('/dashboard/adminAddRestorent',compleateData)
+      .then(response => {
+        console.log('Response from backend:', response.data);
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+
 
     }
   };
