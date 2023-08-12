@@ -179,6 +179,7 @@ async function verify(req,res) {
 }
 
 const uploadProfilepicture = async(req,res)=>{
+    console.log("ss",req.file);
     try {
         const id = req.query.id
       if (!req.file) {

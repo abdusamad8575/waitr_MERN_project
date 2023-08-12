@@ -195,10 +195,16 @@ export default function Addhotels() {
     return valid;
   };
 
-const compleateData = {
-  ...formData,
-  images: selectedImages
-}
+// const compleateData = {
+//   ...formData,
+//   images: selectedImages
+// }
+
+// const formDatas = new FormData();
+
+//     for (const image of selectedImages) {
+//       formDatas.append('images', image);
+//     }
 
   const handleSubmit = async () => {
     const isValid = validateForm();
@@ -206,8 +212,45 @@ const compleateData = {
     if (!isValid) {
       return;
     }else{
-      console.log("25-",compleateData);
-      axiosInstance.post('/dashboard/adminAddRestorent',compleateData)
+
+
+
+
+
+
+
+      // Create a new FormData object
+  const newFormData = new FormData();
+
+  // Append fields from formData to new FormData
+  for (const [key, value] of Object.entries(formData)) {
+    if (key === 'mealsType' || key === 'daysOfWeek') {
+      // Convert arrays to comma-separated strings
+      newFormData.append(key, value.join(','));
+    } else if (key === 'addTable') {
+      // Append addTable sub-fields to new FormData
+      for (const table of value) {
+        newFormData.append('addTable', JSON.stringify(table));
+      }
+    } else {
+      newFormData.append(key, value);
+    }
+  }
+
+  // Append images to the new FormData
+  for (const image of selectedImages) {
+    newFormData.append('images', image);
+  }
+
+
+
+
+      // console.log("25-",compleateData);
+      axiosInstance.post('/dashboard/adminAddRestorent', newFormData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      })
       .then(response => {
         console.log('Response from backend:', response.data);
       })

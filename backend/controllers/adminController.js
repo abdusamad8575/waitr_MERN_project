@@ -68,24 +68,28 @@ const adminBlocked = async (req, res) => {
 }
 const adminAddRestorent = async (req, res) => {
     try {
-        const data = req.body;
-        const restaurant = new Restaurant({
-            restaurantName: data.restaurantName,
-            location: data.location,
-            startTime: data.startTime,
-            endTime: data.endTime,
-            mealsType: data.mealsType,
-            daysOfWeek: data.daysOfWeek,
-            addTable: data.addTable.map(table => ({
-                tableName: table.tableName,
-                charCount: table.charCount,
-                images: table.images.map(image => `data:image/jpeg;base64,${image}`), // Include base64 encoded images
-              })),
-            images:  data.images.map(image => `data:image/jpeg;base64,${image}`),
-        })
-        console.log("datas-",restaurant)
-        const RestaurantDetails = await restaurant.save()
-        res.json({ message: 'Data saved successfully', data: RestaurantDetails });
+        const { restaurantName, location, startTime, endTime, mealsType, daysOfWeek, addTable } = req.body;
+    const images = req.files.map(file => file.filename);
+    console.log(restaurantName, location, startTime, endTime, mealsType, daysOfWeek, addTable,images );
+        // const data = req.body;
+        // console.log(req.files);
+        // const restaurant = new Restaurant({
+        //     restaurantName: data.restaurantName,
+        //     location: data.location,
+        //     startTime: data.startTime,
+        //     endTime: data.endTime,
+        //     mealsType: data.mealsType,
+        //     daysOfWeek: data.daysOfWeek,
+        //     addTable: data.addTable.map(table => ({
+        //         tableName: table.tableName,
+        //         charCount: table.charCount,
+        //         images: table.images.map(image => `data:image/jpeg;base64,${image}`), // Include base64 encoded images
+        //       })),
+        //     images:  data.images.map(image => `data:image/jpeg;base64,${image}`),
+        // })
+        // console.log("datas-",restaurant)
+        // const RestaurantDetails = await restaurant.save()
+        // res.json({ message: 'Data saved successfully', data: RestaurantDetails });
     }
     catch (error) {
         return res.status(500).json({ message: 'Server Error' });
