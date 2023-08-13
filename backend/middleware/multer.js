@@ -6,7 +6,6 @@ const storage = multer.diskStorage({
     cb(null, './public/assets')
   },
   filename: (req, file, cb) => {
-    console.log('sada');
     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
     cb(null, file.fieldname + '-' + uniqueSuffix + file.originalname)
   }

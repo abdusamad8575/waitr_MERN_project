@@ -186,6 +186,7 @@ const uploadProfilepicture = async(req,res)=>{
         return res.json({ error: 'Image is required' });
       }
       const filepath = req.file.path.replace(/\\/g, '/').slice(7);
+      console.log("filepath",filepath);
       await User.findByIdAndUpdate(id, {
         $set: {
           profilePic: `http://localhost:8000/${filepath}`,

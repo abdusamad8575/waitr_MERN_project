@@ -230,7 +230,12 @@ export default function Addhotels() {
     } else if (key === 'addTable') {
       // Append addTable sub-fields to new FormData
       for (const table of value) {
+          // console.log("table-",value);
         newFormData.append('addTable', JSON.stringify(table));
+        // for (const img of table.images) {
+        //   console.log("table-",img);
+
+        // }
       }
     } else {
       newFormData.append(key, value);
@@ -242,6 +247,8 @@ export default function Addhotels() {
     newFormData.append('images', image);
   }
 
+
+  // console.log(formData);
 
 
 
@@ -338,7 +345,7 @@ export default function Addhotels() {
     setFormData({...formData,addTable:receivedValue})
   };
 
-  
+
   return (
     <>
       <Helmet>
