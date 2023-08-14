@@ -17,6 +17,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import {useDispatch} from 'react-redux'
 import {signin} from '../redux-toolkit/userSlice'
 import { Google } from './google';
+import tryCatch from '../utils/tryCatch';
 
 const defaultTheme = createTheme();
 
@@ -41,18 +42,16 @@ export default function SignIn() {
     setShowErrors(false);
   };
 
-  const sendRequest=async()=>{
-    try{
+  const sendRequest=tryCatch(()=>{
+    // try{
       // Implement form submission logic here (e.g., send data to the server)
-      const res = await axiosInstance.post('/signin',formData);
-      const data = res.data;
-      // console.log("data=>"+data.user)
-      return data;
-    } catch (err) {
-      console.error('Error submitting data:', err.message);
-      throw err
-    }
-  }
+      const res =  axiosInstance.post('/signin',formData);
+      return res
+    // } catch (err) {
+    //   console.error('Error submitting data:', err.message);
+    //   throw err
+    // }
+  })
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -81,9 +80,10 @@ export default function SignIn() {
     // console.log(sendRequest());
     sendRequest()
     // .then(()=>dispatch(signin()))
-    .then((data)=>{
-      const userRole = data.role;
-      dispatch(signin(data.user))
+    .then((res)=>{
+      console.log(res.data.user);
+      const userRole = res.data.role;
+      dispatch(signin(res.data.user))
       switch (userRole) {
         case 'admin':
           History('/dashboard'); 
@@ -96,10 +96,7 @@ export default function SignIn() {
           break;
       }
 
-    })
-    .catch((err) => {
-      toast.error(err?.response?.data?.message || err.message);
-    });
+    }).catch((err)=>console.log(err))
   };
 
   return (

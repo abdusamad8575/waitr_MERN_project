@@ -10,6 +10,8 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import tryCatch from '../utils/tryCatch'
+
 
 const defaultTheme = createTheme();
 
@@ -34,17 +36,13 @@ export default function  SignUp() {
   };
 
 
-  const sendRequest = async () => {
-    try {
-      // Send the form data to the Node.js server using Axios
-      const res = await axiosInstance.post('/signup', formData);
+  const sendRequest = tryCatch(()=>{
+      const res = axiosInstance.post('/signup', formData);
       const data = res.data;
-      console.log('data =>',data)
-      return data;
-    } catch (err) {
-      console.error('Error submitting data:', err);
+      console.log('data =>',res)
+      return res
     }
-  };
+)
 
   const handleSubmit = async (event) => {
     // console.log(formData);

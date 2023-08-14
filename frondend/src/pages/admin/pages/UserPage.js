@@ -255,8 +255,8 @@ export default function UserPage() {
                         <TableCell align="left">{email}</TableCell>
 
                         {/* <TableCell align="left">{role}</TableCell> */}
-
-                        <TableCell align="left">{addHotel[index]?.adminverify ?
+{console.log(addHotel[0])}
+                        <TableCell align="left">{addHotel[0]?.adminverify ? 
                           <Tooltip title=" Mark all as read">
                             <IconButton color="primary" onClick={() => handleAdminVerify(_id)}>
                               <Iconify icon="eva:done-all-fill" />

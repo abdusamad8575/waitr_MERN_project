@@ -5,7 +5,7 @@ function HomeContents() {
     return (
         <div className="homepage-container">
             <div className="article-section">
-                <h3 className='MainHeader'>Download the Dineout App</h3>
+                <h3 className='MainHeader'>Download the Waitr App</h3>
                 <div className="header">
                     <div className="logo1" />
                     <h6 className='h6Header'>Book a Table</h6>
