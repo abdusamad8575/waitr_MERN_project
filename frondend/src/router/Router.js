@@ -12,10 +12,10 @@ function Router() {
     <>
         <Routes>
           <Route path='/' element={<Home />} />
-          <Route element={<UserProtected />}>
+          {/* <Route element={<UserProtected />}> */}
 
           <Route path = '/account' element = {<Account />} />
-          </Route>
+          {/* </Route> */}
           <Route path='/signup' element={<SignUp />} />
           <Route path='/signin' element={<SignIn />} />
         </Routes>

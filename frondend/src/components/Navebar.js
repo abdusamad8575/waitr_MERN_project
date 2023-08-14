@@ -18,6 +18,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import axiosInstance from '../axios';
 import { logout } from '../redux-toolkit/userSlice';
 import { Dialog, DialogActions, DialogContent, DialogTitle, TextField } from '@mui/material';
+import tryCatch from '../utils/tryCatch';
 const pages = ['Home', 'Find Restaurant', 'Posts'];
 // const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 const settings = ['Login', 'Account', 'Add Hotels'];
@@ -49,22 +50,25 @@ function Navebar() {
 
   // console.log("user-",user);
   
-  const sendLogoutReq = async () => {
-    const res = await axiosInstance.post('/logout');
-    if (res.status === 200) {
+  const sendLogoutReq = tryCatch (() => {
+    const res = axiosInstance.post('/logout');
       return res;
-    }
-    return new Error('Unable to Logout');
-  }
+  })
 
-  const sendAddHotelReq = async() =>{
+  const sendAddHotelReq = tryCatch(() =>{
     console.log("userId=>",userId);
-    axiosInstance.post(`/addhotelreq?id=${userId}`, addHotel);
+    const res = axiosInstance.post(`/addhotelreq?id=${userId}`, addHotel);
+    return res
      
-  }
+  })
 
   const handleOpenAddDialog = () => {
     setOpenAddDialog(true)
+    setAnchorElUser(null);
+  }
+  const handleProfile= ()=>{
+    History('/account')
+    setAnchorElUser(null);
   }
   const handleCloseAddDialog = () => {
     setAddHotel({
@@ -312,7 +316,7 @@ function Navebar() {
                 onClose={handleSettings}
               >
                 {isLoggedIn ? LogInSettings.map((settings, index) => (
-                  <MenuItem key={settings} onClick={() => { index === 0 ? History('/account') : index === 1 ? handleOpenAddDialog() : handleLogout() }}>
+                  <MenuItem key={settings} onClick={() => { index === 0 ? handleProfile() : index === 1 ? handleOpenAddDialog() : handleLogout() }}>
                     <Typography textAlign="center">{settings}</Typography>
                   </MenuItem>
                 )) : settings.map((setting) => (

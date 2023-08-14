@@ -38,8 +38,6 @@ export default function  SignUp() {
 
   const sendRequest = tryCatch(()=>{
       const res = axiosInstance.post('/signup', formData);
-      const data = res.data;
-      console.log('data =>',res)
       return res
     }
 )
@@ -75,8 +73,8 @@ export default function  SignUp() {
     }
 
     // If validation passed, proceed with form submission
-    sendRequest().then(()=>History("/signin"))
-    
+    sendRequest().then(()=> History("/signin"))
+    .catch(err=>console.log(err))
   };
 
   return (

@@ -9,6 +9,7 @@ import { signin } from '../../../../../../redux-toolkit/userSlice';
 // import IconButton from '@mui/material/IconButton';
 import EditIcon from '@mui/icons-material/Edit';
 import { useDispatch } from 'react-redux';
+import tryCatch from '../../../../../../utils/tryCatch';
 
 
 export default function ProfileContent() {
@@ -19,8 +20,8 @@ export default function ProfileContent() {
 
   const [user, setUser] = useState('')
   useEffect(() => {
-    const fetchUserData = async () => {
-      await axiosInstance.get('/userDitails', {
+    const fetchUserData = tryCatch (() => {
+      const res = axiosInstance.get('/userDitails', {
         params: {
           userId: userId
         }
@@ -32,7 +33,7 @@ export default function ProfileContent() {
         .catch((error) => {
           console.log(error);
         })
-    }
+    })
     fetchUserData()
   }, [])
 

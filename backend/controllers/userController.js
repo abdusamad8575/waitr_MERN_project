@@ -193,10 +193,10 @@ const uploadProfilepicture = async(req,res)=>{
         },
       });
       const user = await User.findById(id);
-  
+    
       return res.json({ success: true, user});
     } catch (err) {
-      res.status(500).json({ error: 'Internal server error' });
+      return res.status(500).json({ error: 'Internal server error' });
     }
     
 }
