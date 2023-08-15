@@ -151,10 +151,10 @@ export default function SignIn() {
               error={showErrors && !formData.password.trim()} // Show error if field is empty and showErrors is true
               helperText={showErrors && !formData.password.trim() ? 'Password is required' : ''}
             />
-            <FormControlLabel
+            {/* <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"
-            />
+            /> */}
             <Button
               type="submit"
               fullWidth
@@ -164,7 +164,7 @@ export default function SignIn() {
               Sign In
             </Button>
             <Google />
-            <Grid container>
+            <Grid container mt={1}>
               <Grid item xs>
                 <Link variant="body2">Forgot password?</Link>
               </Grid>

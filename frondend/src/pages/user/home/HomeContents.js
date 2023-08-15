@@ -21,7 +21,7 @@ function HomeContents() {
                     <h6 className='h6Header'>Waitr Pay</h6>
                 </div>
                 <p className='pTag'>
-                    Pay your restaurant bills through the Dineout app.
+                    Pay your restaurant bills through the waitr app.
                 </p>
                 <div className='buttonDiv'>
                     <button className="custom-button">Download</button>
