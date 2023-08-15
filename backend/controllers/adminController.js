@@ -58,7 +58,12 @@ const adminBlocked = async (req, res) => {
         } else {
             user.AdminBlocked === 0 ? user.AdminBlocked = 1 : user.AdminBlocked = 0;
             await user.save();
-            return res.status(200).json({ message: 'user blocked successfully', user })
+
+            if(user.AdminBlocked === 0){                
+                return res.status(200).json({ message: 'user blocked successfully', user })
+            } else{
+                return res.status(200).json({ message: 'user Unblocked successfully', user })
+            }
         }
     }
     catch (error) {

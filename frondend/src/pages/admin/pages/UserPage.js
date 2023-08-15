@@ -172,10 +172,12 @@ export default function UserPage() {
 
   const handleAdminVerify = tryCatch ((id) => {
     
-      const res =  axiosInstance.patch('/dashboard/adminVerify', { id })
-        .then(res => dispatch(setUserDatas(res.data)))
+       axiosInstance.patch('/dashboard/adminVerify', { id })
+        .then(res =>{ dispatch(setUserDatas(res.data))
+        return res})
         .catch(error => {
           console.error('Error fetching data:', error);
+          return error
         });
       // Update the local state to reflect the changes made in the backend
       setUserData((prevUserData) =>
@@ -183,10 +185,10 @@ export default function UserPage() {
           state._id === id ? { ...state, addHotel: [{ ...state.addHotel[0], adminverify: false }] } : state
         )
       );
-    return res
+    
   });
-  const handleBlock = async (id) => {
-    await axiosInstance.patch('/dashboard/adminBlocked', { id })
+  const handleBlock = tryCatch( (id) => {
+    const res = axiosInstance.patch('/dashboard/adminBlocked', { id })
       .then((res) => {
         const changeData = res.data.user.AdminBlocked;
         console.log("changeData", changeData)
@@ -195,12 +197,15 @@ export default function UserPage() {
             state._id === id ? { ...state, AdminBlocked: changeData } : state
           )
         )
+        return res
       })
       .catch(error => {
         console.error('Error fetching data:', error);
+        return error
       });
     setOpen(null)
-  }
+    return res
+  })
 
   return (
     <>
