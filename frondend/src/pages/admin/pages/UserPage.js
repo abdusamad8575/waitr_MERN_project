@@ -32,6 +32,7 @@ import USERLIST from '../_mock/user';
 import axiosInstance from '../../../axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { setUserDatas } from '../../../redux-toolkit/adminSlice'
+import tryCatch from '../../../utils/tryCatch'
 
 // ----------------------------------------------------------------------
 
@@ -169,9 +170,9 @@ export default function UserPage() {
 
   const isNotFound = !filteredUsers.length && !!filterName;
 
-  const handleAdminVerify = async (id) => {
-    try {
-      await axiosInstance.patch('/dashboard/adminVerify', { id })
+  const handleAdminVerify = tryCatch ((id) => {
+    
+      const res =  axiosInstance.patch('/dashboard/adminVerify', { id })
         .then(res => dispatch(setUserDatas(res.data)))
         .catch(error => {
           console.error('Error fetching data:', error);
@@ -182,10 +183,8 @@ export default function UserPage() {
           state._id === id ? { ...state, addHotel: [{ ...state.addHotel[0], adminverify: false }] } : state
         )
       );
-    } catch (error) {
-      console.log(error);
-    }
-  };
+    return res
+  });
   const handleBlock = async (id) => {
     await axiosInstance.patch('/dashboard/adminBlocked', { id })
       .then((res) => {
