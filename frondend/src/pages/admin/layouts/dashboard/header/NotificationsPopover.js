@@ -25,6 +25,7 @@ import axiosInstance from '../../../../../axios';
 import userData from '../../../pages/UserPage'
   import { useDispatch, useSelector } from 'react-redux';
   import {setUserDatas} from '../../../../../redux-toolkit/adminSlice'
+import tryCatch from '../../../../../utils/tryCatch';
 
 // ----------------------------------------------------------------------
 
@@ -60,22 +61,20 @@ export default function NotificationsPopover() {
     setOpen(null);
   };
 
-  const handleAdminVerify = async (id) => {
-    try {
-      await axiosInstance.patch('/dashboard/adminVerify', { id })
-      .then(res=>dispatch(setUserDatas(res.data)))
+  const handleAdminVerify = tryCatch((id) => {
+      const res = axiosInstance.patch('/dashboard/adminVerify', { id })
+      .then(res=>{dispatch(setUserDatas(res.data))
+      return res;
+    })
       // Update the local state to reflect the changes made in the backend
       setNotifications((prevNotifications) =>
         prevNotifications.map((notification) =>
           notification._id === id ? { ...notification, addHotel: [{ ...notification.addHotel[0], adminverify: false }] } : notification
         )
       );
-        // console.log('notifications1=>',notifications)
-       
-    } catch (error) { 
-      console.log(error);
-    }
-  };
+      console.log('res1-',res);
+      return res;
+  });
 
   return (
     <>
