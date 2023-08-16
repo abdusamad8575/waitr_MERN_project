@@ -123,9 +123,14 @@ const adminAddRestorent = async (req, res) => {
 const changeRole = async (req,res)=>{
     try {
         console.log('sas')
-        const id = req.query.userId
+        const id = req.query.id
         const {newRole} = req.body
-        console.log(id,newRole);  
+        // console.log(id,newRole);    
+        await User.findByIdAndUpdate(
+            id,
+           {$set:{role:newRole}},
+            { new: true }
+        )
     } catch (error) {
         return res.status(500).json({ message: 'Server Error' });
     }
