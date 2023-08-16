@@ -104,12 +104,10 @@ const AddHotelReq = () => {
 
     useEffect(() => {
         const fetchData = tryCatch(() => {
-            axiosInstance.get('/dashboard/fetchUserData')
+            axiosInstance.get('/dashboard/fetchaddUserReq')
                 .then(res => {
                     const userData = res.data.users;
                     const requests = userData.filter((val) => val.addHotel.length > 0)
-                    // console.log('ss',ss);
-
                     setUserData(requests)
                     return res
                 })
@@ -117,8 +115,6 @@ const AddHotelReq = () => {
                     console.error('Error fetching data:', error);
                     return error
                 });
-
-
         })
         fetchData()
     }, [Chainges])
@@ -204,7 +200,9 @@ const AddHotelReq = () => {
 
     const [selectedRoles, setSelectedRoles] = useState({});
 
-  const handleChangeRole = (userId, newRole) => {
+  const handleChangeRole = async(userId, newRole) => {
+    console.log("newRole",newRole,userId);
+    const res = axiosInstance.patch(`/dashboard/changeRole?id=${userId}`,{newRole})
     setSelectedRoles((prevRoles) => ({
       ...prevRoles,
       [userId]: newRole,
@@ -271,6 +269,7 @@ const AddHotelReq = () => {
                                                         onChange={(e) => handleChangeRole(_id, e.target.value)}
                                                         sx={{boxShadow: 'none', '.MuiOutlinedInput-notchedOutline': { border: 0 }}}
                                                     >
+                                                        {/* {console.log("selectedRoles-",selectedRoles)} */}
                                                         <MenuItem value="user">User</MenuItem>
                                                         <MenuItem value="admin">Admin</MenuItem>
                                                         <MenuItem value="restaurant">Restaurant</MenuItem>

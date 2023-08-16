@@ -47,6 +47,20 @@ const fetchUserData = async (req, res) => {
         return res.status(500).json({ message: 'Server Error' });
     }
 }
+
+const fetchaddUserReq = async (req, res) => {
+    try {
+        const users = await User.find();
+
+        if (!users) {
+            return res.status(404).json({ message: 'User not found' });
+        } else {
+            return res.status(200).json({ message: 'users data fetch successfuly', users })
+        }
+    } catch (error) {
+        return res.status(500).json({ message: 'Server Error' });
+    }
+}
 const adminBlocked = async (req, res) => {
     try {
         const { id } = req.body;
@@ -106,10 +120,23 @@ const adminAddRestorent = async (req, res) => {
     }
 }
 
+const changeRole = async (req,res)=>{
+    try {
+        console.log('sas')
+        const id = req.query.userId
+        const {newRole} = req.body
+        console.log(id,newRole);  
+    } catch (error) {
+        return res.status(500).json({ message: 'Server Error' });
+    }
+}
+
 module.exports = {
     notification,
     adminVerify,
     fetchUserData,
     adminBlocked,
-    adminAddRestorent
+    adminAddRestorent,
+    fetchaddUserReq,
+    changeRole
 }
