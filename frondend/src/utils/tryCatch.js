@@ -5,6 +5,7 @@ const tryCatch = (controller) => async (data) => {
     try {
         console.log('call sussess');
         const res =  await controller(data)
+        console.log('try res',res);
         if(res?.data){
             toast.success(res?.data?.message)
             return res

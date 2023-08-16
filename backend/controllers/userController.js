@@ -42,12 +42,12 @@ const signin = async (req, res, next) => {
                     return res.status(400).json({ message: "Invalid Email Id or password" })
                 } else {
                     const token = jwt.sign({ id: existingUser._id }, process.env.JWT_SECRET, {
-                        expiresIn: "1d"
+                        expiresIn: "24h"
                     })
                     console.log("token send", token)
                     res.cookie("token", token, {
                         path: '/',
-                        expires: new Date(Date.now() + 24 * 1000 * 60 * 60), // 1 day expiration
+                        expires: new Date(Date.now() +  24 * 1000 * 60 * 60), // 1 day expiration
                         httpOnly: true,
                         sameSite: 'lax',
                     });

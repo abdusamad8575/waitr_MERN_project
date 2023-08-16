@@ -9,6 +9,7 @@ import Addhotels from './pages/Addhotels';
 import Orders from './pages/Orders';
 import Offres from './pages/Offres';
 import Profile from './pages/Profile';
+import AddHotelReq from './pages/addHotelReq';
 
 export default function Adminroutes() {
   const location = useLocation();
@@ -21,6 +22,7 @@ export default function Adminroutes() {
         { element: <Navigate to="/dashboard/app" />, index: true },
         { path: 'app', element: <DashboardAppPage /> },
         { path: 'user', element: <UserPage /> },
+        { path: 'userReq', element: <AddHotelReq /> },
         { path: 'addhotel', element: <Addhotels /> },
         { path: 'orders', element: <Orders /> },
         { path: 'offers', element: <Offres /> },
