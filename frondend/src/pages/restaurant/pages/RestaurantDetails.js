@@ -232,10 +232,11 @@ export default function RestaurantDetails() {
       for (const table of value) {
           // console.log("table-",value);
         newFormData.append('addTable', JSON.stringify(table));
-        // for (const img of table.images) {
+        for (const img of table.images) {
         //   console.log("table-",img);
+        // newFormData.append('img', img);
 
-        // }
+        }
       }
     } else {
       newFormData.append(key, value);
@@ -248,11 +249,11 @@ export default function RestaurantDetails() {
   }
 
 
-//   console.log(formData);
+  console.log(formData);
 
 
 
-      console.log("25-",newFormData);
+    //   console.log("25-",newFormData);
       axiosInstance.post('/restaurant/adminAddRestorent', newFormData, {
         headers: {
           'Content-Type': 'multipart/form-data'

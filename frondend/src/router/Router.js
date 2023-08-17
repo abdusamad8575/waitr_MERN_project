@@ -5,6 +5,7 @@ import SignIn from '../pages/SignIn';
 import SignUp from '../pages/SingUp';
 import Account from '../pages/user/account/Account'
 import UserProtected from './userProtected';
+import ListRestaurant from '../pages/user/listRestaurant/listRestaurant';
 
 function Router() {
   console.log('9854');
@@ -15,6 +16,7 @@ function Router() {
           {/* <Route element={<UserProtected />}> */}
 
           <Route path = '/account' element = {<Account />} />
+          <Route path = '/findrestaurant' element = {<ListRestaurant />} />
           {/* </Route> */}
           <Route path='/signup' element={<SignUp />} />
           <Route path='/signin' element={<SignIn />} />
