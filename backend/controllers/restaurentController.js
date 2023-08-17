@@ -4,17 +4,17 @@ const Restaurant = require('../model/restaurantModel')
 
 const adminAddRestorent = async (req, res) => {
     try {
-        // console.log("restarant");
+        // console.log("restarant",req.body);
         const { restaurantName, location, startTime, endTime, mealsType, daysOfWeek, addTable } = req.body;
-    // const images = req.files.map(file => file.path);
+        console.log(restaurantName, location, startTime, endTime, mealsType, daysOfWeek, addTable )
+    const images = req.files.map(file => file.path);
+    console.log("samad",images);
     // const filepath = req.file.path.replace(/\\/g, '/').slice(7);
     //   console.log("filepath",filepath);
      // Parse array values
      const parsedMealsType = mealsType.split(',');
      const parsedDaysOfWeek = daysOfWeek.split(',');
      const Table=addTable.map(table=>JSON.parse(table))
-    console.log(restaurantName, location, startTime, endTime, mealsType, daysOfWeek, addTable,images )
-    console.log("samad",images);
         const restaurant = new Restaurant({  
             restaurantName: restaurantName,
             location: location,
@@ -29,9 +29,9 @@ const adminAddRestorent = async (req, res) => {
               })),
             // images: images.map(img=>`http://localhost:8000/${filepath}`) ,
         })
-        // console.log("datas-",restaurant)
-        const RestaurantDetails = await restaurant.save()
-        res.json({ message: 'Data saved successfully', data: RestaurantDetails });
+        console.log("datas-",restaurant)
+        // const RestaurantDetails = await restaurant.save()
+        // res.json({ message: 'Data saved successfully', data: RestaurantDetails });
     }
     catch (error) {
         return res.status(500).json({ message: 'Server Error' });

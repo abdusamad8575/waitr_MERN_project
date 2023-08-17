@@ -248,7 +248,7 @@ export default function RestaurantDetails() {
   }
 
 
-  // console.log(formData);
+//   console.log(formData);
 
 
 

@@ -10,6 +10,7 @@ const restaurent_router =require('./routes/restaurent_router')
 const cookieParser = require('cookie-parser')
 
 const mongodbURL = config.mongodbURL;
+const port = config.PORT;
 app.use(cookieParser())
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json()) 
@@ -26,9 +27,9 @@ mongoose.connect(mongodbURL, {
     useUnifiedTopology: true,
   })
     .then(() => {
-        app.listen(8000)
-        console.log('Connected to MongoDB 8000');
+        app.listen(port)
+        console.log(`Connected to MongoDB ${port}`);
     })
     .catch((error) => {
-      console.error('Error connecting to MongoDB:', error);
+      console.error('Error connecting to MongoDB:', error);  
     });
