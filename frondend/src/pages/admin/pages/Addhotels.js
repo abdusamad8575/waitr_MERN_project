@@ -8,11 +8,8 @@ import {
   Table,
   Stack,
   Paper,
-  Button,
-  Popover,
   Checkbox,
   TableRow,
-  MenuItem,
   TableBody,
   TableCell,
   Container,
@@ -20,7 +17,6 @@ import {
   IconButton,
   TableContainer,
   TablePagination,
-  Dialog, DialogTitle, DialogContent, DialogActions, TextField
 } from '@mui/material';
 // components
 import Label from '../components/label';
@@ -30,14 +26,6 @@ import Scrollbar from '../components/scrollbar';
 import { UserListHead, UserListToolbar } from '../sections/@dashboard/user';
 // mock
 import USERLIST from '../_mock/user';
-
-import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
-import CheckBoxIcon from '@mui/icons-material/CheckBox';
-import Autocomplete from '@mui/material/Autocomplete';
-import DynamicFieldsExample from './sub pages/DynamicFieldsExample ';
-import axiosInstance from '../../../axios';
-const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
-const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
 // ----------------------------------------------------------------------
 
@@ -49,10 +37,6 @@ const TABLE_HEAD = [
   { id: 'status', label: 'Status', alignRight: false },
   { id: '' },
 ];
-
-const mealType = ['Breakfast', 'Lunch', 'Dinner ']
-const FullWeek = ['Sunday', 'Monday', 'Tuesday ', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
-const allowedImageTypes = ['image/jpeg', 'image/png', 'image/gif'];
 
 // ----------------------------------------------------------------------
 
@@ -100,187 +84,7 @@ export default function Addhotels() {
 
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
-  const [openAddDialog, setOpenAddDialog] = useState(false);
-
-
-  const [selectedImages, setSelectedImages] = useState([]);
-
-  const [formData, setFormData] = useState({
-    restaurantName: '',
-    location: '',
-    startTime: '',
-    endTime: '',
-    mealsType: [],
-    daysOfWeek: [],
-    addTable:null
-  });
-  
-  const [formErrors, setFormErrors] = useState({
-    restaurantName: '',
-    location: '',
-    startTime: '',
-    endTime: '',
-    mealsType: '',
-    daysOfWeek: '',
-  });
-
-  const handleImageUpload = (event) => {
-    const files = event.target.files;
-    // const selectedImagesArray = Array.from(files).map((file) => URL.createObjectURL(file));
-    const validFiles = [];
-
-    for (let i = 0; i < files.length; i++) {
-      if (allowedImageTypes.includes(files[i].type)) {
-        validFiles.push(files[i]);
-      }
-    }
-    setSelectedImages(validFiles);
-  };
-
-
-  const validateForm = () => {
-    let valid = true;
-    const newFormErrors = { ...formErrors };
-
-    if (formData.restaurantName.trim() === '') {
-      newFormErrors.restaurantName = 'Restaurant name is required';
-      valid = false;
-    } else {
-      newFormErrors.restaurantName = '';
-    }
-
-    if (formData.location.trim() === '') {
-      newFormErrors.location = 'Location is required';
-      valid = false;
-    } else {
-      newFormErrors.location = '';
-    }
-
-    if (formData.startTime.trim() === '') {
-      newFormErrors.startTime = 'Start time is required';
-      valid = false;
-    } else {
-      newFormErrors.startTime = '';
-    }
-
-    if (formData.endTime.trim() === '') {
-      newFormErrors.endTime = 'End time is required';
-      valid = false;
-    } else {
-      newFormErrors.endTime = '';
-    }
-
-    if (formData.mealsType.length === 0) {
-      newFormErrors.mealsType = 'At least one meal type must be selected';
-      valid = false;
-    } else {
-      newFormErrors.mealsType = '';
-    }
-
-    if (formData.daysOfWeek.length === 0) {
-      newFormErrors.daysOfWeek = 'At least one day of the week must be selected';
-      valid = false;
-    } else {
-      newFormErrors.daysOfWeek = '';
-    }
-
-    if (selectedImages.length === 0) {
-      newFormErrors.images = "Please select at least one image.";
-      valid = false;
-    }else{
-      newFormErrors.images = '';
-    }
-
-    setFormErrors(newFormErrors);
-    return valid;
-  };
-
-// const compleateData = {
-//   ...formData,
-//   images: selectedImages
-// }
-
-// const formDatas = new FormData();
-
-//     for (const image of selectedImages) {
-//       formDatas.append('images', image);
-//     }
-
-  const handleSubmit = async () => {
-    const isValid = validateForm();
-    
-    if (!isValid) {
-      return;
-    }else{
-
-
-
-
-
-
-
-      // Create a new FormData object
-  const newFormData = new FormData();
-
-  // Append fields from formData to new FormData
-  for (const [key, value] of Object.entries(formData)) {
-    if (key === 'mealsType' || key === 'daysOfWeek') {
-      // Convert arrays to comma-separated strings
-      newFormData.append(key, value.join(','));
-    } else if (key === 'addTable') {
-      // Append addTable sub-fields to new FormData
-      for (const table of value) {
-          // console.log("table-",value);
-        newFormData.append('addTable', JSON.stringify(table));
-        // for (const img of table.images) {
-        //   console.log("table-",img);
-
-        // }
-      }
-    } else {
-      newFormData.append(key, value);
-    }
-  }
-
-  // Append images to the new FormData
-  for (const image of selectedImages) {
-    newFormData.append('images', image);
-  }
-
-
-  // console.log(formData);
-
-
-
-      // console.log("25-",compleateData);
-      axiosInstance.post('/dashboard/adminAddRestorent', newFormData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      })
-      .then(response => {
-        console.log('Response from backend:', response.data);
-      })
-      .catch(error => {
-        console.error('Error:', error);
-      });
-
-
-    }
-  };
-
-
-
-
-
-  const handleOpenAddDialog = () => {
-    setOpenAddDialog(true);
-  };
-
-  const handleCloseAddDialog = () => {
-    setOpenAddDialog(false);
-  };
-
+ 
   const handleOpenMenu = (event) => {
     setOpen(event.currentTarget);
   };
@@ -339,12 +143,6 @@ export default function Addhotels() {
 
   const isNotFound = !filteredUsers.length && !!filterName;
 
-  const [receivedValue, setReceivedValue] = useState('');
-  const handleValueFromChild = (value) => {
-    setReceivedValue(value);
-    setFormData({...formData,addTable:receivedValue})
-  };
-
 
   return (
     <>
@@ -357,143 +155,7 @@ export default function Addhotels() {
           <Typography variant="h4" gutterBottom>
             Restaurant
           </Typography>
-          <Button variant="contained" startIcon={<Iconify icon="eva:plus-fill" />} onClick={handleOpenAddDialog}>
-            Add Restaurant
-          </Button>
         </Stack>
-
-        {/* Add Restaurant Dialog */}
-        <Dialog open={openAddDialog} onClose={handleCloseAddDialog} onSubmit={handleSubmit}>
-          <DialogTitle sx={{ pt: 5 }}>Add Restaurant Details</DialogTitle>
-          <DialogContent >
-            <TextField fullWidth label="Restaurant Name" id="restaurantName" sx={{ mb: 2 }}
-              value={formData.restaurantName}
-              onChange={(e) => setFormData({ ...formData, restaurantName: e.target.value })}
-              error={!!formErrors.restaurantName}
-              helperText={formErrors.restaurantName} />
-            <TextField fullWidth label="Location" sx={{ mb: 2 }}
-              value={formData.location}
-              onChange={(e) => setFormData({ ...formData, location: e.target.value })}
-              error={!!formErrors.location}
-              helperText={formErrors.location} />
-            <Stack direction="row" mb={2}>
-              <TextField label="Start time" id='startTime' sx={{ mr: 1 }}
-                value={formData.startTime}
-                onChange={(e) => setFormData({ ...formData, startTime: e.target.value })}
-                error={!!formErrors.startTime}
-                helperText={formErrors.startTime} />
-              <TextField label="End time" id='endTime' sx={{ ml: 1 }}
-                value={formData.endTime}
-                onChange={(e) => setFormData({ ...formData, endTime: e.target.value })}
-                error={!!formErrors.endTime}
-                helperText={formErrors.endTime} />
-            </Stack>
-
-            <Autocomplete
-              multiple
-              id="checkboxes-tags-demo"
-              sx={{ mb: 2 }}
-              options={mealType}
-              fullWidth
-              disableCloseOnSelect
-              getOptionLabel={(option) => option}
-              renderOption={(props, option, { selected }) => (
-                <li {...props}>
-                  <Checkbox
-                    icon={icon}
-                    checkedIcon={checkedIcon}
-                    style={{ marginRight: 8 }}
-                    checked={selected}
-                  />
-                  {option}
-                </li>
-              )}
-              // style={{ width: 500 }}
-              value={formData.mealsType} // Set the selected values here
-              onChange={(event, newValue) => setFormData({ ...formData, mealsType: newValue })}
-              renderInput={(params) => (
-                <TextField {...params} label="Meals Type" placeholder="select"
-                  error={!!formErrors.mealsType}
-                  helperText={formErrors.mealsType}
-                />
-              )}
-
-            />
-
-            <Autocomplete
-              multiple
-              id="checkboxes-tags-demo"
-              sx={{ mb: 2 }}
-              options={FullWeek}
-              fullWidth
-              disableCloseOnSelect
-              getOptionLabel={(option) => option}
-              renderOption={(props, option, { selected }) => (
-                <li {...props}>
-                  <Checkbox
-                    icon={icon}
-                    checkedIcon={checkedIcon}
-                    style={{ marginRight: 8 }}
-                    checked={selected}
-                  />
-                  {option}
-                </li>
-              )}
-              // style={{ width: 500 }}
-              value={formData.daysOfWeek} // Set the selected values here
-              onChange={(event, newValue) => setFormData({ ...formData, daysOfWeek: newValue })}
-              renderInput={(params) => (
-                <TextField {...params} label="Of Days" placeholder="select"
-                  error={!!formErrors.daysOfWeek}
-                  helperText={formErrors.daysOfWeek} />
-              )}
-            />
-            <div style={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap' }}>
-              {selectedImages.map((imageSrc, index) => (
-                <img
-                  key={index}
-                  src={URL.createObjectURL(imageSrc)}
-                  alt={`${index + 1}`}
-                  style={{ maxWidth: '100px', maxHeight: '100px', margin: '10px' }}
-                />
-              ))}
-            </div>
-            <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
-              <label htmlFor="image-upload">
-                <Button variant="contained" color="primary" component="span">
-                  Upload Restaurant Images
-                </Button>
-              </label>
-              <input
-                type="file"
-                id="image-upload"
-                multiple
-                accept = 'image/*'
-                style={{ display: 'none' }}
-                onChange={handleImageUpload}
-              />
-            </div>
-            {formErrors.images && (
-        <p style={{ color: 'red', textAlign: 'center' }}>{formErrors.images}</p>
-      )}
-
-            <DynamicFieldsExample  onValueChange={handleValueFromChild} />
-
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleCloseAddDialog} color="primary">
-              Cancel
-            </Button>
-            <Button onClick={handleSubmit} color="primary" type='submit'>
-              Add
-            </Button>
-          </DialogActions>
-        </Dialog>
-
-
-
-
-
         <Card>
           <UserListToolbar numSelected={selected.length} filterName={filterName} onFilterName={handleFilterByName} />
 
@@ -592,7 +254,7 @@ export default function Addhotels() {
         </Card>
       </Container>
 
-      <Popover
+      {/* <Popover
         open={Boolean(open)}
         anchorEl={open}
         onClose={handleCloseMenu}
@@ -619,7 +281,7 @@ export default function Addhotels() {
           <Iconify icon={'eva:trash-2-outline'} sx={{ mr: 2 }} />
           Delete
         </MenuItem>
-      </Popover>
+      </Popover> */}
     </>
   );
 }

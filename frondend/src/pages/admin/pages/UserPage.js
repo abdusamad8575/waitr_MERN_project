@@ -38,9 +38,9 @@ import tryCatch from '../../../utils/tryCatch'
 
 const TABLE_HEAD = [
   { id: 'name', label: 'Name', alignRight: false },
-  { id: 'email', label: 'email', alignRight: false },
+  { id: 'email', label: 'Email', alignRight: false },
   // { id: 'role', label: 'Role', alignRight: false },
-  { id: 'adminVerify', label: 'AddHOtelREq', alignRight: false },
+  { id: 'adminVerify', label: 'Hotel Request', alignRight: false },
   { id: 'status', label: 'Status', alignRight: false },
   { id: '' },
 ];
@@ -343,10 +343,10 @@ export default function UserPage() {
           },
         }}
       >
-        <MenuItem>
+        {/* <MenuItem>
           <Iconify icon={'eva:edit-fill'} sx={{ mr: 2 }} />
           Edit
-        </MenuItem>
+        </MenuItem> */}
         {/* {console.log(open)}  */}
         <MenuItem sx={{ color: 'error.main' }} onClick={() => handleBlock(clickId)}>
           <Iconify icon={'eva:trash-2-outline'} sx={{ mr: 2 }} />

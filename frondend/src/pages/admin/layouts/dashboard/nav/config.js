@@ -22,7 +22,7 @@ const navConfig = [
     icon: icon('ic_disabled'),
   },
   {
-    title: 'add hotel',
+    title: 'restaurant details',
     path: '/dashboard/addhotel',
     icon: icon('ic_cart'),
   },

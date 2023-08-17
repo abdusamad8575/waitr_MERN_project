@@ -7,18 +7,20 @@ import DashboardAppPage from './pages/DashboardAppPage';
 import Addfood from './pages/Addfood';
 import Orders from './pages/Orders';
 import Offres from './pages/Offres';
+import RestaurantDetails from './pages/RestaurantDetails';
 
 export default function Resroutes() {
   const location = useLocation();
-  const isRestaurentRoute = location.pathname.startsWith('/restaurent');
+  const isRestaurentRoute = location.pathname.startsWith('/restaurant');
 
   const restaurentRoutes = useRoutes([
     {
-      path: '/restaurent',
+      path: '/restaurant',
       element: <DashboardLayout />,
       children: [
-        { element: <Navigate to="/restaurent/app" />, index: true },
+        { element: <Navigate to="/restaurant/app" />, index: true },
         { path: 'app', element: <DashboardAppPage /> },
+        { path: 'details', element: <RestaurantDetails />},
         { path: 'addfood', element: <Addfood /> },
         { path: 'orders', element: <Orders /> },
         { path: 'offers', element: <Offres /> },
@@ -27,7 +29,7 @@ export default function Resroutes() {
     {
       element: <SimpleLayout />,
       children: [
-        { element: <Navigate to="/restaurent/app" />, index: true },
+        { element: <Navigate to="/restaurant/app" />, index: true },
         { path: '404', element: <Page404 /> },
         { path: '*', element: <Navigate to="/404" /> },
       ],
