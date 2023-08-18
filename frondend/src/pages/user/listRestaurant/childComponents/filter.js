@@ -125,19 +125,8 @@ function Filiter({filter,apply}) {
           {Filters.map((item) => (
             <Box key={item.id} >
               <H1>{item.title}</H1>
-              {item.flag === 1 ? (
-                <Box sx={{ m: 3, mt: 6 }} >
-                  <AirbnbSlider
-                    slots={{ thumb: AirbnbThumbComponent }}
-                    getAriaLabel={(index) => (index === 0 ? 'Minimum price' : 'Maximum price')}
-                    valueLabelDisplay="on"
-                    // defaultValue={[0, 100]}
-                                        value={selectedFilters.Age}
-                    onChange={(e)=>setSelectedFilters(prev=>({...prev,Age:e.target.value}))}
-                  />
-                </Box>
-              ):(
-                <List sx={{ width: "100%" ,mt:0,mb:2}} size="small" style={{ maxHeight: "calc(220px - 10px)", overflowY: item.id==4? "none":'scroll' }}>
+             
+                <List sx={{ width: "100%" ,mt:0,mb:2}} size="small" style={{ maxHeight: "calc(220px - 10px)", overflowY: item.id==1? "none":'scroll' }}>
                 {item.elements.map((element, index) => (
                   <ListItem key={index} value={element} sx={{
                     padding: "0px",
@@ -156,7 +145,7 @@ function Filiter({filter,apply}) {
                   </ListItem>
                 ))}
               </List>
-              )}
+             
               <Divider />
             </Box>
           ))}

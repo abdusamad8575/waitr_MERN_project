@@ -43,17 +43,17 @@ function ListRestaurant() {
     console.log(filters);
   }, [search])
   
-  useEffect(() => {
-    const count = totalElements(filters)
-    setCount(count)
-  }, [filters])
+  // useEffect(() => {
+  //   const count = totalElements(filters)
+  //   setCount(count)
+  // }, [filters])
   useEffect(()=>{
     !filterCount && setFilters({}) 
   },[filterCount])  
   return (
     <>
       <Page>
-          <Navebar />
+          {/* <Navebar /> */}
         <FiliterContainer>
           <FreeSolo filterCount={ filterCount }  search={search} apply={setSearch} removeFilter={setCount}/>
           <Grid container >
@@ -67,7 +67,7 @@ function ListRestaurant() {
             </Grid>   
           </Grid>
         </FiliterContainer> 
-          <Footer />
+          {/* <Footer /> */}
       </Page>
     </>
   );

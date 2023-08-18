@@ -1,106 +1,134 @@
-import * as React from "react";
-import { styled, alpha } from "@mui/material/styles";
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
-import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
-import InputBase from "@mui/material/InputBase";
-import FilterListIcon from "@mui/icons-material/FilterList";
-import SearchIcon from "@mui/icons-material/Search";
-import { Badge, Tooltip } from "@mui/material";
+import React, { useState } from "react";
+import Slider from "react-slick";
+import Button from "@mui/material/Button";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
+import Slide from "@mui/material/Slide";
+import { styled } from "styled-components";
+import CloseIcon from '@mui/icons-material/Close';
+import {
+  Checkbox,
+  Grid,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  Typography,
+} from "@mui/material";
 
-const Search = styled("div")(({ theme }) => ({
-  position: "relative",
-  borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha("#000", 0.05),
-  "&:hover": {
-    backgroundColor: alpha(theme.palette.common.white, 0.25),
-  },
-  marginLeft: 0,
-  border: 20,
-  width: "100%",
-  [theme.breakpoints.up("sm")]: {
-    marginLeft: theme.spacing(1),
-    width: "auto",
-  },
-}));
-
-const SearchIconWrapper = styled("div")(({ theme }) => ({
+const H1 = styled(Typography)({
+  fontFamily: "",
   color: "#000",
-  padding: theme.spacing(0, 2),
-  height: "100%",
-  position: "absolute",
-  pointerEvents: "none",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-}));
+  
+});
 
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  "& .MuiInputBase-input": {
-    padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
-    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-    transition: theme.transitions.create("width"),
-    width: "100%",
-    [theme.breakpoints.up("sm")]: {
-      width: "12ch",
-      "&:focus": {
-        width: "20ch",
-      },
-    },
-  },
-}));
+const H2 = styled(Typography)({
+  variant: "h6",
+  color: "#000",
+  paddingLeft: "15px",
+  paddingTop: "5px",
+});
 
-export default function SearchAppBar({ filterCount,search, removeFilter ,apply}) {
+const Ul = styled(ListItem)({
+  
+  height: "25px",
+  paddingTop: "0px",
+  paddingBottom: "0px",
+});
+
+const Lbtn = styled(ListItemButton)({
+  paddingBottom: "1px",
+  paddingTop: "1px",
+});
+
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
+
+const SimpleSlider = ({ Fili }) => {
+  const [open, setOpen] = useState(false);
+  const [selectedTitle, setSelectedTitle] = useState(null);
+
+  const handleClickOpen = (title) => {
+    setSelectedTitle(title);
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  var settings = {
+    dots: false,
+    infinite: false,
+    speed: 200,
+    slidesToShow: 4,
+    slidesToScroll: 1,
+    autoplay: false,
+    autoplaySpeed: 10000,
+    slickNext: false,
+    slickPrevious: false,
+    swipe: true,
+    prevArrow: <div></div>,
+    nextArrow: <div></div>,
+  };
 
   return (
-    <Box sx={{ flexGrow: 1, pt: 9 }}>
-      {/* <AppBar position="static" sx={{backgroundColor:'#fff'}}>  */}
-      <Toolbar>
-        <Tooltip title="clear filters">
-          <IconButton
-            size="large"
-            edge="start"
-            onClick={() => removeFilter(0)}
-            aria-label="open drawer"
-            sx={{ mr: 2 }}
+    <Grid container>
+      {Fili.map((card) => (
+        <Grid item xs={6} sm={6} sx={{paddingLeft:4}} key={card.id}>
+          <Button
+          
+          size="small" 
+            variant="outlined"
+            onClick={() => handleClickOpen(card.title)}
+            style={{
+              borderRadius: "15px",
+              height: "28px",
+              display: "block",
+              overflow: "hidden",
+              borderColor:"#808080",
+              width:'90%'
+            }}
           >
-            <Badge
-              badgeContent={filterCount ? filterCount : null}
-              color="error"
-            >
-              <FilterListIcon />
-            </Badge>
-          </IconButton>
-        </Tooltip>
-
-        <Typography
-          variant="h6"
-          noWrap
-          component="div"
-          sx={{
-            flexGrow: 1,
-            display: { xs: "none", sm: "block" },
-            color: "#000",
-          }}
-        >
-          Filters
-        </Typography>
-        <Search>
-          <SearchIconWrapper>
-            <SearchIcon />
-          </SearchIconWrapper>
-          <StyledInputBase
-            placeholder="Search…"
-            inputProps={{ "aria-label": "search" }}
-            value={search}
-            onChange={(e)=>apply(e.target.value)}
-          />
-        </Search>
-      </Toolbar>
-      {/* </AppBar> */}
-    </Box>
+            <H1 variant="body2">{card.title} </H1>
+            <CloseIcon fontSize="small" />
+          </Button>
+          <Dialog
+            open={open && selectedTitle === card.title}
+            TransitionComponent={Transition}
+            keepMounted
+            onClose={handleClose}
+            aria-describedby="alert-dialog-slide-description"
+          >
+            <DialogTitle>{card.title}</DialogTitle>
+            <DialogContent>
+              <DialogContentText paddingRight={10} id="alert-dialog-slide-description">
+                <List sx={{ width: "100%", }}  size="small">
+                  {card.elements.map((element, index) => (
+                    <Ul key={index}>
+                      <Lbtn size="small">
+                        <ListItemIcon>
+                          <Checkbox size="small" />
+                          <H2 variant="body2">{element}</H2>
+                        </ListItemIcon>
+                      </Lbtn>
+                    </Ul>
+                  ))}
+                </List>
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={handleClose}>Close</Button>
+            </DialogActions>
+          </Dialog>
+        </Grid>
+      ))}
+    </Grid>
   );
-}
+};
+
+export default SimpleSlider;
