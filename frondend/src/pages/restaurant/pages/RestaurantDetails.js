@@ -227,18 +227,20 @@ export default function RestaurantDetails() {
     if (key === 'mealsType' || key === 'daysOfWeek') {
       // Convert arrays to comma-separated strings
       newFormData.append(key, value.join(','));
-    } else if (key === 'addTable') {
-      // Append addTable sub-fields to new FormData
-      for (const table of value) {
-          // console.log("table-",value);
-        newFormData.append('addTable', JSON.stringify(table));
-        for (const img of table.images) {
-        //   console.log("table-",img);
-        // newFormData.append('img', img);
+    } 
+    // else if (key === 'addTable') {
+    //   // Append addTable sub-fields to new FormData
+    //   for (const table of value) {
+    //       // console.log("table-",value);
+    //     newFormData.append('addTable', JSON.stringify(table));
+    //     for (const img of table.images) {
+    //     //   console.log("table-",img);
+    //     // newFormData.append('img', img);
 
-        }
-      }
-    } else {
+    //     }
+    //   }
+    // }
+     else {
       newFormData.append(key, value);
     }
   }
@@ -478,7 +480,7 @@ export default function RestaurantDetails() {
         <p style={{ color: 'red', textAlign: 'center' }}>{formErrors.images}</p>
       )}
 
-            <DynamicFieldsExample  onValueChange={handleValueFromChild} />
+            {/* <DynamicFieldsExample  onValueChange={handleValueFromChild} /> */}
 
           </DialogContent>
           <DialogActions>

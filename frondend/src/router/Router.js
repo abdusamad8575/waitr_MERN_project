@@ -7,8 +7,7 @@ import Account from '../pages/user/account/Account'
 import UserProtected from './userProtected';
 import ListRestaurant from '../pages/user/listRestaurant/listRestaurant';
 
-function Router() {
-  console.log('9854');
+function Router() { 
   return (
     <>
         <Routes>

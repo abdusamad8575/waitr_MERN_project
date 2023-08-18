@@ -1,6 +1,7 @@
 const User = require('../model/userModel')
 const jwt = require('jsonwebtoken');
 const { OAuth2Client } = require('google-auth-library');
+const Restaurant = require('../model/restaurantModel')
 
 const signup = async (req, res, next) => {
 
@@ -42,12 +43,12 @@ const signin = async (req, res, next) => {
                     return res.status(400).json({ message: "Invalid Email Id or password" })
                 } else {
                     const token = jwt.sign({ id: existingUser._id }, process.env.JWT_SECRET, {
-                        expiresIn: "24h"
+                        expiresIn: "1d"
                     })
                     console.log("token send", token)
                     res.cookie("token", token, {
                         path: '/',
-                        expires: new Date(Date.now() +  (24 * 1000 * 60 * 60)), // 1 day expiration
+                        expires: new Date(Date.now() +   24 * 1000 * 60 * 60), // 1 day expiration
                         httpOnly: true,
                         sameSite: 'lax',
                     });
@@ -140,6 +141,7 @@ async function verify(req,res) {
     const email = payload.email;
     const existingUser = await User.findOne( {email:email})
     if(!existingUser){
+        console.log('acdsa');
         const user = new User({
             firstName:payload.given_name,
             lastName:payload.family_name,
@@ -195,10 +197,25 @@ const uploadProfilepicture = async(req,res)=>{
       const user = await User.findById(id);
     
       return res.json({ success: true, user});
-    } catch (err) {
+    } catch (error) {
       return res.status(500).json({ error: 'Internal server error' });
     }
     
+}
+
+const restorentDetails = async(req,res)=>{
+    try {
+        // console.log('samad');
+        const restaurant = await Restaurant.find()
+        if(restaurant){
+            return res.status(200).json({message:"Restaurant details fetch saccessfully",restaurant})
+        }else{
+            return res.status(400).json({message:"Restaurant details fetch Error"})
+        }
+        
+    } catch (error) {
+      return res.status(500).json({ error: 'Internal server error' });
+    }
 }
 module.exports = {
     signup,
@@ -207,5 +224,6 @@ module.exports = {
     addhotelreq,
     userDitails,
     verify,
-    uploadProfilepicture
+    uploadProfilepicture,
+    restorentDetails
 }

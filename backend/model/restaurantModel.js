@@ -33,7 +33,7 @@ const RestaurantDetailsSchema = new mongoose.Schema({
             required: true,
         }
     ],
-    Images:[
+    images:[
         {
             type:String,
         },

@@ -4,25 +4,20 @@ const Restaurant = require('../model/restaurantModel')
 
 const adminAddRestorent = async (req, res) => {
     try {
-        // console.log("restarant",req.body);
         const { restaurantName, location, startTime, endTime, mealsType, daysOfWeek, addTable } = req.body;
-        console.log(restaurantName, location, startTime, endTime, mealsType, daysOfWeek, addTable )
-    const images = req.files.map(file => file.path);
+    const images = req.files.map(file => file.filename);
     console.log("image:-",images);
-    // console.log("img:-",img);
-    // const filepath = req.file.path.replace(/\\/g, '/').slice(7);
-    //   console.log("filepath",filepath);
     // Parse array values
     const parsedMealsType = mealsType.split(',');
     const parsedDaysOfWeek = daysOfWeek.split(',');
-    let Table;
-    if(Array.isArray(addTable)){
-        Table=addTable.map(table=>JSON.parse(table))
-    }else{
-        Table = [JSON.parse(addTable)]
-    }
+    // let Table;
+    // if(Array.isArray(addTable)){
+    //     Table=addTable.map(table=>JSON.parse(table))
+    // }else{
+    //     Table = [JSON.parse(addTable)]
+    // }
     // console.log("Table:-",Table);
-    
+    const img = images.map(img=>`http://localhost:8000/assets/${img}`)
         const restaurant = new Restaurant({  
             restaurantName: restaurantName,
             location: location,
@@ -30,16 +25,16 @@ const adminAddRestorent = async (req, res) => {
             endTime: endTime,
             mealsType: parsedMealsType.map(item=>item),
             daysOfWeek: parsedDaysOfWeek.map(item=>item), 
-            addTable: Table.map(table => ({
-                tableName: table.tableName,
-                charCount: table.charCount,
-                images: table.images.map(image =>image.name), 
-              })),
-            // images: images.map(img=>`http://localhost:8000/${filepath}`) ,
+            // addTable: Table.map(table => ({
+            //     tableName: table.tableName,
+            //     charCount: table.charCount,
+            //     images: table.images.map(image =>image.name), 
+            //   })),
+            images: img ,
         })
-        console.log("datas-",restaurant.addTable.images[0])
-        // const RestaurantDetails = await restaurant.save()
-        // res.json({ message: 'Data saved successfully', data: RestaurantDetails });
+        console.log("datas-",restaurant)
+        const RestaurantDetails = await restaurant.save()
+        res.json({ message: 'Data saved successfully', data: RestaurantDetails });
     }
     catch (error) {
         return res.status(500).json({ message: 'Server Error' });
