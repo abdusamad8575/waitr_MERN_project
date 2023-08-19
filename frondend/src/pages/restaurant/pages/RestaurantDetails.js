@@ -51,6 +51,8 @@ const TABLE_HEAD = [
 ];
 
 const mealType = ['Breakfast', 'Lunch', 'Dinner ']
+const resType = ['Veg', 'Non Veg', 'Veg and Non Veg ']
+const cuisinesTypes = ['American', 'Arabian', 'Asian', 'Beverages', 'Biryani', 'Burger', 'Chettinad', 'Chinese', 'Continental', 'Coffee', 'Desserts', 'European', 'Fast Food', 'French', 'Italian', 'Japanese', 'Kerala', 'Malaysian', 'Mexican', 'North Eastern', 'Pizza', 'POrtuguese', 'Sea Food', 'South Indian', 'Spanish', 'Thamil', 'Tea', 'Turkish']
 const FullWeek = ['Sunday', 'Monday', 'Tuesday ', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
 const allowedImageTypes = ['image/jpeg', 'image/png', 'image/gif'];
 
@@ -112,6 +114,8 @@ export default function RestaurantDetails() {
     endTime: '',
     mealsType: [],
     daysOfWeek: [],
+    restaurantType:[],
+    cuisines:[],
     addTable:null
   });
   
@@ -122,6 +126,8 @@ export default function RestaurantDetails() {
     endTime: '',
     mealsType: '',
     daysOfWeek: '',
+    restaurantType:'',
+    cuisines:'',
   });
 
   const handleImageUpload = (event) => {
@@ -451,6 +457,74 @@ export default function RestaurantDetails() {
                   helperText={formErrors.daysOfWeek} />
               )}
             />
+
+
+
+
+
+<Autocomplete
+              multiple
+              id="checkboxes-tags-demo"
+              sx={{ mb: 2 }}
+              options={resType}
+              fullWidth
+              disableCloseOnSelect
+              getOptionLabel={(option) => option}
+              renderOption={(props, option, { selected }) => (
+                <li {...props}>
+                  <Checkbox
+                    icon={icon}
+                    checkedIcon={checkedIcon}
+                    style={{ marginRight: 8 }}
+                    checked={selected}
+                  />
+                  {option}
+                </li>
+              )}
+              // style={{ width: 500 }}
+              value={formData.restaurantType} // Set the selected values here
+              onChange={(event, newValue) => setFormData({ ...formData, restaurantType: newValue })}
+              renderInput={(params) => (
+                <TextField {...params} label="Of Days" placeholder="select"
+                  error={!!formErrors.restaurantType}
+                  helperText={formErrors.restaurantType} />
+              )}
+            />
+
+<Autocomplete
+              multiple
+              id="checkboxes-tags-demo"
+              sx={{ mb: 2 }}
+              options={cuisinesTypes}
+              fullWidth
+              disableCloseOnSelect
+              getOptionLabel={(option) => option}
+              renderOption={(props, option, { selected }) => (
+                <li {...props}>
+                  <Checkbox
+                    icon={icon}
+                    checkedIcon={checkedIcon}
+                    style={{ marginRight: 8 }}
+                    checked={selected}
+                  />
+                  {option}
+                </li>
+              )}
+              // style={{ width: 500 }}
+              value={formData.cuisines} // Set the selected values here
+              onChange={(event, newValue) => setFormData({ ...formData, cuisines: newValue })}
+              renderInput={(params) => (
+                <TextField {...params} label="Of Days" placeholder="select"
+                  error={!!formErrors.cuisines}
+                  helperText={formErrors.cuisines} />
+              )}
+            />
+
+
+
+
+
+
             <div style={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap' }}>
               {selectedImages.map((imageSrc, index) => (
                 <img

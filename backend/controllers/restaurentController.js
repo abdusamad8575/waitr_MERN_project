@@ -33,8 +33,8 @@ const adminAddRestorent = async (req, res) => {
             images: img ,
         })
         console.log("datas-",restaurant)
-        const RestaurantDetails = await restaurant.save()
-        res.json({ message: 'Data saved successfully', data: RestaurantDetails });
+        await restaurant.save()
+        res.json({ message: 'Data saved successfully' });
     }
     catch (error) {
         return res.status(500).json({ message: 'Server Error' });

@@ -48,7 +48,7 @@ const signin = async (req, res, next) => {
                     console.log("token send", token)
                     res.cookie("token", token, {
                         path: '/',
-                        expires: new Date(Date.now() +   24 * 1000 * 60 * 60), // 1 day expiration
+                        expires: new Date(Date.now() +    1000 * 60 * 60 * 24), // 1 day expiration
                         httpOnly: true,
                         sameSite: 'lax',
                     });
@@ -164,7 +164,7 @@ async function verify(req,res) {
                 // console.log("token send", token)
                 res.cookie("token", token, {
                     path: '/',
-                    expires: new Date(Date.now() + 500 * 60 * 60), // 1 hour expiration
+                    expires: new Date(Date.now() + 24 * 1000 * 60 * 60), // 1 hour expiration
                     httpOnly: true,
                     sameSite: 'lax',
                 });

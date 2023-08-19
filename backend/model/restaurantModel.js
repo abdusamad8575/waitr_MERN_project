@@ -13,12 +13,12 @@ const RestaurantDetailsSchema = new mongoose.Schema({
     },
     startTime:
     {
-        type: Number,
+        type: String,
         required: true,
     },
     endTime:
     {
-        type: Number,
+        type: String,
         required: true,
     },
     mealsType: [
