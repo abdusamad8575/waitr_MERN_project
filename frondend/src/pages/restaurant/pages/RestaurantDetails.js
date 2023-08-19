@@ -114,11 +114,11 @@ export default function RestaurantDetails() {
     endTime: '',
     mealsType: [],
     daysOfWeek: [],
-    restaurantType:[],
-    cuisines:[],
-    addTable:null
+    restaurantType: [],
+    cuisines: [],
+    addTable: null
   });
-  
+
   const [formErrors, setFormErrors] = useState({
     restaurantName: '',
     location: '',
@@ -126,8 +126,8 @@ export default function RestaurantDetails() {
     endTime: '',
     mealsType: '',
     daysOfWeek: '',
-    restaurantType:'',
-    cuisines:'',
+    restaurantType: '',
+    cuisines: '',
   });
 
   const handleImageUpload = (event) => {
@@ -193,7 +193,7 @@ export default function RestaurantDetails() {
     if (selectedImages.length === 0) {
       newFormErrors.images = "Please select at least one image.";
       valid = false;
-    }else{
+    } else {
       newFormErrors.images = '';
     }
 
@@ -201,23 +201,23 @@ export default function RestaurantDetails() {
     return valid;
   };
 
-// const compleateData = {
-//   ...formData,
-//   images: selectedImages
-// }
+  // const compleateData = {
+  //   ...formData,
+  //   images: selectedImages
+  // }
 
-// const formDatas = new FormData();
+  // const formDatas = new FormData();
 
-//     for (const image of selectedImages) {
-//       formDatas.append('images', image);
-//     }
+  //     for (const image of selectedImages) {
+  //       formDatas.append('images', image);
+  //     }
 
   const handleSubmit = async () => {
     const isValid = validateForm();
-    
+
     if (!isValid) {
       return;
-    }else{
+    } else {
 
 
 
@@ -226,53 +226,53 @@ export default function RestaurantDetails() {
 
 
       // Create a new FormData object
-  const newFormData = new FormData();
+      const newFormData = new FormData();
 
-  // Append fields from formData to new FormData
-  for (const [key, value] of Object.entries(formData)) {
-    if (key === 'mealsType' || key === 'daysOfWeek') {
-      // Convert arrays to comma-separated strings
-      newFormData.append(key, value.join(','));
-    } 
-    // else if (key === 'addTable') {
-    //   // Append addTable sub-fields to new FormData
-    //   for (const table of value) {
-    //       // console.log("table-",value);
-    //     newFormData.append('addTable', JSON.stringify(table));
-    //     for (const img of table.images) {
-    //     //   console.log("table-",img);
-    //     // newFormData.append('img', img);
+      // Append fields from formData to new FormData
+      for (const [key, value] of Object.entries(formData)) {
+        if (key === 'mealsType' || key === 'daysOfWeek') {
+          // Convert arrays to comma-separated strings
+          newFormData.append(key, value.join(','));
+        }
+        // else if (key === 'addTable') {
+        //   // Append addTable sub-fields to new FormData
+        //   for (const table of value) {
+        //       // console.log("table-",value);
+        //     newFormData.append('addTable', JSON.stringify(table));
+        //     for (const img of table.images) {
+        //     //   console.log("table-",img);
+        //     // newFormData.append('img', img);
 
-    //     }
-    //   }
-    // }
-     else {
-      newFormData.append(key, value);
-    }
-  }
+        //     }
+        //   }
+        // }
+        else {
+          newFormData.append(key, value);
+        }
+      }
 
-  // Append images to the new FormData
-  for (const image of selectedImages) {
-    newFormData.append('images', image);
-  }
-
-
-  console.log(formData);
+      // Append images to the new FormData
+      for (const image of selectedImages) {
+        newFormData.append('images', image);
+      }
 
 
+      console.log(formData);
 
-    //   console.log("25-",newFormData);
+
+
+      //   console.log("25-",newFormData);
       axiosInstance.post('/restaurant/adminAddRestorent', newFormData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
       })
-      .then(response => {
-        console.log('Response from backend:', response.data);
-      })
-      .catch(error => {
-        console.error('Error:', error);
-      });
+        .then(response => {
+          console.log('Response from backend:', response.data);
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        });
 
 
     }
@@ -351,7 +351,7 @@ export default function RestaurantDetails() {
   const [receivedValue, setReceivedValue] = useState('');
   const handleValueFromChild = (value) => {
     setReceivedValue(value);
-    setFormData({...formData,addTable:receivedValue})
+    setFormData({ ...formData, addTable: receivedValue })
   };
 
 
@@ -462,7 +462,7 @@ export default function RestaurantDetails() {
 
 
 
-<Autocomplete
+            <Autocomplete
               multiple
               id="checkboxes-tags-demo"
               sx={{ mb: 2 }}
@@ -485,13 +485,13 @@ export default function RestaurantDetails() {
               value={formData.restaurantType} // Set the selected values here
               onChange={(event, newValue) => setFormData({ ...formData, restaurantType: newValue })}
               renderInput={(params) => (
-                <TextField {...params} label="Of Days" placeholder="select"
+                <TextField {...params} label="Restaurant Type" placeholder="select"
                   error={!!formErrors.restaurantType}
                   helperText={formErrors.restaurantType} />
               )}
             />
 
-<Autocomplete
+            <Autocomplete
               multiple
               id="checkboxes-tags-demo"
               sx={{ mb: 2 }}
@@ -514,7 +514,7 @@ export default function RestaurantDetails() {
               value={formData.cuisines} // Set the selected values here
               onChange={(event, newValue) => setFormData({ ...formData, cuisines: newValue })}
               renderInput={(params) => (
-                <TextField {...params} label="Of Days" placeholder="select"
+                <TextField {...params} label="Cuisines" placeholder="select"
                   error={!!formErrors.cuisines}
                   helperText={formErrors.cuisines} />
               )}
@@ -545,14 +545,14 @@ export default function RestaurantDetails() {
                 type="file"
                 id="image-upload"
                 multiple
-                accept = 'image/*'
+                accept='image/*'
                 style={{ display: 'none' }}
                 onChange={handleImageUpload}
               />
             </div>
             {formErrors.images && (
-        <p style={{ color: 'red', textAlign: 'center' }}>{formErrors.images}</p>
-      )}
+              <p style={{ color: 'red', textAlign: 'center' }}>{formErrors.images}</p>
+            )}
 
             {/* <DynamicFieldsExample  onValueChange={handleValueFromChild} /> */}
 
