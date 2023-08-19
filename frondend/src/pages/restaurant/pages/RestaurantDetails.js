@@ -125,7 +125,7 @@ export default function RestaurantDetails() {
     startTime: '',
     endTime: '',
     mealsType: '',
-    daysOfWeek: '',
+    // daysOfWeek: '',
     restaurantType: '',
     cuisines: '',
   });
@@ -183,11 +183,25 @@ export default function RestaurantDetails() {
       newFormErrors.mealsType = '';
     }
 
-    if (formData.daysOfWeek.length === 0) {
-      newFormErrors.daysOfWeek = 'At least one day of the week must be selected';
+    // if (formData.daysOfWeek.length === 0) {
+    //   newFormErrors.daysOfWeek = 'At least one day of the week must be selected';
+    //   valid = false;
+    // } else {
+    //   newFormErrors.daysOfWeek = '';
+    // }
+
+    if (formData.restaurantType.length === 0) {
+      newFormErrors.restaurantType = 'At least one Restaurant type must be selected';
       valid = false;
     } else {
-      newFormErrors.daysOfWeek = '';
+      newFormErrors.restaurantType = '';
+    }
+
+    if (formData.cuisines.length === 0) {
+      newFormErrors.cuisines = 'At least one cuisines type must be selected';
+      valid = false;
+    } else {
+      newFormErrors.cuisines = '';
     }
 
     if (selectedImages.length === 0) {
@@ -218,19 +232,12 @@ export default function RestaurantDetails() {
     if (!isValid) {
       return;
     } else {
-
-
-
-
-
-
-
       // Create a new FormData object
       const newFormData = new FormData();
 
       // Append fields from formData to new FormData
       for (const [key, value] of Object.entries(formData)) {
-        if (key === 'mealsType' || key === 'daysOfWeek') {
+        if (key === 'mealsType' || key === 'daysOfWeek' || key === 'restaurantType' || key === 'cuisines') {
           // Convert arrays to comma-separated strings
           newFormData.append(key, value.join(','));
         }
@@ -388,11 +395,13 @@ export default function RestaurantDetails() {
             <Stack direction="row" mb={2}>
               <TextField label="Start time" id='startTime' sx={{ mr: 1 }}
                 value={formData.startTime}
+                fullWidth
                 onChange={(e) => setFormData({ ...formData, startTime: e.target.value })}
                 error={!!formErrors.startTime}
                 helperText={formErrors.startTime} />
               <TextField label="End time" id='endTime' sx={{ ml: 1 }}
                 value={formData.endTime}
+                fullWidth
                 onChange={(e) => setFormData({ ...formData, endTime: e.target.value })}
                 error={!!formErrors.endTime}
                 helperText={formErrors.endTime} />
@@ -453,8 +462,9 @@ export default function RestaurantDetails() {
               onChange={(event, newValue) => setFormData({ ...formData, daysOfWeek: newValue })}
               renderInput={(params) => (
                 <TextField {...params} label="Of Days" placeholder="select"
-                  error={!!formErrors.daysOfWeek}
-                  helperText={formErrors.daysOfWeek} />
+                  // error={!!formErrors.daysOfWeek}
+                  // helperText={formErrors.daysOfWeek} 
+                  />
               )}
             />
 

@@ -4,12 +4,15 @@ const Restaurant = require('../model/restaurantModel')
 
 const adminAddRestorent = async (req, res) => {
     try {
-        const { restaurantName, location, startTime, endTime, mealsType, daysOfWeek, addTable } = req.body;
-    const images = req.files.map(file => file.filename);
-    console.log("image:-",images);
+        const { restaurantName, location, startTime, endTime, mealsType, daysOfWeek, addTable, cuisines, restaurantType } = req.body;
+        const images = req.files.map(file => file.filename);
+        // console.log("image:-",images);
     // Parse array values
     const parsedMealsType = mealsType.split(',');
     const parsedDaysOfWeek = daysOfWeek.split(',');
+    const parsedcuisines = cuisines.split(',');
+    const parsedrestaurantType = restaurantType.split(',');
+    // console.log(parsedDaysOfWeek.length);
     // let Table;
     // if(Array.isArray(addTable)){
     //     Table=addTable.map(table=>JSON.parse(table))
@@ -25,6 +28,8 @@ const adminAddRestorent = async (req, res) => {
             endTime: endTime,
             mealsType: parsedMealsType.map(item=>item),
             daysOfWeek: parsedDaysOfWeek.map(item=>item), 
+            cuisines: parsedcuisines.map(item=>item), 
+            restaurantType: parsedrestaurantType.map(item=>item), 
             // addTable: Table.map(table => ({
             //     tableName: table.tableName,
             //     charCount: table.charCount,

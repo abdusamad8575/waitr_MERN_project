@@ -30,9 +30,21 @@ const RestaurantDetailsSchema = new mongoose.Schema({
     daysOfWeek: [
         {
             type:String,
+        }
+    ],
+    cuisines: [
+        {
+            type:String,
             required: true,
         }
     ],
+    restaurantType: [
+        {
+            type:String,
+            required: true,
+        }
+    ],
+    
     images:[
         {
             type:String,
