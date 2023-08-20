@@ -36,6 +36,7 @@ import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import Autocomplete from '@mui/material/Autocomplete';
 import DynamicFieldsExample from './sub pages/DynamicFieldsExample ';
 import axiosInstance from '../../../axios';
+import axios from 'axios';
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
@@ -107,6 +108,7 @@ export default function RestaurantDetails() {
 
   const [selectedImages, setSelectedImages] = useState([]);
 
+  
   const [formData, setFormData] = useState({
     restaurantName: '',
     location: '',
@@ -118,21 +120,24 @@ export default function RestaurantDetails() {
     cuisines: [],
     addTable: null
   });
-
+  
+  const handleLocation = async()=>{
+    await axios.get('https://ipapi.co/json')
+    .then((res)=>setFormData({ ...formData, location: res.data.city}))
+    .catch((error)=>console.log(error))  
+  }
   const [formErrors, setFormErrors] = useState({
     restaurantName: '',
     location: '',
     startTime: '',
     endTime: '',
     mealsType: '',
-    // daysOfWeek: '',
     restaurantType: '',
     cuisines: '',
   });
 
   const handleImageUpload = (event) => {
     const files = event.target.files;
-    // const selectedImagesArray = Array.from(files).map((file) => URL.createObjectURL(file));
     const validFiles = [];
 
     for (let i = 0; i < files.length; i++) {
@@ -387,11 +392,16 @@ export default function RestaurantDetails() {
               onChange={(e) => setFormData({ ...formData, restaurantName: e.target.value })}
               error={!!formErrors.restaurantName}
               helperText={formErrors.restaurantName} />
-            <TextField fullWidth label="Location" sx={{ mb: 2 }}
+              <div style={{ display: 'flex',marginBottom:'18px'}} >
+            <TextField fullWidth label="Location" sx={{ mr: 1 }}
               value={formData.location}
               onChange={(e) => setFormData({ ...formData, location: e.target.value })}
               error={!!formErrors.location}
               helperText={formErrors.location} />
+              <Button variant="contained" color="primary" component="span" onClick={handleLocation}>
+                   Location
+                </Button>
+              </div>
             <Stack direction="row" mb={2}>
               <TextField label="Start time" id='startTime' sx={{ mr: 1 }}
                 value={formData.startTime}
@@ -557,7 +567,7 @@ export default function RestaurantDetails() {
               />
             </div>
             {formErrors.images && (
-              <p style={{ color: 'red', textAlign: 'center' }}>{formErrors.images}</p>
+              <p style={{ color: 'red', textAlign: 'center' ,fontSize:'small' }}>{formErrors.images}</p>
             )}
 
             {/* <DynamicFieldsExample  onValueChange={handleValueFromChild} /> */}
