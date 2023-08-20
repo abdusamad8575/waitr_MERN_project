@@ -27,6 +27,11 @@ const navConfig = [
     icon: icon('ic_cart'),
   },
   {
+    title: 'Add Location',
+    path: '/dashboard/addLocation',
+    icon: icon('ic_lock'),
+  },
+  {
     title: 'offers',
     path: '/dashboard/offers',
     icon: icon('ic_blog'),

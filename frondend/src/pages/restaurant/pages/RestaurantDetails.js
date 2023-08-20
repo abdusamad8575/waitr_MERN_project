@@ -108,7 +108,7 @@ export default function RestaurantDetails() {
 
   const [selectedImages, setSelectedImages] = useState([]);
 
-  
+
   const [formData, setFormData] = useState({
     restaurantName: '',
     location: '',
@@ -120,11 +120,11 @@ export default function RestaurantDetails() {
     cuisines: [],
     addTable: null
   });
-  
-  const handleLocation = async()=>{
+
+  const handleLocation = async () => {
     await axios.get('https://ipapi.co/json')
-    .then((res)=>setFormData({ ...formData, location: res.data.city}))
-    .catch((error)=>console.log(error))  
+      .then((res) => setFormData({ ...formData, location: res.data.city }))
+      .catch((error) => console.log(error))
   }
   const [formErrors, setFormErrors] = useState({
     restaurantName: '',
@@ -188,13 +188,6 @@ export default function RestaurantDetails() {
       newFormErrors.mealsType = '';
     }
 
-    // if (formData.daysOfWeek.length === 0) {
-    //   newFormErrors.daysOfWeek = 'At least one day of the week must be selected';
-    //   valid = false;
-    // } else {
-    //   newFormErrors.daysOfWeek = '';
-    // }
-
     if (formData.restaurantType.length === 0) {
       newFormErrors.restaurantType = 'At least one Restaurant type must be selected';
       valid = false;
@@ -219,17 +212,6 @@ export default function RestaurantDetails() {
     setFormErrors(newFormErrors);
     return valid;
   };
-
-  // const compleateData = {
-  //   ...formData,
-  //   images: selectedImages
-  // }
-
-  // const formDatas = new FormData();
-
-  //     for (const image of selectedImages) {
-  //       formDatas.append('images', image);
-  //     }
 
   const handleSubmit = async () => {
     const isValid = validateForm();
@@ -281,6 +263,19 @@ export default function RestaurantDetails() {
       })
         .then(response => {
           console.log('Response from backend:', response.data);
+          setFormData({
+            restaurantName: '',
+            location: '',
+            startTime: '',
+            endTime: '',
+            mealsType: [],
+            daysOfWeek: [],
+            restaurantType: [],
+            cuisines: [],
+            addTable: null
+          })
+          setSelectedImages([])
+          setOpenAddDialog(false);
         })
         .catch(error => {
           console.error('Error:', error);
@@ -392,16 +387,16 @@ export default function RestaurantDetails() {
               onChange={(e) => setFormData({ ...formData, restaurantName: e.target.value })}
               error={!!formErrors.restaurantName}
               helperText={formErrors.restaurantName} />
-              <div style={{ display: 'flex',marginBottom:'18px'}} >
-            <TextField fullWidth label="Location" sx={{ mr: 1 }}
-              value={formData.location}
-              onChange={(e) => setFormData({ ...formData, location: e.target.value })}
-              error={!!formErrors.location}
-              helperText={formErrors.location} />
+            <div style={{ display: 'flex', marginBottom: '18px' }} >
+              <TextField fullWidth label="Location" sx={{ mr: 1 }}
+                value={formData.location}
+                onChange={(e) => setFormData({ ...formData, location: e.target.value })}
+                error={!!formErrors.location}
+                helperText={formErrors.location} />
               <Button variant="contained" color="primary" component="span" onClick={handleLocation}>
-                   Location
-                </Button>
-              </div>
+                Location
+              </Button>
+            </div>
             <Stack direction="row" mb={2}>
               <TextField label="Start time" id='startTime' sx={{ mr: 1 }}
                 value={formData.startTime}
@@ -567,7 +562,7 @@ export default function RestaurantDetails() {
               />
             </div>
             {formErrors.images && (
-              <p style={{ color: 'red', textAlign: 'center' ,fontSize:'small' }}>{formErrors.images}</p>
+              <p style={{ color: 'red', textAlign: 'center', fontSize: 'small' }}>{formErrors.images}</p>
             )}
 
             {/* <DynamicFieldsExample  onValueChange={handleValueFromChild} /> */}
