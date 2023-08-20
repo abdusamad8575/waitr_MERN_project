@@ -104,11 +104,25 @@ const changeRole = async (req,res)=>{
     }
 }
 
+const fetchRestaurants = async (req, res) => {
+    try {
+        const restaurant = await Restaurant.find();
+        if (!restaurant) {
+            return res.status(404).json({ message: 'restaurant not found' });
+        } else {
+            return res.status(200).json({ message: 'restaurant data fetch successfuly', restaurant })
+        }
+    } catch (error) {
+        return res.status(500).json({ message: 'Server Error' });
+    }
+}
+
 module.exports = {
     notification,
     adminVerify,
     fetchUserData,
     adminBlocked,
     fetchaddUserReq,
-    changeRole
+    changeRole,
+    fetchRestaurants
 }

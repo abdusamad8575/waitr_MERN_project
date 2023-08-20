@@ -462,15 +462,11 @@ export default function RestaurantDetails() {
               onChange={(event, newValue) => setFormData({ ...formData, daysOfWeek: newValue })}
               renderInput={(params) => (
                 <TextField {...params} label="Of Days" placeholder="select"
-                  // error={!!formErrors.daysOfWeek}
-                  // helperText={formErrors.daysOfWeek} 
-                  />
+                // error={!!formErrors.daysOfWeek}
+                // helperText={formErrors.daysOfWeek} 
+                />
               )}
             />
-
-
-
-
 
             <Autocomplete
               multiple
