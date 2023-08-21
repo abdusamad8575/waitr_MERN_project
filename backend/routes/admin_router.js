@@ -12,5 +12,5 @@ admin_router.get('/fetchRestaurants',verifyToken,fetchRestaurants)
 admin_router.post('/location',verifyToken,location)
 admin_router.get('/fetchLocations',verifyToken,fetchLocations)
 
-
+  
 module.exports = admin_router;

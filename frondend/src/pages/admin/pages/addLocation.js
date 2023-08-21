@@ -98,7 +98,6 @@ export default function AddLocation() {
     fetchData();
     
   },[])
-console.log("locationDatas",locationDatas);
   
 
   const handleOpenAddDialog = () => {

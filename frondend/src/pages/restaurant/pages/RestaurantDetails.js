@@ -1,7 +1,7 @@
 import { Helmet } from 'react-helmet-async';
 import { filter } from 'lodash';
 import { sentenceCase } from 'change-case';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 // @mui
 import {
   Card,
@@ -34,9 +34,16 @@ import USERLIST from '../_mock/user';
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import Autocomplete from '@mui/material/Autocomplete';
-import DynamicFieldsExample from './sub pages/DynamicFieldsExample ';
 import axiosInstance from '../../../axios';
 import axios from 'axios';
+
+
+import OutlinedInput from '@mui/material/OutlinedInput';
+import InputLabel from '@mui/material/InputLabel';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+
+
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
@@ -45,10 +52,10 @@ const checkedIcon = <CheckBoxIcon fontSize="small" />;
 const TABLE_HEAD = [
   { id: 'name', label: 'Name', alignRight: false },
   { id: 'location', label: 'Location', alignRight: false },
-  { id: 'no', label: 'Restaurant No.', alignRight: false },
-  { id: 'isVerified', label: 'Verified', alignRight: false },
-  { id: 'status', label: 'Status', alignRight: false },
-  { id: '' },
+  { id: 'restaurantType', label: 'Restaurant Type', alignRight: false },
+  { id: 'time', label: 'Start and End time', alignRight: false },
+  // { id: 'status', label: 'Status', alignRight: false },
+  // { id: '' },
 ];
 
 const mealType = ['Breakfast', 'Lunch', 'Dinner ']
@@ -105,8 +112,31 @@ export default function RestaurantDetails() {
 
   const [openAddDialog, setOpenAddDialog] = useState(false);
 
-
   const [selectedImages, setSelectedImages] = useState([]);
+
+  const [names, setNames] = useState([]);
+  const [selectOpen, setSelectOpen] = useState(false);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        await axiosInstance.get('/dashboard/fetchLocations')
+          .then((res) =>
+            setNames(res.data.locations.location)
+          )
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    fetchData();
+
+  }, [])
+  const handleClose = () => {
+    setSelectOpen(false);
+  };
+
+  const handleOpen = () => {
+    setSelectOpen(true);
+  };
 
 
   const [formData, setFormData] = useState({
@@ -361,7 +391,7 @@ export default function RestaurantDetails() {
     setFormData({ ...formData, addTable: receivedValue })
   };
 
-
+// console.log(formData);
   return (
     <>
       <Helmet>
@@ -387,16 +417,45 @@ export default function RestaurantDetails() {
               onChange={(e) => setFormData({ ...formData, restaurantName: e.target.value })}
               error={!!formErrors.restaurantName}
               helperText={formErrors.restaurantName} />
+
+
+
             <div style={{ display: 'flex', marginBottom: '18px' }} >
-              <TextField fullWidth label="Location" sx={{ mr: 1 }}
+              {/* <TextField fullWidth label="Location" sx={{ mr: 1 }}
                 value={formData.location}
                 onChange={(e) => setFormData({ ...formData, location: e.target.value })}
                 error={!!formErrors.location}
-                helperText={formErrors.location} />
+                helperText={formErrors.location} /> */}
+              <FormControl sx={{ mr: 1, minWidth: 120 }} fullWidth>
+                <InputLabel id="demo-controlled-open-select-label">Location</InputLabel>
+                <Select
+                  labelId="demo-controlled-open-select-label"
+                  id="demo-controlled-open-select"
+                  open={selectOpen}
+                  onClose={handleClose}
+                  onOpen={handleOpen}
+                  value={formData.location}
+                  label="Location"
+                  onChange={(e) => setFormData({ ...formData, location: e.target.value })}
+                  error={!!formErrors.location}
+                >
+                  {names.map((location)=>
+                    <MenuItem value={location}>{location}</MenuItem>)}
+                  
+                </Select>
+              </FormControl>
+
               <Button variant="contained" color="primary" component="span" onClick={handleLocation}>
                 Location
               </Button>
             </div>
+            {formErrors.location && (
+              <p style={{ color: 'red', textAlign: 'center', fontSize: 'small' }}>{formErrors.location}</p>
+            )}
+
+
+
+
             <Stack direction="row" mb={2}>
               <TextField label="Start time" id='startTime' sx={{ mr: 1 }}
                 value={formData.startTime}
@@ -582,102 +641,102 @@ export default function RestaurantDetails() {
 
 
 
-          <Card>
-            <UserListToolbar numSelected={selected.length} filterName={filterName} onFilterName={handleFilterByName} />
+        <Card>
+          <UserListToolbar numSelected={selected.length} filterName={filterName} onFilterName={handleFilterByName} />
 
-            <Scrollbar>
-              <TableContainer sx={{ minWidth: 800 }}>
-                <Table>
-                  <UserListHead
-                    order={order}
-                    orderBy={orderBy}
-                    headLabel={TABLE_HEAD}
-                    rowCount={USERLIST.length}
-                    numSelected={selected.length}
-                    onRequestSort={handleRequestSort}
-                    onSelectAllClick={handleSelectAllClick}
-                  />
-                  <TableBody>
-                    {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                      const { id, name, role, status, company, isVerified } = row;
-                      const selectedUser = selected.indexOf(name) !== -1;
+          <Scrollbar>
+            <TableContainer sx={{ minWidth: 800 }}>
+              <Table>
+                <UserListHead
+                  order={order}
+                  orderBy={orderBy}
+                  headLabel={TABLE_HEAD}
+                  rowCount={USERLIST.length}
+                  numSelected={selected.length}
+                  onRequestSort={handleRequestSort}
+                  onSelectAllClick={handleSelectAllClick}
+                />
+                <TableBody>
+                  {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
+                    const { id, name, role, status, company, isVerified } = row;
+                    const selectedUser = selected.indexOf(name) !== -1;
 
-                      return (
-                        <TableRow hover key={id} tabIndex={-1} role="checkbox" selected={selectedUser}>
-                          <TableCell padding="checkbox">
-                            <Checkbox checked={selectedUser} onChange={(event) => handleClick(event, name)} />
-                          </TableCell>
+                    return (
+                      <TableRow hover key={id} tabIndex={-1} role="checkbox" selected={selectedUser}>
+                        <TableCell padding="checkbox">
+                          <Checkbox checked={selectedUser} onChange={(event) => handleClick(event, name)} />
+                        </TableCell>
 
-                          <TableCell component="th" scope="row" padding="none">
-                            <Stack direction="row" alignItems="center" spacing={2}>
-                              <Typography variant="subtitle2" noWrap>
-                                {name}
-                              </Typography>
-                            </Stack>
-                          </TableCell>
-
-                          <TableCell align="left">{company}</TableCell>
-
-                          <TableCell align="left">{role}</TableCell>
-
-                          <TableCell align="left">{isVerified ? 'Yes' : 'No'}</TableCell>
-
-                          <TableCell align="left">
-                            <Label color={(status === 'banned' && 'error') || 'success'}>{sentenceCase(status)}</Label>
-                          </TableCell>
-
-                          <TableCell align="right">
-                            <IconButton size="large" color="inherit" onClick={handleOpenMenu}>
-                              <Iconify icon={'eva:more-vertical-fill'} />
-                            </IconButton>
-                          </TableCell>
-                        </TableRow>
-                      );
-                    })}
-                    {emptyRows > 0 && (
-                      <TableRow style={{ height: 53 * emptyRows }}>
-                        <TableCell colSpan={6} />
-                      </TableRow>
-                    )}
-                  </TableBody>
-
-                  {isNotFound && (
-                    <TableBody>
-                      <TableRow>
-                        <TableCell align="center" colSpan={6} sx={{ py: 3 }}>
-                          <Paper
-                            sx={{
-                              textAlign: 'center',
-                            }}
-                          >
-                            <Typography variant="h6" paragraph>
-                              Not found
+                        <TableCell component="th" scope="row" padding="none">
+                          <Stack direction="row" alignItems="center" spacing={2}>
+                            <Typography variant="subtitle2" noWrap>
+                              {name}
                             </Typography>
+                          </Stack>
+                        </TableCell>
 
-                            <Typography variant="body2">
-                              No results found for &nbsp;
-                              <strong>&quot;{filterName}&quot;</strong>.
-                              <br /> Try checking for typos or using complete words.
-                            </Typography>
-                          </Paper>
+                        <TableCell align="left">{company}</TableCell>
+
+                        <TableCell align="left">{role}</TableCell>
+
+                        <TableCell align="left">{isVerified ? 'Yes' : 'No'}</TableCell>
+
+                        <TableCell align="left">
+                          <Label color={(status === 'banned' && 'error') || 'success'}>{sentenceCase(status)}</Label>
+                        </TableCell>
+
+                        <TableCell align="right">
+                          <IconButton size="large" color="inherit" onClick={handleOpenMenu}>
+                            <Iconify icon={'eva:more-vertical-fill'} />
+                          </IconButton>
                         </TableCell>
                       </TableRow>
-                    </TableBody>
+                    );
+                  })}
+                  {emptyRows > 0 && (
+                    <TableRow style={{ height: 53 * emptyRows }}>
+                      <TableCell colSpan={6} />
+                    </TableRow>
                   )}
-                </Table>
-              </TableContainer>
-            </Scrollbar>
+                </TableBody>
 
-            <TablePagination
-              rowsPerPageOptions={[5, 10, 25]}
-              component="div"
-              count={USERLIST.length}
-              rowsPerPage={rowsPerPage}
-              page={page}
-              onPageChange={handleChangePage}
-              onRowsPerPageChange={handleChangeRowsPerPage}
-            />
-          </Card>
+                {isNotFound && (
+                  <TableBody>
+                    <TableRow>
+                      <TableCell align="center" colSpan={6} sx={{ py: 3 }}>
+                        <Paper
+                          sx={{
+                            textAlign: 'center',
+                          }}
+                        >
+                          <Typography variant="h6" paragraph>
+                            Not found
+                          </Typography>
+
+                          <Typography variant="body2">
+                            No results found for &nbsp;
+                            <strong>&quot;{filterName}&quot;</strong>.
+                            <br /> Try checking for typos or using complete words.
+                          </Typography>
+                        </Paper>
+                      </TableCell>
+                    </TableRow>
+                  </TableBody>
+                )}
+              </Table>
+            </TableContainer>
+          </Scrollbar>
+
+          <TablePagination
+            rowsPerPageOptions={[5, 10, 25]}
+            component="div"
+            count={USERLIST.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+          />
+        </Card>
       </Container>
 
       <Popover

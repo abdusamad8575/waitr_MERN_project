@@ -33,8 +33,8 @@ import axiosInstance from '../../../axios';
 const TABLE_HEAD = [
     { id: 'restaurant', label: 'Restaurant', alignRight: false },
     { id: 'location', label: 'Location', alignRight: false },
-    { id: 'type', label: 'Restaurann Type', alignRight: false },
-    { id: 'time', label: 'start - end time', alignRight: false },
+    { id: 'type', label: 'Restaurant Type', alignRight: false },
+    { id: 'time', label: 'Start - End time', alignRight: false },
     // { id: 'isVerified', label: 'Verified', alignRight: false },
 ];
 
