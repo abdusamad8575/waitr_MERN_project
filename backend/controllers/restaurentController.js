@@ -4,9 +4,10 @@ const Restaurant = require('../model/restaurantModel')
 
 const adminAddRestorent = async (req, res) => {
     try {
-        const { restaurantName, location, startTime, endTime, mealsType, daysOfWeek, addTable, cuisines, restaurantType } = req.body;
+        const { restaurantName, location, startTime, endTime, mealsType, daysOfWeek, addTable, cuisines, restaurantType, id } = req.body;
         const images = req.files.map(file => file.filename);
-        // console.log("image:-",images);
+        if(id && images) {
+            
     // Parse array values
     const parsedMealsType = mealsType.split(',');
     const parsedDaysOfWeek = daysOfWeek.split(',');
@@ -22,6 +23,7 @@ const adminAddRestorent = async (req, res) => {
     // console.log("Table:-",Table);
     const img = images.map(img=>`http://localhost:8000/assets/${img}`)
         const restaurant = new Restaurant({  
+            ownerId:id,
             restaurantName: restaurantName,
             location: location,
             startTime: startTime,
@@ -40,6 +42,8 @@ const adminAddRestorent = async (req, res) => {
         console.log("datas-",restaurant)
         await restaurant.save()
         res.json({ message: 'Data saved successfully' });
+        
+    }
     }
     catch (error) {
         return res.status(500).json({ message: 'Server Error' });

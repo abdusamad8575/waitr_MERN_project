@@ -36,9 +36,6 @@ import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import Autocomplete from '@mui/material/Autocomplete';
 import axiosInstance from '../../../axios';
 import axios from 'axios';
-
-
-import OutlinedInput from '@mui/material/OutlinedInput';
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
@@ -269,7 +266,8 @@ export default function RestaurantDetails() {
 
         //     }
         //   }
-        // }
+        // } 
+
         else {
           newFormData.append(key, value);
         }
@@ -279,9 +277,9 @@ export default function RestaurantDetails() {
       for (const image of selectedImages) {
         newFormData.append('images', image);
       }
-
-
-      console.log(formData);
+   const id = localStorage.getItem("userId")
+   newFormData.append('id', id);
+      // console.log(id);
 
 
 

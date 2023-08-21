@@ -1,6 +1,11 @@
 const mongoose = require('mongoose');
 
 const RestaurantDetailsSchema = new mongoose.Schema({
+    ownerId:
+    {
+        type: String,
+        required: true,
+    },
     restaurantName:
     {
         type: String,
