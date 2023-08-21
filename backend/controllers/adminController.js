@@ -1,5 +1,6 @@
 const User = require('../model/userModel');
-const Restaurant = require('../model/restaurantModel')
+const Restaurant = require('../model/restaurantModel');
+const Location = require('../model/locationModel');
 
 
 const notification = async (req, res) => {
@@ -116,6 +117,38 @@ const fetchRestaurants = async (req, res) => {
         return res.status(500).json({ message: 'Server Error' });
     }
 }
+const location = async(req,res)=>{
+    try {
+        const {location } = req.body
+        function capitalizeFirstLetter(str) {
+            return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+        }
+        const value = capitalizeFirstLetter(location);
+        if(!location){
+            res.status(400).json({message:'location not recieved'})
+        }else{
+            await Location.updateOne({_id:'64e2edae04c4afac9061ac2e'},
+            {$push:{location:value}})
+            const locations = await Location.findOne();
+            return res.status(200).json({message:'location stored',locations})
+        }
+    } catch (error) {
+        return res.status(500).json({ message: 'Server Error' });
+    }
+}
+
+const fetchLocations = async (req, res) => {
+    try {
+        const locations = await Location.findOne();
+        if (!locations) {
+            return res.status(404).json({ message: 'locations not found' });
+        } else {
+            return res.status(200).json({ message: 'locations data fetch successfuly', locations })
+        }
+    } catch (error) {
+        return res.status(500).json({ message: 'Server Error' });
+    }
+}
 
 module.exports = {
     notification,
@@ -124,5 +157,7 @@ module.exports = {
     adminBlocked,
     fetchaddUserReq,
     changeRole,
-    fetchRestaurants
+    fetchRestaurants,
+    location,
+    fetchLocations
 }
