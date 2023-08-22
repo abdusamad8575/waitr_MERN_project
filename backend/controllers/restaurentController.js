@@ -1,5 +1,6 @@
 
 const Restaurant = require('../model/restaurantModel')
+const User = require('../model/userModel')
 
 
 const adminAddRestorent = async (req, res) => {
@@ -41,7 +42,8 @@ const adminAddRestorent = async (req, res) => {
         })
         console.log("datas-",restaurant)
         await restaurant.save()
-        res.json({ message: 'Data saved successfully' });
+        await User.updateOne({_id:id},{$set:{restaurantId:restaurant._id}})
+        return res.json({ message: 'Data saved successfully' });
         
     }
     }
@@ -49,9 +51,25 @@ const adminAddRestorent = async (req, res) => {
         return res.status(500).json({ message: 'Server Error' });
     }
 }
-   
 
+const fetchRestaurant = async (req,res) =>{
+    try {
+       const userId = req.id
+       const restaurant =  await User.findById(userId).populate('restaurantId')
+          console.log("5464",restaurant);       
+          if(!restaurant){
+            return res.status(400).json({message:'data not fetch'})
+        }else{
+              return res.status(200).json({message:'restaurant data fetch saccessfully',restaurant})
+          }
 
+    } catch (error) {
+        return res.status(500).json({ message: 'Server Error' });        
+    }
+}
+
+     
 module.exports = {
-    adminAddRestorent
+    adminAddRestorent,
+    fetchRestaurant
 }

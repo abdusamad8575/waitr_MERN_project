@@ -8,12 +8,12 @@ import { Provider } from 'react-redux';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <BrowserRouter>
-    <React.StrictMode>
+    {/* <React.StrictMode> */}
     <GoogleOAuthProvider clientId={`135168302582-udmqvs3egi8bi6ggp6qpvgiuupm1jj9b.apps.googleusercontent.com`}>
       <Provider store={store}>
         <App />
       </Provider>
     </GoogleOAuthProvider>
-    </React.StrictMode>
+    {/* </React.StrictMode> */}
   </BrowserRouter>
 );

@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
+// const Restaurant = require('./restaurantModel')
 
 const userSchema = new mongoose.Schema({
     firstName: {
@@ -51,7 +52,11 @@ const userSchema = new mongoose.Schema({
             type:Boolean,
             required: true
         }
-    }]
+    }],
+    restaurantId:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Restaurant",
+    }
 });
 
 // Encrypt password using bcrypt before saving to the database
