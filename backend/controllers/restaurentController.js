@@ -60,7 +60,7 @@ const fetchRestaurant = async (req,res) =>{
           if(!restaurant){
             return res.status(400).json({message:'data not fetch'})
         }else{
-              return res.status(200).json({message:'restaurant data fetch saccessfully',restaurant})
+              return res.status(200).json({message:'restaurant data fetch saccessfully',restaurant})    
           }
 
     } catch (error) {

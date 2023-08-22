@@ -48,6 +48,8 @@ export default function RestaurantDetails() {
   const [names, setNames] = useState([]);
   const [selectOpen, setSelectOpen] = useState(false);
   const [datas,setDatas] = useState('')
+
+
   useEffect(() => {
     const fetchRestaurant = async () =>{
       try {
@@ -503,16 +505,28 @@ export default function RestaurantDetails() {
         <CardActionArea>
         <CardMedia
           component="img"
-          height="140"
-          image={datas.restaurantId.images[0]}
+          height="300"
+          image={datas?.restaurantId?.images[0]} 
           alt="green iguana"
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">
-          Name:{datas.restaurantId.restaurantName}
+          Name:{datas?.restaurantId?.restaurantName}
           </Typography>
           <Typography variant="body2" color="text.secondary">
-            Location:{datas.restaurantId.location}
+            Location:{datas?.restaurantId?.location}
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+          Start Time:{datas?.restaurantId?.startTime}
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+          End Time:{datas?.restaurantId?.endTime}
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            Location:{datas?.restaurantId?.location}
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            Location:{datas?.restaurantId?.location}
           </Typography>
         </CardContent>
       </CardActionArea>
