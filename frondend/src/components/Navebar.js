@@ -16,6 +16,7 @@ import MenuItem from '@mui/material/MenuItem';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import { useDispatch, useSelector } from 'react-redux';
 import axiosInstance from '../axios';
+import axios from 'axios';
 import { logout } from '../redux-toolkit/userSlice';
 import { Autocomplete, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from '@mui/material';
 import { styled, alpha } from "@mui/material/styles";
@@ -24,6 +25,36 @@ const pages = ['Home', 'Find Restaurant', 'Posts'];
 // const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 const settings = ['Login', 'Account', 'Add Hotels'];
 const LogInSettings = ['Account', 'Add Hotels', 'Logout'];
+
+
+//-----------------------------------------------------------------------------
+const Search = styled("div")(({ theme }) => ({
+  position: "relative",
+  borderRadius: theme.shape.borderRadius,
+  backgroundColor: alpha("#000", 0.05),
+  "&:hover": {
+    backgroundColor: alpha('#ebebeb', 0.25),
+  },
+  marginLeft: 0,
+  border: 20,
+  width: "250px",
+  [theme.breakpoints.down("sm")]: {
+    marginLeft: theme.spacing(1),
+    width: "120px",
+  },
+}));
+
+const SearchIconWrapper = styled("div")(({ theme }) => ({
+  color: "#8f8888",
+  padding: theme.spacing(0, 1),
+  height: "100%",
+  position: "absolute",
+  pointerEvents: "none",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+}));
+//------------------------------------------------------------------------------------------
 
 function Navebar() {
   const History = useNavigate();
@@ -39,6 +70,7 @@ function Navebar() {
     Rlocation: '',
     Rcontact: '',
   })
+  const [location, SetLocation] = React.useState('')
   const isLogged = useSelector((state) => {
     return state.user;
   })
@@ -52,32 +84,27 @@ function Navebar() {
 
 
   //-----------------------------------------------------------------------------
-  const Search = styled("div")(({ theme }) => ({
-    position: "relative",
-    borderRadius: theme.shape.borderRadius,
-    backgroundColor: alpha("#000", 0.05),
-    "&:hover": {
-      backgroundColor: alpha('#ebebeb', 0.25),
-    },
-    marginLeft: 0,
-    border: 20,
-    width: "250px",
-    [theme.breakpoints.down("sm")]: {
-      marginLeft: theme.spacing(1),
-      width: "120px",
-    },
-  }));
+  const [names, setNames] = React.useState([]);
+  React.useEffect(() => {
+    const fetchData = async () => {
+      try {
+        await axiosInstance.get('/dashboard/fetchLocations')
+          .then((res) =>
+            setNames(res.data.locations.location)
+          )
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    fetchData();
+  }, [])
 
-  const SearchIconWrapper = styled("div")(({ theme }) => ({
-    color: "#8f8888",
-    padding: theme.spacing(0, 1),
-    height: "100%",
-    position: "absolute",
-    pointerEvents: "none",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-  }));
+  const handleCarrentLocation = async() => {
+    console.log('45');
+    await axios.get('https://ipapi.co/json')
+      .then((res) => SetLocation(res.data.city))
+      .catch((error) => console.log(error))
+  }
   //------------------------------------------------------------------------------------------
 
   const sendLogoutReq = tryCatch(() => {
@@ -189,12 +216,12 @@ function Navebar() {
   const handleToggleSearch = () => {
     setShowSearch((prevShowSearch) => !prevShowSearch);
   };
-
+console.log("location",location);
   return (
     <div className='mainDiv'>
       <AppBar position="fixed" sx={{ backgroundColor: 'white' }} >
         <Container maxWidth="xl" >
-          <Toolbar disableGutters>
+          <Toolbar disableGutters>  
             {/* <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} /> */}
             <Typography
               variant="h6"
@@ -335,15 +362,25 @@ function Navebar() {
             </Box> */}
 
             <Search>
-              <SearchIconWrapper>
-                <LocationOnIcon />
-              </SearchIconWrapper>
+              <LocationOnIcon style={{
+                color: "#8f8888",
+                paddingLeft:  6,
+                height: "100%",
+                position: "absolute",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                cursor:'pointer'
+              }} 
+              onClick={handleCarrentLocation}
+              />
               <Autocomplete
                 disablePortal
                 id="combo-box-demo"
-                options={[]}
-                sx={{ width: 300,paddingLeft:"30px"}}
-                renderInput={(params) => <TextField {...params} placeholder='Location'   sx={{
+                value={location}
+                options={names}
+                sx={{ width: 250, paddingLeft: "30px" }}
+                renderInput={(params) => <TextField {...params} placeholder='Location' sx={{
                   boxShadow: 'none',
                   '.MuiOutlinedInput-notchedOutline': {
                     border: 0,
@@ -353,7 +390,8 @@ function Navebar() {
                   },
                 }} />}
                 size='small'
-                
+                onChange={(e,value) => SetLocation(value)}
+
               />
             </Search>
 
