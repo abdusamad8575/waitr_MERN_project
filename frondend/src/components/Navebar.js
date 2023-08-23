@@ -13,18 +13,17 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import SearchIcon from '@mui/icons-material/Search';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
 import { useDispatch, useSelector } from 'react-redux';
 import axiosInstance from '../axios';
 import { logout } from '../redux-toolkit/userSlice';
-import { Dialog, DialogActions, DialogContent, DialogTitle, TextField } from '@mui/material';
+import { Autocomplete, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from '@mui/material';
+import { styled, alpha } from "@mui/material/styles";
 import tryCatch from '../utils/tryCatch';
 const pages = ['Home', 'Find Restaurant', 'Posts'];
 // const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 const settings = ['Login', 'Account', 'Add Hotels'];
 const LogInSettings = ['Account', 'Add Hotels', 'Logout'];
-
-
 
 function Navebar() {
   const History = useNavigate();
@@ -46,27 +45,58 @@ function Navebar() {
   const isLoggedIn = isLogged.isLoggedIn;
   const userId = localStorage.getItem('userId')
   const userDetails = localStorage.getItem("user")
-  const user =userDetails? JSON.parse(userDetails) : ''
+  const user = userDetails ? JSON.parse(userDetails) : ''
 
   // console.log("user-",user);
-  
-  const sendLogoutReq = tryCatch (() => {
+
+
+
+  //-----------------------------------------------------------------------------
+  const Search = styled("div")(({ theme }) => ({
+    position: "relative",
+    borderRadius: theme.shape.borderRadius,
+    backgroundColor: alpha("#000", 0.05),
+    "&:hover": {
+      backgroundColor: alpha('#ebebeb', 0.25),
+    },
+    marginLeft: 0,
+    border: 20,
+    width: "250px",
+    [theme.breakpoints.down("sm")]: {
+      marginLeft: theme.spacing(1),
+      width: "120px",
+    },
+  }));
+
+  const SearchIconWrapper = styled("div")(({ theme }) => ({
+    color: "#8f8888",
+    padding: theme.spacing(0, 1),
+    height: "100%",
+    position: "absolute",
+    pointerEvents: "none",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  }));
+  //------------------------------------------------------------------------------------------
+
+  const sendLogoutReq = tryCatch(() => {
     const res = axiosInstance.post('/logout');
-      return res;
+    return res;
   })
 
-  const sendAddHotelReq = tryCatch(() =>{
-    console.log("userId=>",userId);
+  const sendAddHotelReq = tryCatch(() => {
+    console.log("userId=>", userId);
     const res = axiosInstance.post(`/addhotelreq?id=${userId}`, addHotel);
     return res
-     
+
   })
 
   const handleOpenAddDialog = () => {
     setOpenAddDialog(true)
     setAnchorElUser(null);
   }
-  const handleProfile= ()=>{
+  const handleProfile = () => {
     History('/account')
     setAnchorElUser(null);
   }
@@ -102,6 +132,16 @@ function Navebar() {
   const handleSettings = () => {
 
     setAnchorElUser(null);
+  };
+
+  // -----------------------------------------------------------------------
+  const [selectOpen, setSelectOpen] = React.useState(false);
+  const handleClose = () => {
+    setSelectOpen(false);
+  };
+
+  const handleOpen = () => {
+    setSelectOpen(true);
   };
 
   const validateForm = () => {
@@ -152,7 +192,7 @@ function Navebar() {
 
   return (
     <div className='mainDiv'>
-      <AppBar position="fixed" sx={{backgroundColor:'white'}} >
+      <AppBar position="fixed" sx={{ backgroundColor: 'white' }} >
         <Container maxWidth="xl" >
           <Toolbar disableGutters>
             {/* <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} /> */}
@@ -210,6 +250,9 @@ function Navebar() {
                 ))}
               </Menu>
             </Box>
+
+
+
             {/* <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} /> */}
             <Typography
               variant="h5"
@@ -244,7 +287,7 @@ function Navebar() {
 
 
 
-            <Box
+            {/* <Box
               sx={{
                 flexGrow: 1,
                 display: { xs: 'flex', md: 'none' }, // Show on mobile, hide on md and above
@@ -262,10 +305,10 @@ function Navebar() {
               >
                 <SearchIcon style={{ color: 'black' }} />
               </IconButton>
-            </Box>
+            </Box> */}
 
             {/* Expanded Search Input and Button (for mobile and larger view) */}
-            <Box
+            {/* <Box
               sx={{
                 flexGrow: 1,
                 display: showSearch ? 'flex' : { xs: 'none', md: 'flex' }, // Show on mobile when expanded, hide on md and above
@@ -289,14 +332,37 @@ function Navebar() {
                   Search
                 </button>
               </form>
-            </Box>
+            </Box> */}
+
+            <Search>
+              <SearchIconWrapper>
+                <LocationOnIcon />
+              </SearchIconWrapper>
+              <Autocomplete
+                disablePortal
+                id="combo-box-demo"
+                options={[]}
+                sx={{ width: 300,paddingLeft:"30px"}}
+                renderInput={(params) => <TextField {...params} placeholder='Location'   sx={{
+                  boxShadow: 'none',
+                  '.MuiOutlinedInput-notchedOutline': {
+                    border: 0,
+                  },
+                  '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                    borderColor: 'transparent', // Set the border color to transparent when focused
+                  },
+                }} />}
+                size='small'
+                
+              />
+            </Search>
 
 
 
             <Box sx={{ flexGrow: 0, marginLeft: '10px' }}>
               <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar alt="Remy Sharp" src={user?.profilePic ? user.profilePic :"/static/images/avatar/2.jpg"} />
+                  <Avatar alt="Remy Sharp" src={user?.profilePic ? user.profilePic : "/static/images/avatar/2.jpg"} />
                 </IconButton>
               </Tooltip>
               <Menu
