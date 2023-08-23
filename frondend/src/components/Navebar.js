@@ -17,7 +17,7 @@ import LocationOnIcon from '@mui/icons-material/LocationOn';
 import { useDispatch, useSelector } from 'react-redux';
 import axiosInstance from '../axios';
 import axios from 'axios';
-import { logout } from '../redux-toolkit/userSlice';
+import { logout ,locations} from '../redux-toolkit/userSlice';
 import { Autocomplete, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from '@mui/material';
 import { styled, alpha } from "@mui/material/styles";
 import tryCatch from '../utils/tryCatch';
@@ -81,7 +81,9 @@ function Navebar() {
 
   // console.log("user-",user);
 
-
+React.useEffect(()=>{
+  dispatch(locations(location))
+},[location])
 
   //-----------------------------------------------------------------------------
   const [names, setNames] = React.useState([]);

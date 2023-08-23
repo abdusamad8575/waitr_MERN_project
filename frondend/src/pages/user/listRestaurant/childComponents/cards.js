@@ -1,34 +1,15 @@
 import * as React from "react";
 import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
-import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
-import BookmarkIcon from "@mui/icons-material/Bookmark";
-import CssBaseline from "@mui/material/CssBaseline";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
-// import { getPosts } from "../../../redux/action";
 import axiosInstance from "../../../../axios";
-import { Box, IconButton, Skeleton } from "@mui/material";
+import { Box,Skeleton } from "@mui/material";
 import { useNavigate } from "react-router";
 import styled from "@emotion/styled";
-// import { timeAgo } from "../../../utils/functions";
-import { motion } from "framer-motion";
-import Divider from "@mui/material/Divider"
-const container = {
-  hidden: { opacity: 1, scale: 0 },
-  visible: {
-    opacity: 1,
-    scale: 1,
-    transition: {
-      delayChildren: 0.5,
-      staggerChildren: 0.3,
-    },
-  },
-};
+import { useSelector } from "react-redux";
 
 const H1 = styled(Typography)({
   variant: "body1",
@@ -50,17 +31,17 @@ const H3 = styled(Typography)({
 });
 
 export default function Album({ filter }) {
+  const location = useSelector((state)=>state.user.location)
   const navigate = useNavigate();
-  const [checked, setChecked] = React.useState(false);
+  const [filterLocation, setfilterLocation] = React.useState('');
   const [data, setData] = React.useState([""]);
   const [loading, setLoading] = React.useState(true);
   React.useEffect(() => {
     try {
       setLoading(true)
       const fetchData = async () => {
-        // await getPosts(filter)
         await axiosInstance.get('/restorentDetails', filter)
-          .then((res) => res && setData(res.data.restaurant))
+          .then((res) =>res && setData(res.data.restaurant))
           .then(() => setLoading(false))
       }
       fetchData();
@@ -68,8 +49,33 @@ export default function Album({ filter }) {
       console.log(error.message);
     }
   }, [filter]);
-  // console.log("data2:-",data);
-
+  // React.useEffect(()=>{
+  //   console.log("data2:-",data); 
+  //   try {
+  //     const fetchFilterData = async()=>{
+  //       const datas = await data.map((value)=>{
+  //         console.log("sa",value);
+  //       })
+  //       // setfilterLocation(location)
+  //     }
+      
+  //     fetchFilterData()
+  //   } catch (error) {
+  //     console.log(error.message);
+  //   }
+  // },[location])
+  if(location !== ''){
+    
+    const datas = data.filter((value)=>{
+      return value.location  === location
+    })
+    setfilterLocation(datas)
+  }else{
+    setfilterLocation(data)
+    
+  }
+  console.log("sa",filterLocation);
+  
   return (
     <Container sx={{ py: 1 }} maxWidth="md">
       <Grid container spacing={4}>
