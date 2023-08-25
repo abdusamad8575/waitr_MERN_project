@@ -36,7 +36,7 @@ function ListRestaurant() {
   const [filters, setFilters] = useState({})
   const [filterCount, setCount] = useState(0)
   const [search, setSearch] = React.useState('')
-
+// console.log("fil",filters);
   useEffect(() => {
     console.log(search);
     setFilters(prev=>({...prev,search}))

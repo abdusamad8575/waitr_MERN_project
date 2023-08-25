@@ -3,8 +3,6 @@ import React, { useState } from "react";
 import { Filters } from "../../utils/constants/filter";
 import {
   Box,
-  Button,
-  ButtonGroup,
   Card,
   Checkbox,
   Divider,
@@ -97,9 +95,8 @@ function AirbnbThumbComponent(props) {
   );
 }
 function Filiter({filter,apply}) {
-  const initState = {'Project Type':[],Age:[0,0],Role:[],Gender:[],'Date of Posting':[],Languages:[]}
-  const [selectedFilters, setSelectedFilters] = useState(initState);
-   
+  const initState = {'RestaurantType':[],'cuisines':[]}
+  const [selectedFilters, setSelectedFilters] = useState(initState);   
   const handleCheckboxChange = (event, element,item) => { 
     if (event.target.checked) {
       setSelectedFilters(prevSelected => ({...prevSelected,[item]:[...prevSelected[item],element]}))
@@ -111,13 +108,13 @@ function Filiter({filter,apply}) {
     }
   }
   useEffect(() => {
-    console.log(filter);
+    console.log("sanm",filter);
   filter==0 && setSelectedFilters(initState)
   }, [filter])
   useEffect(() => {
    apply(selectedFilters)
   }, [selectedFilters])
-  
+  // console.log("ssa",selectedFilters);
   return (
     <>
       <Hidden mdDown implementation="css">
@@ -158,10 +155,3 @@ function Filiter({filter,apply}) {
   );
 }
 export default Filiter;
-
-
-
-//#C5AE8D 100%
-//<ListItemText />
-//linear-gradient(226deg, #253541 1.21%, #0F2D2B 100%)
-//linear-gradient(44deg, #171D1F 0%, #111B18 38.03%, rgba(16, 23, 26, 0.97) 64.31%, rgba(20, 28, 26, 0.92) 90.55%)

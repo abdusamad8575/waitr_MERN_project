@@ -57,6 +57,7 @@ const SearchIconWrapper = styled("div")(({ theme }) => ({
 //------------------------------------------------------------------------------------------
 
 function Navebar() {
+  const location = useSelector((state)=>state.user.location)
   const History = useNavigate();
   const dispatch = useDispatch();
 
@@ -70,7 +71,6 @@ function Navebar() {
     Rlocation: '',
     Rcontact: '',
   })
-  const [location, SetLocation] = React.useState()
   const isLogged = useSelector((state) => {
     return state.user;
   })
@@ -99,17 +99,13 @@ function Navebar() {
   }, [])
 
   const handleCarrentLocation = async() => {
-    console.log('45');
     await axios.get('https://ipapi.co/json')
-      .then((res) => SetLocation(res.data.city))
+      .then((res) => dispatch(locations(res.data.city)))
       .catch((error) => console.log(error))
   }
 
 
   console.log("location1-",location);
-  // React.useEffect(()=>{
-    dispatch(locations(location))
-  // },[location])
   //------------------------------------------------------------------------------------------
 
   const sendLogoutReq = tryCatch(() => {
@@ -395,7 +391,7 @@ console.log("location",location);
                   },
                 }} />}
                 size='small'
-                onChange={(e,value) => SetLocation(value)}
+                onChange={(e,value) => dispatch(locations(value))}
 
               />
             </Search>

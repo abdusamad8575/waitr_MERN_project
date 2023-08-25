@@ -30,11 +30,10 @@ const H3 = styled(Typography)({
   paddingTop: "1px",
 });
 
-export default function Album() {
+export default function Album({filter}) {
+  console.log("filter",filter);
   const location = useSelector((state)=>state.user.location)
-  console.log("raja",location);
   const navigate = useNavigate();
-  const [filterLocation, setfilterLocation] = React.useState('');
   const [data, setData] = React.useState([""]);
   const [loading, setLoading] = React.useState(true);
   React.useEffect(() => {
@@ -50,42 +49,17 @@ export default function Album() {
       console.log(error.message);
     }
   }, []);
-  // React.useEffect(()=>{
-  //   console.log("data2:-",data); 
-  //   try {
-  //     const fetchFilterData = async()=>{
-  //       const datas = await data.map((value)=>{
-  //         console.log("sa",value);
-  //       })
-  //       // setfilterLocation(location)
-  //     }
-      
-  //     fetchFilterData()
-  //   } catch (error) {
-  //     console.log(error.message);
-  //   }
-  // },[location])
-
-
-
 let filterdDatas = [];
   if(location){
     
     const datas = data.filter((value)=>{
       return value.location  === location
     })
-    console.log("datas",datas)
     filterdDatas = datas;
   }else{
-    const datas = data.map((value)=>{
-      return value
-    })
-    console.log("else")
-    filterdDatas = datas
+    filterdDatas = data
     
   }
-  // console.log("sa",filterLocation);
-  console.log("cardlast:-",filterdDatas);
   
   return (
     <Container sx={{ py: 1 }} maxWidth="md">
