@@ -70,7 +70,7 @@ function Navebar() {
     Rlocation: '',
     Rcontact: '',
   })
-  const [location, SetLocation] = React.useState('')
+  const [location, SetLocation] = React.useState()
   const isLogged = useSelector((state) => {
     return state.user;
   })
@@ -79,11 +79,8 @@ function Navebar() {
   const userDetails = localStorage.getItem("user")
   const user = userDetails ? JSON.parse(userDetails) : ''
 
-  // console.log("user-",user);
-
-React.useEffect(()=>{
-  dispatch(locations(location))
-},[location])
+  
+ 
 
   //-----------------------------------------------------------------------------
   const [names, setNames] = React.useState([]);
@@ -107,6 +104,12 @@ React.useEffect(()=>{
       .then((res) => SetLocation(res.data.city))
       .catch((error) => console.log(error))
   }
+
+
+  console.log("location1-",location);
+  // React.useEffect(()=>{
+    dispatch(locations(location))
+  // },[location])
   //------------------------------------------------------------------------------------------
 
   const sendLogoutReq = tryCatch(() => {

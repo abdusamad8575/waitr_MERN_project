@@ -30,8 +30,9 @@ const H3 = styled(Typography)({
   paddingTop: "1px",
 });
 
-export default function Album({ filter }) {
+export default function Album() {
   const location = useSelector((state)=>state.user.location)
+  console.log("raja",location);
   const navigate = useNavigate();
   const [filterLocation, setfilterLocation] = React.useState('');
   const [data, setData] = React.useState([""]);
@@ -40,7 +41,7 @@ export default function Album({ filter }) {
     try {
       setLoading(true)
       const fetchData = async () => {
-        await axiosInstance.get('/restorentDetails', filter)
+        await axiosInstance.get('/restorentDetails')
           .then((res) =>res && setData(res.data.restaurant))
           .then(() => setLoading(false))
       }
@@ -48,7 +49,7 @@ export default function Album({ filter }) {
     } catch (error) {
       console.log(error.message);
     }
-  }, [filter]);
+  }, []);
   // React.useEffect(()=>{
   //   console.log("data2:-",data); 
   //   try {
@@ -64,22 +65,32 @@ export default function Album({ filter }) {
   //     console.log(error.message);
   //   }
   // },[location])
-  if(location !== ''){
+
+
+
+let filterdDatas = [];
+  if(location){
     
     const datas = data.filter((value)=>{
       return value.location  === location
     })
-    setfilterLocation(datas)
+    console.log("datas",datas)
+    filterdDatas = datas;
   }else{
-    setfilterLocation(data)
+    const datas = data.map((value)=>{
+      return value
+    })
+    console.log("else")
+    filterdDatas = datas
     
   }
-  console.log("sa",filterLocation);
+  // console.log("sa",filterLocation);
+  console.log("cardlast:-",filterdDatas);
   
   return (
     <Container sx={{ py: 1 }} maxWidth="md">
       <Grid container spacing={4}>
-        {data.map((card, index) => (
+        {filterdDatas.map((card, index) => (
           <Grid item key={index} xs={12} sm={6} md={4}>
             
             <Card
