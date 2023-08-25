@@ -3,9 +3,9 @@ export const Filters = [
       id: 1,
       title: "RestaurantType",
       elements: [
-        "veg",
-        "non veg",
-        "veg and non veg",
+        "Veg",
+        "Non Veg",
+        "Veg and Non Veg",
       ],
     },
     {

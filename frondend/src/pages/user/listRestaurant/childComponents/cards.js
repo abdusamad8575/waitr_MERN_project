@@ -31,7 +31,9 @@ const H3 = styled(Typography)({
 });
 
 export default function Album({filter}) {
-  console.log("filter",filter);
+  const restaurantType = filter.RestaurantType;
+  console.log(restaurantType);
+  const cuisines = filter.cuisines;
   const location = useSelector((state)=>state.user.location)
   const navigate = useNavigate();
   const [data, setData] = React.useState([""]);
@@ -58,8 +60,18 @@ let filterdDatas = [];
     filterdDatas = datas;
   }else{
     filterdDatas = data
-    
   }
+if (restaurantType) {
+  const datas = filterdDatas.filter((value)=>{
+    return value.restaurantType.filter(element => {
+      console.log("1:-",element);
+      return element === restaurantType.forEach(e =>{console.log("2:-",e)
+        return e})
+      
+    });
+  });
+  console.log("fen",datas);
+}
   
   return (
     <Container sx={{ py: 1 }} maxWidth="md">
