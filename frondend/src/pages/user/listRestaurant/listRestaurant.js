@@ -29,24 +29,21 @@ function totalElements(obj) {
       totalCount += obj[key].length;
     }
   }
-  if(totalCount)obj?.Age?.[0]===0 && obj?.Age?.[1]===0 ? totalCount-=2 : totalCount--
   return totalCount
 }
 function ListRestaurant() {
   const [filters, setFilters] = useState({})
   const [filterCount, setCount] = useState(0)
   const [search, setSearch] = React.useState('')
-// console.log("fil",filters);
   useEffect(() => {
     console.log(search);
     setFilters(prev=>({...prev,search}))
     console.log(filters);
   }, [search])
-  
-  // useEffect(() => {
-  //   const count = totalElements(filters)
-  //   setCount(count)
-  // }, [filters])
+  useEffect(() => {
+    const count = totalElements(filters)
+    setCount(count)
+  }, [filters])
   useEffect(()=>{
     !filterCount && setFilters({}) 
   },[filterCount])  

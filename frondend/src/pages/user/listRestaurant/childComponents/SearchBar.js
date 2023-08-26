@@ -54,7 +54,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function SearchAppBar({ filterCount,search, removeFilter ,apply}) {
-
+console.log(filterCount);
   return (
     <Box sx={{ flexGrow: 1, pt: 9 }}>
       {/* <AppBar position="static" sx={{backgroundColor:'#fff'}}>  */}

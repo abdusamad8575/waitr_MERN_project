@@ -9,6 +9,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import Slide from "@mui/material/Slide";
 import { styled } from "styled-components";
 import CloseIcon from '@mui/icons-material/Close';
+import { Filters } from "../../utils/constants/filter";
 import {
   Checkbox,
   Grid,
@@ -48,7 +49,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-const SimpleSlider = ({ Fili }) => {
+const SimpleSlider = ({ filters , dispatch}) => {
   const [open, setOpen] = useState(false);
   const [selectedTitle, setSelectedTitle] = useState(null);
 
@@ -78,7 +79,7 @@ const SimpleSlider = ({ Fili }) => {
 
   return (
     <Grid container>
-      {Fili.map((card) => (
+      {Filters.map((card) => (
         <Grid item xs={6} sm={6} sx={{paddingLeft:4}} key={card.id}>
           <Button
           
@@ -94,7 +95,8 @@ const SimpleSlider = ({ Fili }) => {
               width:'90%'
             }}
           >
-            <H1 variant="body2">{card.title} </H1>
+            <H1 variant="body2">{card.title}</H1>
+            
             <CloseIcon fontSize="small" />
           </Button>
           <Dialog
@@ -112,7 +114,10 @@ const SimpleSlider = ({ Fili }) => {
                     <Ul key={index}>
                       <Lbtn size="small">
                         <ListItemIcon>
-                          <Checkbox size="small" />
+                          <Checkbox size="small"
+                          checked={filters[card.title]?.includes(element)} 
+                          onChange={e => dispatch(e, element,card.title)}
+                           />
                           <H2 variant="body2">{element}</H2>
                         </ListItemIcon>
                       </Lbtn>

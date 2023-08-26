@@ -85,15 +85,6 @@ const AirbnbSlider = styled(Slider)(({ theme }) => ({
     height: 3,
   },
 }));
-function AirbnbThumbComponent(props) {
-  const { children, ...other } = props;
-  return (
-    <SliderThumb {...other}>
-      {children}
-
-    </SliderThumb>
-  );
-}
 function Filiter({filter,apply}) {
   const initState = {'RestaurantType':[],'cuisines':[]}
   const [selectedFilters, setSelectedFilters] = useState(initState);   
@@ -149,7 +140,7 @@ function Filiter({filter,apply}) {
         </FiliterCard>
       </Hidden>
       <Hidden mdUp implementation="css">
-        <SimpleSlider Fili={Filters} />
+        <SimpleSlider filters={selectedFilters} dispatch={handleCheckboxChange} />
       </Hidden>
     </>
   );
