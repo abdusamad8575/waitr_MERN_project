@@ -6,10 +6,11 @@ import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import axiosInstance from "../../../../axios";
-import { Box,Skeleton } from "@mui/material";
+import { Box, Skeleton } from "@mui/material";
 import { useNavigate } from "react-router";
 import styled from "@emotion/styled";
 import { useSelector } from "react-redux";
+import customFilter from "./customFilter";
 
 const H1 = styled(Typography)({
   variant: "body1",
@@ -30,20 +31,19 @@ const H3 = styled(Typography)({
   paddingTop: "1px",
 });
 
-export default function Album({filter}) {
-  const restaurantType = filter.RestaurantType;
-  console.log(restaurantType);
-  const cuisines = filter.cuisines;
-  const location = useSelector((state)=>state.user.location)
+export default function Album({ filter }) {
+
   const navigate = useNavigate();
   const [data, setData] = React.useState([""]);
+  const [FilterData, setFilterdData] = React.useState([""]);
   const [loading, setLoading] = React.useState(true);
+  const location = useSelector(store=>store.user.location) 
   React.useEffect(() => {
     try {
       setLoading(true)
       const fetchData = async () => {
         await axiosInstance.get('/restorentDetails')
-          .then((res) =>res && setData(res.data.restaurant))
+          .then((res) => res && setData(res.data.restaurant))
           .then(() => setLoading(false))
       }
       fetchData();
@@ -51,75 +51,58 @@ export default function Album({filter}) {
       console.log(error.message);
     }
   }, []);
-let filterdDatas = [];
-  if(location){
-    
-    const datas = data.filter((value)=>{
-      return value.location  === location
-    })
-    filterdDatas = datas;
-  }else{
-    filterdDatas = data
-  }
-if (restaurantType) {
-  const datas = filterdDatas.filter((value)=>{
-    return value.restaurantType.filter(element => {
-      console.log("1:-",element);
-      return element === restaurantType.forEach(e =>{console.log("2:-",e)
-        return e})
-      
-    });
-  });
-  console.log("fen",datas);
-}
-  
+  React.useEffect(()=>{
+    const datas = customFilter(data, filter,location)
+    setFilterdData(datas)
+  },[filter,location,data])
+
   return (
     <Container sx={{ py: 1 }} maxWidth="md">
       <Grid container spacing={4}>
-        {filterdDatas.map((card, index) => (
+        {FilterData && FilterData.map((card, index) => (
           <Grid item key={index} xs={12} sm={6} md={4}>
-            
+
             <Card
               sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}
             >
               {loading ? (
-                  <Skeleton
-                    variant="rectangular"
-                    // width={100}
-                    height={150}
-                  />
-                ) : (
-              <CardMedia
-                onClick={() =>
-                                navigate(`/DetailPage?id=${card._id}`)
-                              }
-                              key={`media-${card._id}`}
-                              component="div"
-                              sx={{
-                                pt: "56.25%",
-                                cursor: "pointer",
-                              }}
-                              image={
-                                card.images && card.images[0]
-                              }
-              />
-                )}
-              <CardContent sx={{ flexGrow: 1 , cursor: "pointer" }}>
-              {loading ? (
-                    <Box sx={{ pt: 0.5 }}>
-                      <Skeleton />
-                      <Skeleton width="60%" />
-                    </Box>
-                  ) : (
-                    <>                <Typography gutterBottom variant="h5" component="h2">
-                <H1>{card.restaurantName}</H1>
-                </Typography>
-                <Typography>
-                <H3 variant="body2" component="poppins"> {card.location} </H3>
-                </Typography>
-                </>
-
+                <Skeleton
+                  variant="rectangular"
+                  // width={100}
+                  height={150}
+                />
+              ) : (
+                <CardMedia
+                  onClick={() =>
+                    navigate(`/DetailPage?id=${card._id}`)
+                  }
+                  key={`media-${card._id}`}
+                  component="div"
+                  sx={{
+                    pt: "56.25%",
+                    cursor: "pointer",
+                  }}
+                  image={
+                    card.images && card.images[0]
+                  }
+                />
               )}
+              <CardContent sx={{ flexGrow: 1, cursor: "pointer" }}>
+                {loading ? (
+                  <Box sx={{ pt: 0.5 }}>
+                    <Skeleton />
+                    <Skeleton width="60%" />
+                  </Box>
+                ) : (
+                  <>                <Typography gutterBottom variant="h5" component="h2">
+                    <H1>{card.restaurantName}</H1>
+                  </Typography>
+                    <Typography>
+                      <H3 variant="body2" component="poppins"> {card.location} </H3>
+                    </Typography>
+                  </>
+
+                )}
               </CardContent>
             </Card>
           </Grid>

@@ -5,7 +5,7 @@ export const Filters = [
       elements: [
         "Veg",
         "Non Veg",
-        "Veg and Non Veg",
+        "Veg and Non Veg ",
       ],
     },
     {
