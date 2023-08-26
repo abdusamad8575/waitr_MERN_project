@@ -12,6 +12,8 @@ import styled from "@emotion/styled";
 import { useSelector } from "react-redux";
 import customFilter from "./customFilter";
 
+import Pagination from '@mui/material/Pagination';
+
 const H1 = styled(Typography)({
   variant: "body1",
   color: "#000",
@@ -37,7 +39,10 @@ export default function Album({ filter }) {
   const [data, setData] = React.useState([""]);
   const [FilterData, setFilterdData] = React.useState([""]);
   const [loading, setLoading] = React.useState(true);
-  const location = useSelector(store=>store.user.location) 
+  const location = useSelector(store => store.user.location)
+
+  const [currentPage, setCurrentPage] = React.useState(1);
+
   React.useEffect(() => {
     try {
       setLoading(true)
@@ -51,64 +56,79 @@ export default function Album({ filter }) {
       console.log(error.message);
     }
   }, []);
-  React.useEffect(()=>{
-    const datas = customFilter(data, filter,location)
+  React.useEffect(() => {
+    const datas = customFilter(data, filter, location)
     setFilterdData(datas)
-  },[filter,location,data])
+  }, [filter, location, data])
+
+
+  const itemsPerPage = 9;
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const itemsToDisplay = FilterData.slice(startIndex, endIndex);
 
   return (
     <Container sx={{ py: 1 }} maxWidth="md">
       <Grid container spacing={4}>
-        {FilterData && FilterData.map((card, index) => (
-          <Grid item key={index} xs={12} sm={6} md={4}>
+        {itemsToDisplay.map((card, index) => (
+          // { FilterData && FilterData.map((card,index) => (
+            <Grid item key={index} xs={12} sm={6} md={4}>
 
-            <Card
-              sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}
-            >
-              {loading ? (
-                <Skeleton
-                  variant="rectangular"
-                  // width={100}
-                  height={150}
-                />
-              ) : (
-                <CardMedia
-                  onClick={() =>
-                    navigate(`/DetailPage?id=${card._id}`)
-                  }
-                  key={`media-${card._id}`}
-                  component="div"
-                  sx={{
-                    pt: "56.25%",
-                    cursor: "pointer",
-                  }}
-                  image={
-                    card.images && card.images[0]
-                  }
-                />
-              )}
-              <CardContent sx={{ flexGrow: 1, cursor: "pointer" }}>
+              <Card
+                sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}
+              >
                 {loading ? (
-                  <Box sx={{ pt: 0.5 }}>
-                    <Skeleton />
-                    <Skeleton width="60%" />
-                  </Box>
+                  <Skeleton
+                    variant="rectangular"
+                    // width={100}
+                    height={150}
+                  />
                 ) : (
-                  <>                <Typography gutterBottom variant="h5" component="h2">
-                    <H1>{card.restaurantName}</H1>
-                  </Typography>
-                    <Typography>
-                      <H3 variant="body2" component="poppins"> {card.location} </H3>
-                    </Typography>
-                  </>
-
+                  <CardMedia
+                    onClick={() =>
+                      navigate(`/DetailPage?id=${card._id}`)
+                    }
+                    key={`media-${card._id}`}
+                    component="div"
+                    sx={{
+                      pt: "56.25%",
+                      cursor: "pointer",
+                    }}
+                    image={
+                      card.images && card.images[0]
+                    }
+                  />
                 )}
-              </CardContent>
-            </Card>
-          </Grid>
-        ))}
+                <CardContent sx={{ flexGrow: 1, cursor: "pointer" }}>
+                  {loading ? (
+                    <Box sx={{ pt: 0.5 }}>
+                      <Skeleton />
+                      <Skeleton width="60%" />
+                    </Box>
+                  ) : (
+                    <>                <Typography gutterBottom variant="h5" component="h2">
+                      <H1>{card.restaurantName}</H1>
+                    </Typography>
+                      <Typography>
+                        <H3 variant="body2" component="poppins"> {card.location} </H3>
+                      </Typography>
+                    </>
 
+                  )}
+                </CardContent>
+              </Card>
+            </Grid>
+          // ))}
+        ))}
       </Grid>
+
+      <Pagination
+        count={Math.ceil(FilterData.length / itemsPerPage)}
+        page={currentPage}
+        onChange={(event, value) => setCurrentPage(value)}
+        sx={{ marginTop: 2, display: 'flex', justifyContent: 'center' }}
+      />
+
     </Container>
   );
 }

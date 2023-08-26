@@ -315,54 +315,9 @@ console.log("location",location);
 
 
 
-            {/* <Box
-              sx={{
-                flexGrow: 1,
-                display: { xs: 'flex', md: 'none' }, // Show on mobile, hide on md and above
-                alignItems: 'center',
-                justifyContent: 'flex-end', // Align the search icon to the right
-                ml: 2, // Add some left margin for spacing
-              }}
-            >
-              <IconButton
-                size="large"
-                aria-label="search"
-                aria-haspopup="true"
-                onClick={handleToggleSearch} // Toggle the search box visibility on click
-                color="inherit"
-              >
-                <SearchIcon style={{ color: 'black' }} />
-              </IconButton>
-            </Box> */}
-
-            {/* Expanded Search Input and Button (for mobile and larger view) */}
-            {/* <Box
-              sx={{
-                flexGrow: 1,
-                display: showSearch ? 'flex' : { xs: 'none', md: 'flex' }, // Show on mobile when expanded, hide on md and above
-                alignItems: 'center',
-                justifyContent: 'flex-end', // Align the search bar to the right
-                ml: 2, // Add some left margin for spacing
-              }}
-            >
-              <form className="d-flex" role="search">
-                <input
-                  className="form-control me-1"
-                  type="search"
-                  placeholder="Search"
-                  aria-label="Search"
-                />
-                <button
-                  className="btn btn-sm"
-                  type="submit"
-                  style={{ backgroundColor: "#FF645A", color: 'white' }}
-                >
-                  Search
-                </button>
-              </form>
-            </Box> */}
-
+          
             <Search>
+            <Tooltip title="Current Location">
               <LocationOnIcon style={{
                 color: "#8f8888",
                 paddingLeft:  6,
@@ -371,11 +326,11 @@ console.log("location",location);
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                cursor:'pointer',
-                Tooltip:'samad'
+                cursor:'pointer'
               }} 
               onClick={handleCarrentLocation}
               />
+              </Tooltip>
               <Autocomplete
                 disablePortal
                 id="combo-box-demo"
