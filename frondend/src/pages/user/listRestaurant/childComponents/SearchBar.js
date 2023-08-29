@@ -40,7 +40,6 @@ const SearchIconWrapper = styled("div")(({ theme }) => ({
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
   "& .MuiInputBase-input": {
     padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
     transition: theme.transitions.create("width"),
     width: "100%",
@@ -57,7 +56,6 @@ export default function SearchAppBar({ filterCount,search, removeFilter ,apply})
 console.log(filterCount);
   return (
     <Box sx={{ flexGrow: 1, pt: 9 }}>
-      {/* <AppBar position="static" sx={{backgroundColor:'#fff'}}>  */}
       <Toolbar>
         <Tooltip title="clear filters">
           <IconButton
@@ -100,7 +98,6 @@ console.log(filterCount);
           />
         </Search>
       </Toolbar>
-      {/* </AppBar> */}
     </Box>
   );
 }

@@ -105,7 +105,6 @@ function Filiter({filter,apply}) {
   useEffect(() => {
    apply(selectedFilters)
   }, [selectedFilters])
-  // console.log("ssa",selectedFilters);
   return (
     <>
       <Hidden mdDown implementation="css">
