@@ -43,14 +43,8 @@ export default function SignIn() {
   };
 
   const sendRequest=tryCatch(()=>{
-    // try{
-      // Implement form submission logic here (e.g., send data to the server)
       const res =  axiosInstance.post('/signin',formData);
       return res
-    // } catch (err) {
-    //   console.error('Error submitting data:', err.message);
-    //   throw err
-    // }
   })
 
   const handleSubmit = (event) => {
@@ -69,17 +63,11 @@ export default function SignIn() {
       errors.password = 'Password is required';
     }
 
-    // Check if there are any validation errors
     if (Object.keys(errors).length > 0) {
-      // Validation failed, do not submit the form
       console.log('Validation errors:', errors);
       return;
     }
-
-    // If validation passed, proceed with form submission
-    // console.log(sendRequest());
     sendRequest()
-    // .then(()=>dispatch(signin()))
     .then((res)=>{
       console.log(res.data.user);
       const userRole = res.data.role;
