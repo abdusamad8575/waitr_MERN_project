@@ -134,7 +134,7 @@ export default function SignIn() {
               autoFocus
               value={formData.email}
               onChange={handleChange}
-              error={showErrors && (!formData.email.trim() || !/\S+@\S+\.\S+/.test(formData.email))} // Show error if field is empty or has invalid format and showErrors is true
+              error={showErrors && (!formData.email.trim() || !/\S+@\S+\.\S+/.test(formData.email))} 
                   helperText={showErrors && !formData.email.trim() ? 'Email is required' : (showErrors && !/\S+@\S+\.\S+/.test(formData.email) ? 'Invalid email format' : '')}
             />
             <TextField
@@ -148,13 +148,9 @@ export default function SignIn() {
               autoComplete="current-password"
               value={formData.password}
               onChange={handleChange}
-              error={showErrors && !formData.password.trim()} // Show error if field is empty and showErrors is true
+              error={showErrors && !formData.password.trim()}
               helperText={showErrors && !formData.password.trim() ? 'Password is required' : ''}
             />
-            {/* <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            /> */}
             <Button
               type="submit"
               fullWidth

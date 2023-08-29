@@ -17,14 +17,12 @@ export function Google() {
             <GoogleLogin
 
                 onSuccess={async (credentialResponse) => {
-                    //   console.log(credentialResponse);
                     const { client_id } = credentialResponse
                     const jwtToken = credentialResponse.credential
                     await axiosInstance.post('/verify', { client_id, jwtToken })
                         .then((res) => {
                             const data = res.data;
                             const userRole = data.role;
-                            // console.log(data.user);
                             dispatch(signin(data.user))
                             switch (userRole) {
                                 case 'admin':
@@ -39,7 +37,6 @@ export function Google() {
                             }
                         })
                         .catch((error) => console.log(error))
-                    //   console.log(res.data.user);
                 }}
 
                 onError={() => {
