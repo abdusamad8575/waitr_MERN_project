@@ -35,7 +35,6 @@ const TABLE_HEAD = [
     { id: 'location', label: 'Location', alignRight: false },
     { id: 'type', label: 'Restaurant Type', alignRight: false },
     { id: 'time', label: 'Start - End time', alignRight: false },
-    // { id: 'isVerified', label: 'Verified', alignRight: false },
 ];
 
 // ----------------------------------------------------------------------

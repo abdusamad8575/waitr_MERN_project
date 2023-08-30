@@ -39,7 +39,6 @@ import tryCatch from '../../../utils/tryCatch'
 const TABLE_HEAD = [
   { id: 'name', label: 'Name', alignRight: false },
   { id: 'email', label: 'Email', alignRight: false },
-  // { id: 'role', label: 'Role', alignRight: false },
   { id: 'adminVerify', label: 'Hotel Request', alignRight: false },
   { id: 'status', label: 'Status', alignRight: false },
   { id: '' },

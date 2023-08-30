@@ -260,16 +260,11 @@ const AddHotelReq = () => {
                                                 <TableCell align="left">{addHotel[0].Rlocation}</TableCell>
 
                                                 <TableCell align="left">{addHotel[0].Rcontact}</TableCell>
-
-                                                {/* <TableCell align="left" ><Label color={'success'}>{role}</Label></TableCell> */}
-                                                {/* <FormControl> */}
-                                                    {/* <InputLabel>Role</InputLabel> */}
                                                     <Select
                                                         value={selectedRoles[_id] || role}
                                                         onChange={(e) => handleChangeRole(_id, e.target.value)}
                                                         sx={{boxShadow: 'none', '.MuiOutlinedInput-notchedOutline': { border: 0 }}}
                                                     >
-                                                        {/* {console.log("selectedRoles-",selectedRoles)} */}
                                                         <MenuItem value="user">User</MenuItem>
                                                         <MenuItem value="admin">Admin</MenuItem>
                                                         <MenuItem value="restaurant">Restaurant</MenuItem>
@@ -284,15 +279,7 @@ const AddHotelReq = () => {
                                                         </IconButton>
                                                     </Tooltip> : <Label color={'success'}>verified</Label>}</TableCell>
 
-                                                {/* <TableCell align="left">
-                          <Label color={(status === 'banned' && 'error') || 'success'}>{sentenceCase(status)}</Label>
-                        </TableCell> */}
-
-                                                {/* <TableCell align="right">
-                          <IconButton size="large" color="inherit" onClick={handleOpenMenu}>
-                            <Iconify icon={'eva:more-vertical-fill'} />
-                          </IconButton>
-                        </TableCell> */}
+                                        
                                             </TableRow>
                                         );
                                     })}
