@@ -8,7 +8,6 @@ import { StyledChart } from './pages/admin/components/chart';
 import ScrollToTop from './pages/admin/components/scroll-to-top';
 import AdminRoutes from './pages/admin/Adminroutes';
 import ResRoutes from './pages/restaurant/Resroutes';
-// import { Route, Switch } from 'react-router-dom';
 
 function App() {
   return (

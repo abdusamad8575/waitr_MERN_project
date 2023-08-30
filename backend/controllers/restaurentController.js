@@ -8,8 +8,6 @@ const adminAddRestorent = async (req, res) => {
         const { restaurantName, location, startTime, endTime, mealsType, daysOfWeek, addTable, cuisines, restaurantType, id } = req.body;
         const images = req.files.map(file => file.filename);
         if(id && images) {
-            
-    // Parse array values
     const parsedMealsType = mealsType.split(',');
     const parsedDaysOfWeek = daysOfWeek.split(',');
     const parsedcuisines = cuisines.split(',');

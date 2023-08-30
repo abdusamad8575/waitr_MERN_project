@@ -205,7 +205,6 @@ const uploadProfilepicture = async(req,res)=>{
 
 const restorentDetails = async(req,res)=>{
     try {
-        // console.log('samad');
         const restaurant = await Restaurant.find()
         if(restaurant){
             return res.status(200).json({message:"Restaurant details fetch saccessfully",restaurant})

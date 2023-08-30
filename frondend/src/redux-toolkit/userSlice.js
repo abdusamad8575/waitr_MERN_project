@@ -7,7 +7,6 @@ const userSlice = createSlice({
     reducers: {
         signin: (state, data) => {
             const userDitails = JSON.stringify(data.payload)
-            // console.log("1",userDitails);
             state.isLoggedIn = true;
             localStorage.setItem('userLoggedIn', 'true');
             localStorage.setItem('user',userDitails)
