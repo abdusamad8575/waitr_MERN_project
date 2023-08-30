@@ -37,6 +37,7 @@ export default function Album({ filter }) {
 
   const navigate = useNavigate();
   const [data, setData] = React.useState([""]);
+  const [details, setDetails] = React.useState();
   const [FilterData, setFilterdData] = React.useState([""]);
   const [loading, setLoading] = React.useState(true);
   const location = useSelector(store => store.user.location)
@@ -66,6 +67,11 @@ export default function Album({ filter }) {
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const itemsToDisplay = FilterData.slice(startIndex, endIndex);
+  const handleRestaurantDetails = (id) =>{
+    console.log("1",itemsToDisplay);
+    const restaurantData = itemsToDisplay.filter((value)=>value._id === id)
+    setDetails(restaurantData)
+  }
 
   return (
     <Container sx={{ py: 1 }} maxWidth="md">
@@ -85,9 +91,10 @@ export default function Album({ filter }) {
                   />
                 ) : (
                   <CardMedia
-                    onClick={() =>
-                      navigate(`/DetailPage?id=${card._id}`)
-                    }
+                    // onClick={() =>
+                    //   navigate(`/DetailPage?id=${card._id}`)
+                    // }
+                    onClick={()=>handleRestaurantDetails(card._id)}
                     key={`media-${card._id}`}
                     component="div"
                     sx={{
