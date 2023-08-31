@@ -7,6 +7,7 @@ import styled from "@emotion/styled";
 import FreeSolo from "./childComponents/SearchBar";
 import Navebar from "../../../components/Navebar";
 import Footer from "../../../components/Footer";
+import RestaurantDetails from "../restaurantDetails/RestaurantDetails";
 
 const Page = styled(Box)({
   background: "#F8F8F8",
@@ -37,34 +38,36 @@ function ListRestaurant() {
   const [search, setSearch] = React.useState('')
   useEffect(() => {
     console.log(search);
-    setFilters(prev=>({...prev,search}))
+    setFilters(prev => ({ ...prev, search }))
     console.log(filters);
   }, [search])
   useEffect(() => {
     const count = totalElements(filters)
     setCount(count)
   }, [filters])
-  useEffect(()=>{
-    !filterCount && setFilters({}) 
-  },[filterCount])  
+  useEffect(() => {
+    !filterCount && setFilters({})
+  }, [filterCount])
+
+  const [details, setDetails] = React.useState();
   return (
     <>
       <Page>
-          <Navebar />
-        <FiliterContainer>
-          <FreeSolo filterCount={ filterCount }  search={search} apply={setSearch} removeFilter={setCount}/>
+        <Navebar />
+        {details ? <RestaurantDetails details={details} /> : <FiliterContainer>
+          <FreeSolo filterCount={filterCount} search={search} apply={setSearch} removeFilter={setCount} />
           <Grid container >
             <Grid item xs={12} md={3} lg={2.5} marginTop={1}>
               <Filiter filter={filterCount} apply={setFilters} />
             </Grid>
             <Grid item xs={12} md={9} sm={12} lg={9.5}>
               <LeftSide>
-                <Album filter={filters} />
+                <Album filter={filters} dispatch={setDetails} />
               </LeftSide>
-            </Grid>   
+            </Grid>
           </Grid>
-        </FiliterContainer> 
-          <Footer />
+        </FiliterContainer>}
+        <Footer />
       </Page>
     </>
   );

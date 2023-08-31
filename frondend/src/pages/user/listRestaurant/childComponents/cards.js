@@ -33,11 +33,11 @@ const H3 = styled(Typography)({
   paddingTop: "1px",
 });
 
-export default function Album({ filter }) {
+export default function Album({ filter ,dispatch}) {
 
   const navigate = useNavigate();
   const [data, setData] = React.useState([""]);
-  const [details, setDetails] = React.useState();
+ 
   const [FilterData, setFilterdData] = React.useState([""]);
   const [loading, setLoading] = React.useState(true);
   const location = useSelector(store => store.user.location)
@@ -70,7 +70,7 @@ export default function Album({ filter }) {
   const handleRestaurantDetails = (id) =>{
     console.log("1",itemsToDisplay);
     const restaurantData = itemsToDisplay.filter((value)=>value._id === id)
-    setDetails(restaurantData)
+    dispatch(restaurantData)
   }
 
   return (
