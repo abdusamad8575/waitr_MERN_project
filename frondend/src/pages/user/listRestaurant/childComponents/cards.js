@@ -70,7 +70,7 @@ export default function Album({ filter ,dispatch}) {
   const handleRestaurantDetails = (id) =>{
     console.log("1",itemsToDisplay);
     const restaurantData = itemsToDisplay.filter((value)=>value._id === id)
-    dispatch(restaurantData)
+    dispatch(restaurantData[0])
   }
 
   return (

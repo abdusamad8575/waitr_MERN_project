@@ -5,13 +5,14 @@ import DetailsBar from './childComponents/DetailsBar'
 import { Grid } from '@mui/material'
 import Cards from './childComponents/Card'
 
-const RestaurantDetails = () => {
+const RestaurantDetails = ({details}) => {
+  // console.log("ds",details);
   return (
     <>
       <Navebar />
       <Grid container spacing={7} direction={'row'} p={5}>
         <Grid item xs={12} md={6} lg={8}>
-          <Cards />
+          <Cards details={details}/>
         </Grid>
         <Grid item xs={12} md={6} lg={4}>
           <DetailsBar />

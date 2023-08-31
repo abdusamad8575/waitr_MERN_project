@@ -1,19 +1,19 @@
 import React from 'react'
 import {Card, CardContent, CardMedia, Typography, CardActionArea } from '@mui/material'
-const Cards = () => {
+const Cards = ({details}) => {
   return (
     <>
-      <Card sx={{ maxWidth: "100%" }}>
+      <Card sx={{ maxWidth: "100%"}}>
             <CardActionArea>
               <CardMedia
                 component="img"
-                height="140"
-                image="/static/images/cards/contemplative-reptile.jpg"
-                alt="green iguana"
+                sx={{maxHeight:'450px'}}
+                image={details?.images[0]}
+                alt="green"
               />
               <CardContent>
-                <Typography gutterBottom variant="h5" component="div">
-                  Lizard
+                <Typography gutterBottom variant="h6" component="div">
+                  {details?.restaurantName}
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
                   Lizards are a widespread group of squamate reptiles, with over 6,000

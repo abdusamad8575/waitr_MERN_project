@@ -10,7 +10,7 @@ const DetailsBar = () => {
     console.log('date',value);
     return (
         <div>
-            <Paper variant="outlined" elevation={3}>
+            <Paper variant="outlined" elevation={3} sx={{height:'500px'}}>
                 <Box sx={{ height: '40px', backgroundColor: 'black', borderRadius: '5px 5px 0 0' }}>
                     <Typography
                         variant="h6"
@@ -19,9 +19,9 @@ const DetailsBar = () => {
                         Details
                     </Typography>
                 </Box>
-                <Grid container p={2}>
-                    <Grid item >
-                        <Stack spacing={2}>
+                <Grid container p={1} >
+                    <Grid item sx={{width:'100%'}}>
+                        <Stack spacing={2}  sx={{alignItems:'center'}}>
                             <Typography variant='body2'>Select Date</Typography>
                             <Typography variant='body1'>{value ? value.$d.toDateString() : new Date().toDateString()}</Typography>
                             <LocalizationProvider dateAdapter={AdapterDayjs}>
