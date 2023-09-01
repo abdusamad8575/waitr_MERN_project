@@ -1,44 +1,62 @@
 import React from 'react'
-import { Card, CardContent, CardMedia, Typography, CardActionArea } from '@mui/material'
-// import { autoPlay } from 'react-swipeable-views-utils';
+import { Card, CardContent, Typography, CardActionArea } from '@mui/material'
+import { useTheme } from '@mui/material/styles';
+import { autoPlay } from 'react-swipeable-views-utils';
+import SwipeableViews from 'react-swipeable-views';
+import Box from '@mui/material/Box';
+const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
-// const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
+
+
 const Cards = ({ details }) => {
+  const theme = useTheme();
+  const [activeStep, setActiveStep] = React.useState(0);
+  // const maxSteps = details.images.length;
+
+  // const handleNext = () => {
+  //   setActiveStep((prevActiveStep) => prevActiveStep + 1);
+  // };
+
+  // const handleBack = () => {
+  //   setActiveStep((prevActiveStep) => prevActiveStep - 1);
+  // };
+
+  const handleStepChange = (step) => {
+    setActiveStep(step);
+  };
+
+
   return (
     <>
       <Card sx={{ maxWidth: "100%" }}>
         <CardActionArea>
-          <CardMedia
-                component="img"
-                sx={{maxHeight:'450px'}}
-                image={details?.images[0]}
-                alt="green"
-              />
-          {/* <AutoPlaySwipeableViews
+          <AutoPlaySwipeableViews
             axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
             index={activeStep}
             onChangeIndex={handleStepChange}
             enableMouseEvents
           >
             {details.images.map((step, index) => (
-              <div key={step.label}>
+              <div key={step}>
                 {Math.abs(activeStep - index) <= 2 ? (
                   <Box
                     component="img"
                     sx={{
-                      height: 255,
+                      // height: 255,
+                      maxHeight: { xs: '200px', lg: '450px' ,md:'450px',sm:'350px'},
                       display: 'block',
-                      maxWidth: 400,
                       overflow: 'hidden',
                       width: '100%',
                     }}
-                    src={step.imgPath}
-                    alt={step.label}
+                    src={step}
+                    alt={step}
                   />
                 ) : null}
               </div>
             ))}
-          </AutoPlaySwipeableViews> */}
+          </AutoPlaySwipeableViews>
+
+
           <CardContent>
             <Typography gutterBottom variant="h6" component="div">
               {details?.restaurantName}

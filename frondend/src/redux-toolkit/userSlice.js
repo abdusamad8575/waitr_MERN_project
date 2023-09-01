@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const userSlice = createSlice({
     name: 'user',
-    initialState: { isLoggedIn: localStorage.getItem('userLoggedIn') === 'true',location:'' },
+    initialState: { isLoggedIn: localStorage.getItem('userLoggedIn') === 'true',location:'',details:'' },
     reducers: {
         signin: (state, data) => {
             const userDitails = JSON.stringify(data.payload)
@@ -20,10 +20,13 @@ const userSlice = createSlice({
         },
         locations: (state,action) =>{
             state.location = action.payload
-            console.log("555",state.location);
+        },
+        selectRestaurant: (state,action) =>{
+            state.details = action.payload
+            // console.log("555",state.details);
         }
     }
 });
 
-export const { signin, logout, locations } = userSlice.actions;
+export const { signin, logout, locations, selectRestaurant } = userSlice.actions;
 export default userSlice.reducer;

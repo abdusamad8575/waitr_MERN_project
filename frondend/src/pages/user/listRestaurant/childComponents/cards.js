@@ -9,8 +9,9 @@ import axiosInstance from "../../../../axios";
 import { Box, Skeleton } from "@mui/material";
 import { useNavigate } from "react-router";
 import styled from "@emotion/styled";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import customFilter from "./customFilter";
+import {selectRestaurant} from '../../../../redux-toolkit/userSlice'
 
 import Pagination from '@mui/material/Pagination';
 
@@ -33,15 +34,14 @@ const H3 = styled(Typography)({
   paddingTop: "1px",
 });
 
-export default function Album({ filter ,dispatch}) {
-
+export default function Album({ filter}) {
+  const dispatch = useDispatch()
   const navigate = useNavigate();
   const [data, setData] = React.useState([""]);
  
   const [FilterData, setFilterdData] = React.useState([""]);
   const [loading, setLoading] = React.useState(true);
   const location = useSelector(store => store.user.location)
-
   const [currentPage, setCurrentPage] = React.useState(1);
 
   React.useEffect(() => {
@@ -68,9 +68,9 @@ export default function Album({ filter ,dispatch}) {
   const endIndex = startIndex + itemsPerPage;
   const itemsToDisplay = FilterData.slice(startIndex, endIndex);
   const handleRestaurantDetails = (id) =>{
-    console.log("1",itemsToDisplay);
     const restaurantData = itemsToDisplay.filter((value)=>value._id === id)
-    dispatch(restaurantData[0])
+    dispatch(selectRestaurant(restaurantData[0]))
+    navigate('/DetailPage')
   }
 
   return (

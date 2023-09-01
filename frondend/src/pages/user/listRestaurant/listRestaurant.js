@@ -7,7 +7,6 @@ import styled from "@emotion/styled";
 import FreeSolo from "./childComponents/SearchBar";
 import Navebar from "../../../components/Navebar";
 import Footer from "../../../components/Footer";
-import RestaurantDetails from "../restaurantDetails/RestaurantDetails";
 
 const Page = styled(Box)({
   background: "#F8F8F8",
@@ -49,12 +48,11 @@ function ListRestaurant() {
     !filterCount && setFilters({})
   }, [filterCount])
 
-  const [details, setDetails] = React.useState();
   return (
     <>
       <Page>
         <Navebar />
-        {details ? <RestaurantDetails details={details} /> : <FiliterContainer>
+        <FiliterContainer>
           <FreeSolo filterCount={filterCount} search={search} apply={setSearch} removeFilter={setCount} />
           <Grid container >
             <Grid item xs={12} md={3} lg={2.5} marginTop={1}>
@@ -62,11 +60,11 @@ function ListRestaurant() {
             </Grid>
             <Grid item xs={12} md={9} sm={12} lg={9.5}>
               <LeftSide>
-                <Album filter={filters} dispatch={setDetails} />
+                <Album filter={filters} />
               </LeftSide>
             </Grid>
           </Grid>
-        </FiliterContainer>}
+        </FiliterContainer>
         <Footer />
       </Page>
     </>
