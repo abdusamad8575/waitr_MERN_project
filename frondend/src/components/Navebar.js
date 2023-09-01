@@ -222,7 +222,6 @@ console.log("location",location);
       <AppBar position="fixed" sx={{ backgroundColor: 'white' }} >
         <Container maxWidth="xl" >
           <Toolbar disableGutters>  
-            {/* <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} /> */}
             <Typography
               variant="h6"
               noWrap
@@ -277,10 +276,6 @@ console.log("location",location);
                 ))}
               </Menu>
             </Box>
-
-
-
-            {/* <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} /> */}
             <Typography
               variant="h5"
               noWrap
@@ -311,10 +306,6 @@ console.log("location",location);
                 </Button>
               ))}
             </Box>
-
-
-
-          
             <Search>
             <Tooltip title="Current Location">
               <LocationOnIcon style={{
@@ -342,7 +333,7 @@ console.log("location",location);
                     border: 0,
                   },
                   '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                    borderColor: 'transparent', // Set the border color to transparent when focused
+                    borderColor: 'transparent', 
                   },
                 }} />}
                 size='small'
@@ -380,7 +371,6 @@ console.log("location",location);
                     <Typography textAlign="center">{settings}</Typography>
                   </MenuItem>
                 )) : settings.map((setting) => (
-                  // <MenuItem key={setting} onClick={()=>handleSettings({setting})}>
                   <MenuItem key={setting} onClick={handleSettings}>
                     <Typography textAlign="center"><Link className='linkStyle' to={'/signin'}>{setting}</Link></Typography>
                   </MenuItem>
@@ -413,7 +403,6 @@ console.log("location",location);
           </Button>
         </DialogActions>
       </Dialog>
-    {/* </div> */}
     </Box>
   );
 }

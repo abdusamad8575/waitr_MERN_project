@@ -122,8 +122,6 @@ function Footer() {
         <Typography variant="body2" align="center" color="textTernary">
           Contact:+91-9544208575
         </Typography>
-
-        {/* Social Media Icons */}
         <Box display="flex" justifyContent="center">
           <IconButton href="https://www.instagram.com/" target="_blank" rel="noopener" color="inherit">
             <InstagramIcon style={{ color: '#E1306C' }} />
