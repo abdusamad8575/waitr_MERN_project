@@ -1,7 +1,6 @@
 import * as React from 'react';
 import './Navebar.css'
 import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
 import { Link, useNavigate } from 'react-router-dom'
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
@@ -18,7 +17,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import axiosInstance from '../axios';
 import axios from 'axios';
 import { logout ,locations} from '../redux-toolkit/userSlice';
-import { Autocomplete, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from '@mui/material';
+import { Autocomplete, Box, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from '@mui/material';
 import { styled, alpha } from "@mui/material/styles";
 import tryCatch from '../utils/tryCatch';
 const pages = ['Home', 'Find Restaurant', 'Posts'];
@@ -219,7 +218,7 @@ function Navebar() {
   };
 console.log("location",location);
   return (
-    <div className='mainDiv'>
+    <Box mb={{xs:8,sm:9,md:11,lg:12}}>
       <AppBar position="fixed" sx={{ backgroundColor: 'white' }} >
         <Container maxWidth="xl" >
           <Toolbar disableGutters>  
@@ -414,7 +413,8 @@ console.log("location",location);
           </Button>
         </DialogActions>
       </Dialog>
-    </div>
+    {/* </div> */}
+    </Box>
   );
 }
 
