@@ -12,7 +12,6 @@ const adminAddRestorent = async (req, res) => {
     const parsedDaysOfWeek = daysOfWeek.split(',');
     const parsedcuisines = cuisines.split(',');
     const parsedrestaurantType = restaurantType.split(',');
-    // console.log(parsedDaysOfWeek.length);
     // let Table;
     // if(Array.isArray(addTable)){
     //     Table=addTable.map(table=>JSON.parse(table))

@@ -113,7 +113,6 @@ const userDitails = async(req,res)=>{
     try{
         const userId = req.query.userId
         const user = await User.findById(userId)
-        // console.log(user);
         if(!user){
             return res.status(400).json({ message: "User not found" })
         }else{
@@ -161,14 +160,12 @@ async function verify(req,res) {
                 const token = jwt.sign({ id: existingUser._id }, process.env.JWT_SECRET, {
                     expiresIn: "1d"
                 })
-                // console.log("token send", token)
                 res.cookie("token", token, {
                     path: '/',
                     expires: new Date(Date.now() + 24 * 1000 * 60 * 60), // 1 hour expiration
                     httpOnly: true,
                     sameSite: 'lax',
                 });
-                // console.log('existingUser=>', existingUser);
                 return res.status(200).json({
                     message: "Successfully Logged in",
                     user: existingUser,
@@ -176,7 +173,6 @@ async function verify(req,res) {
                     role: existingUser.role,
                 })
             }
-        // return res.status(200).json({message:"user data fetched"})
     }
 }
 
