@@ -21,7 +21,6 @@ import { Autocomplete, Box, Dialog, DialogActions, DialogContent, DialogTitle, T
 import { styled, alpha } from "@mui/material/styles";
 import tryCatch from '../utils/tryCatch';
 const pages = ['Home', 'Find Restaurant', 'Posts'];
-// const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 const settings = ['Login', 'Account', 'Add Hotels'];
 const LogInSettings = ['Account', 'Add Hotels', 'Logout'];
 

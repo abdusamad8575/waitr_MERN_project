@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 
-// console.log("mongo");
 const locationSchema = new mongoose.Schema({
     location:{
         type:[String],

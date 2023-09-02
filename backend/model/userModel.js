@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
-// const Restaurant = require('./restaurantModel')
 
 const userSchema = new mongoose.Schema({
     firstName: {
