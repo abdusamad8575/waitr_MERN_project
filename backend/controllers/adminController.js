@@ -6,7 +6,6 @@ const Location = require('../model/locationModel');
 const notification = async (req, res) => {
     try {
         const notification = await User.find({}, 'addHotel');
-        // console.log("notification", notification);
         if (!notification) {
             return res.status(404).json({ message: 'User not found' });
         } else {
@@ -22,7 +21,6 @@ const adminVerify = async (req, res) => {
     try {
         const { id } = req.body
         const user = await User.findById(id)
-        // console.log(existingUser);
         if (!user) {
             return res.status(404).json({ message: 'User not found' });
         } else {
@@ -65,9 +63,7 @@ const fetchaddUserReq = async (req, res) => {
 const adminBlocked = async (req, res) => {
     try {
         const { id } = req.body;
-        // console.log(id);
         const user = await User.findById(id)
-        // console.log('user',user);
         if (!user) {
             return res.status(404).json({ message: 'User not found' });
         } else {
@@ -92,8 +88,7 @@ const changeRole = async (req,res)=>{
     try {
         console.log('sas')
         const id = req.query.id
-        const {newRole} = req.body
-        // console.log(id,newRole);    
+        const {newRole} = req.body  
         await User.findByIdAndUpdate(
             id,
            {$set:{role:newRole}},
