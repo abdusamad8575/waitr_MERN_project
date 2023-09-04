@@ -592,6 +592,9 @@ export default function RestaurantDetails() {
         <Button size="small" color="primary">
           Share
         </Button>
+        Button size="small" color="primary">
+          delete
+        </Button>
       </CardActions> */}
         </Card>
       </Container>

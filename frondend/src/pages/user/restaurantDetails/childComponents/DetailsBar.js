@@ -39,7 +39,7 @@ function TabPanel(props) {
   };
   
   function a11yProps(index) {
-    console.log("index",index);
+    // console.log("index",index);
     return {
       id: `full-width-tab-${index}`,
       'aria-controls': `full-width-tabpanel-${index}`,
@@ -97,13 +97,13 @@ const DetailsBar = ({details}) => {
                                     variant="fullWidth"
                                     aria-label="full width tabs example"
                                 >
-                                  {/* {details.mealsType.forEach((element,index) => {
+                                  {details.mealsType.forEach((element,index) => {
                                   console.log(element , index);
                                     <Tab label = {element} {...a11yProps(index)} />
-                                })} */}
-                                    <Tab label="Breakfast" {...a11yProps(0)} />
+                                })}
+                                    {/* <Tab label="Breakfast" {...a11yProps(0)} />
                                     <Tab label="Lunch" {...a11yProps(1)} />
-                                    <Tab label="Dinner" {...a11yProps(2)} />
+                                    <Tab label="Dinner" {...a11yProps(2)} /> */}
                                 </Tabs>
                             </AppBar>
                             <SwipeableViews
