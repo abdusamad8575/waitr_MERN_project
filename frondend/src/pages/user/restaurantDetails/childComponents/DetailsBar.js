@@ -39,6 +39,7 @@ function TabPanel(props) {
   };
   
   function a11yProps(index) {
+    console.log("index",index);
     return {
       id: `full-width-tab-${index}`,
       'aria-controls': `full-width-tabpanel-${index}`,
@@ -46,7 +47,7 @@ function TabPanel(props) {
   }
 
 const DetailsBar = ({details}) => {
-  console.log("54sa:-",details);
+  console.log("54sa:-",details.startTime);
     const [value, setValue] = React.useState();
     console.log('date', value);
 
@@ -96,6 +97,10 @@ const DetailsBar = ({details}) => {
                                     variant="fullWidth"
                                     aria-label="full width tabs example"
                                 >
+                                  {/* {details.mealsType.forEach((element,index) => {
+                                  console.log(element , index);
+                                    <Tab label = {element} {...a11yProps(index)} />
+                                })} */}
                                     <Tab label="Breakfast" {...a11yProps(0)} />
                                     <Tab label="Lunch" {...a11yProps(1)} />
                                     <Tab label="Dinner" {...a11yProps(2)} />
@@ -107,7 +112,7 @@ const DetailsBar = ({details}) => {
                                 onChangeIndex={handleChangeIndex}
                             >
                                 <TabPanel value={values} index={0} dir={theme.direction}>
-                                  <Button>5:30</Button>
+                                 {details.startTime } <Button>5:30</Button>
                                 </TabPanel>
                                 <TabPanel value={values} index={1} dir={theme.direction}>
                                     Lunch

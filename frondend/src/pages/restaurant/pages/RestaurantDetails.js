@@ -347,12 +347,13 @@ export default function RestaurantDetails() {
                     }}
                     onChange={(newTime) => {
                       const dateObject = newTime.$d
-                      const time = dateObject.getHours();
-                      const hourState = dateObject.getHours() > 12 ? dateObject.getHours() - 12 : dateObject.getHours();
-                      const hours = hourState === 0 ? 12 : hourState;
+                      // const time = dateObject.getHours();
+                      // const hours = dateObject.getHours() > 12 ? dateObject.getHours() - 12 : dateObject.getHours();
+                      // const hours = hourState === 0 ? 12 : hourState;
+                      const hours = dateObject.getHours();
                       const minutes = dateObject.getMinutes();
-                      const ampm = time >= 12 ? "PM" : "AM";
-                      const formattedTime = `${hours.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")} ${ampm}`;
+                      // const ampm = hours >= 12 ? "PM" : "AM";
+                      const formattedTime = `${hours.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")}`;
                       setFormData({ ...formData, startTime: formattedTime })
                     }}
                     slotProps={{
@@ -376,12 +377,15 @@ export default function RestaurantDetails() {
                     }}
                     onChange={(newTime) => {
                       const dateObject = newTime.$d
-                      const time = dateObject.getHours();
-                      const hourState = dateObject.getHours() > 12 ? dateObject.getHours() - 12 : dateObject.getHours();
-                      const hours = hourState === 0 ? 12 : hourState;
+                      // const time = dateObject.getHours();
+                      // const hourState = dateObject.getHours() > 12 ? dateObject.getHours() - 12 : dateObject.getHours();
+                      // const hours = hourState === 0 ? 12 : hourState;
+                      // const minutes = dateObject.getMinutes();
+                      const hours = dateObject.getHours();
                       const minutes = dateObject.getMinutes();
-                      const ampm = time >= 12 ? "PM" : "AM";
-                      const formattedTime = `${hours.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")} ${ampm}`;
+                      // const ampm = hours >= 12 ? "PM" : "AM";
+                      // const formattedTime = `${hours.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")} ${ampm}`;
+                      const formattedTime = `${hours.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")}`;
                       setFormData({ ...formData, endTime: formattedTime })
                     }}
                     slotProps={{

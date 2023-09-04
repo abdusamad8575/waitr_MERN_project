@@ -11,7 +11,7 @@ user_router.post('/addhotelreq',verifyToken,addhotelreq)
 user_router.get('/userDitails',verifyToken,userDitails)
 user_router.post('/verify',verify)
 user_router.post('/uploadProfilepicture',upload.single('image'),uploadProfilepicture)
-user_router.get('/restorentDetails',verifyToken,restorentDetails)
+user_router.get('/restorentDetails',restorentDetails)
 
 
 module.exports = user_router;
