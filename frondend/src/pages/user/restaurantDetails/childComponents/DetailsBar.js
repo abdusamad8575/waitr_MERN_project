@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Typography, Box, Paper, Grid, Stack ,AppBar,Tabs,Tab} from '@mui/material'
+import { Typography, Box, Paper, Grid, Stack ,AppBar,Tabs,Tab, Button} from '@mui/material'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
@@ -45,7 +45,8 @@ function TabPanel(props) {
     };
   }
 
-const DetailsBar = () => {
+const DetailsBar = ({details}) => {
+  console.log("54sa:-",details);
     const [value, setValue] = React.useState();
     console.log('date', value);
 
@@ -106,7 +107,7 @@ const DetailsBar = () => {
                                 onChangeIndex={handleChangeIndex}
                             >
                                 <TabPanel value={values} index={0} dir={theme.direction}>
-                                Breakfast
+                                  <Button>5:30</Button>
                                 </TabPanel>
                                 <TabPanel value={values} index={1} dir={theme.direction}>
                                     Lunch

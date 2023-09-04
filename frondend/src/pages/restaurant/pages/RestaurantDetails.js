@@ -12,7 +12,7 @@ import {
   Dialog, DialogTitle, DialogContent, DialogActions, TextField
 } from '@mui/material';
 
-import {CardActionArea, CardActions } from '@mui/material';
+import { CardActionArea, CardActions } from '@mui/material';
 
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
@@ -26,6 +26,13 @@ import axios from 'axios';
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+
+// time
+import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { TimePicker } from '@mui/x-date-pickers/TimePicker';
+import { renderTimeViewClock } from '@mui/x-date-pickers/timeViewRenderers';
 
 
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
@@ -47,16 +54,18 @@ export default function RestaurantDetails() {
 
   const [names, setNames] = useState([]);
   const [selectOpen, setSelectOpen] = useState(false);
-  const [datas,setDatas] = useState('')
+  const [datas, setDatas] = useState('')
+
+  const [selectedTime, setSelectedTime] = useState(null);
 
 
   useEffect(() => {
-    const fetchRestaurant = async () =>{
+    const fetchRestaurant = async () => {
       try {
         await axiosInstance.get('/restaurant/fetchRestaurant')
           .then((res) =>
-          // console.log(res.data.restaurant)
-          setDatas(res.data.restaurant)
+            // console.log(res.data.restaurant)
+            setDatas(res.data.restaurant)
           )
       } catch (error) {
         console.log(error)
@@ -65,7 +74,7 @@ export default function RestaurantDetails() {
     const fetchData = async () => {
       try {
         await axiosInstance.get('/dashboard/fetchLocations')
-          .then((res) =>  
+          .then((res) =>
             setNames(res.data.locations.location)
           )
       } catch (error) {
@@ -224,8 +233,8 @@ export default function RestaurantDetails() {
       for (const image of selectedImages) {
         newFormData.append('images', image);
       }
-   const id = localStorage.getItem("userId")
-   newFormData.append('id', id);
+      const id = localStorage.getItem("userId")
+      newFormData.append('id', id);
       axiosInstance.post('/restaurant/adminAddRestorent', newFormData, {
         headers: {
           'Content-Type': 'multipart/form-data'
@@ -261,7 +270,7 @@ export default function RestaurantDetails() {
   const handleCloseAddDialog = () => {
     setOpenAddDialog(false);
   };
-  console.log("samad",datas);
+  console.log("samad", formData);
   return (
     <>
       <Helmet>
@@ -309,9 +318,9 @@ export default function RestaurantDetails() {
                   onChange={(e) => setFormData({ ...formData, location: e.target.value })}
                   error={!!formErrors.location}
                 >
-                  {names.map((location)=>
+                  {names.map((location) =>
                     <MenuItem value={location}>{location}</MenuItem>)}
-                  
+
                 </Select>
               </FormControl>
 
@@ -327,18 +336,63 @@ export default function RestaurantDetails() {
 
 
             <Stack direction="row" mb={2}>
-              <TextField label="Start time" id='startTime' sx={{ mr: 1 }}
-                value={formData.startTime}
-                fullWidth
-                onChange={(e) => setFormData({ ...formData, startTime: e.target.value })}
-                error={!!formErrors.startTime}
-                helperText={formErrors.startTime} />
-              <TextField label="End time" id='endTime' sx={{ ml: 1 }}
-                value={formData.endTime}
-                fullWidth
-                onChange={(e) => setFormData({ ...formData, endTime: e.target.value })}
-                error={!!formErrors.endTime}
-                helperText={formErrors.endTime} />
+              <LocalizationProvider dateAdapter={AdapterDayjs} >
+                <DemoContainer components={['TimePicker']} sx={{ mr: 1 }}>
+                  <TimePicker
+                    label="Start Time"
+                    viewRenderers={{
+                      hours: renderTimeViewClock,
+                      minutes: renderTimeViewClock,
+                      seconds: renderTimeViewClock,
+                    }}
+                    onChange={(newTime) => {
+                      const dateObject = newTime.$d
+                      const time = dateObject.getHours();
+                      const hourState = dateObject.getHours() > 12 ? dateObject.getHours() - 12 : dateObject.getHours();
+                      const hours = hourState === 0 ? 12 : hourState;
+                      const minutes = dateObject.getMinutes();
+                      const ampm = time >= 12 ? "PM" : "AM";
+                      const formattedTime = `${hours.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")} ${ampm}`;
+                      setFormData({ ...formData, startTime: formattedTime })
+                    }}
+                    slotProps={{
+                      textField: {
+                        error: !!formErrors.startTime,
+                        helperText: formErrors.startTime,
+                      },
+                    }}
+                  />
+                </DemoContainer>
+              </LocalizationProvider>
+
+              <LocalizationProvider dateAdapter={AdapterDayjs} >
+                <DemoContainer components={['TimePicker']}>
+                  <TimePicker
+                    label="End Time"
+                    viewRenderers={{
+                      hours: renderTimeViewClock,
+                      minutes: renderTimeViewClock,
+                      seconds: renderTimeViewClock,
+                    }}
+                    onChange={(newTime) => {
+                      const dateObject = newTime.$d
+                      const time = dateObject.getHours();
+                      const hourState = dateObject.getHours() > 12 ? dateObject.getHours() - 12 : dateObject.getHours();
+                      const hours = hourState === 0 ? 12 : hourState;
+                      const minutes = dateObject.getMinutes();
+                      const ampm = time >= 12 ? "PM" : "AM";
+                      const formattedTime = `${hours.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")} ${ampm}`;
+                      setFormData({ ...formData, endTime: formattedTime })
+                    }}
+                    slotProps={{
+                      textField: {
+                        error: !!formErrors.endTime,
+                        helperText: formErrors.endTime,
+                      },
+                    }}
+                  />
+                </DemoContainer>
+              </LocalizationProvider>
             </Stack>
 
             <Autocomplete
@@ -502,35 +556,35 @@ export default function RestaurantDetails() {
         </Dialog>
 
         <Card >
-        <CardActionArea>
-        <CardMedia
-          component="img"
-          height="300"
-          image={datas?.restaurantId?.images[0]} 
-          alt="green iguana"
-        />
-        <CardContent>
-          <Typography gutterBottom variant="h5" component="div">
-          Name:{datas?.restaurantId?.restaurantName}
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            Location:{datas?.restaurantId?.location}
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-          Start Time:{datas?.restaurantId?.startTime}
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-          End Time:{datas?.restaurantId?.endTime}
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            Location:{datas?.restaurantId?.location}
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            Location:{datas?.restaurantId?.location}
-          </Typography>
-        </CardContent>
-      </CardActionArea>
-      {/* <CardActions>
+          <CardActionArea>
+            <CardMedia
+              component="img"
+              height="300"
+              image={datas?.restaurantId?.images[0]}
+              alt="green iguana"
+            />
+            <CardContent>
+              <Typography gutterBottom variant="h5" component="div">
+                Name:{datas?.restaurantId?.restaurantName}
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                Location:{datas?.restaurantId?.location}
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                Start Time:{datas?.restaurantId?.startTime}
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                End Time:{datas?.restaurantId?.endTime}
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                Location:{datas?.restaurantId?.location}
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                Location:{datas?.restaurantId?.location}
+              </Typography>
+            </CardContent>
+          </CardActionArea>
+          {/* <CardActions>
         <Button size="small" color="primary">
           Share
         </Button>
