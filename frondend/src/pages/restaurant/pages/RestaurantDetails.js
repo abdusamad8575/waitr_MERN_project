@@ -33,6 +33,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import { renderTimeViewClock } from '@mui/x-date-pickers/timeViewRenderers';
+import { showTime } from '../../../utils/timeframe';
 
 
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
@@ -152,14 +153,14 @@ export default function RestaurantDetails() {
       newFormErrors.location = '';
     }
 
-    if (formData.startTime.trim() === '') {
+    if (formData.startTime === '') {
       newFormErrors.startTime = 'Start time is required';
       valid = false;
     } else {
       newFormErrors.startTime = '';
     }
 
-    if (formData.endTime.trim() === '') {
+    if (formData.endTime === '') {
       newFormErrors.endTime = 'End time is required';
       valid = false;
     } else {
@@ -346,15 +347,7 @@ export default function RestaurantDetails() {
                       seconds: renderTimeViewClock,
                     }}
                     onChange={(newTime) => {
-                      const dateObject = newTime.$d
-                      // const time = dateObject.getHours();
-                      // const hours = dateObject.getHours() > 12 ? dateObject.getHours() - 12 : dateObject.getHours();
-                      // const hours = hourState === 0 ? 12 : hourState;
-                      const hours = dateObject.getHours();
-                      const minutes = dateObject.getMinutes();
-                      // const ampm = hours >= 12 ? "PM" : "AM";
-                      const formattedTime = `${hours.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")}`;
-                      setFormData({ ...formData, startTime: formattedTime })
+                      setFormData({ ...formData, startTime: new Date(newTime) })
                     }}
                     slotProps={{
                       textField: {
@@ -376,17 +369,7 @@ export default function RestaurantDetails() {
                       seconds: renderTimeViewClock,
                     }}
                     onChange={(newTime) => {
-                      const dateObject = newTime.$d
-                      // const time = dateObject.getHours();
-                      // const hourState = dateObject.getHours() > 12 ? dateObject.getHours() - 12 : dateObject.getHours();
-                      // const hours = hourState === 0 ? 12 : hourState;
-                      // const minutes = dateObject.getMinutes();
-                      const hours = dateObject.getHours();
-                      const minutes = dateObject.getMinutes();
-                      // const ampm = hours >= 12 ? "PM" : "AM";
-                      // const formattedTime = `${hours.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")} ${ampm}`;
-                      const formattedTime = `${hours.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")}`;
-                      setFormData({ ...formData, endTime: formattedTime })
+                      setFormData({ ...formData, endTime: new Date(newTime) })
                     }}
                     slotProps={{
                       textField: {
@@ -575,10 +558,10 @@ export default function RestaurantDetails() {
                 Location:{datas?.restaurantId?.location}
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                Start Time:{datas?.restaurantId?.startTime}
+                Start Time:{showTime(datas?.restaurantId?.startTime)}
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                End Time:{datas?.restaurantId?.endTime}
+                End Time:{showTime(datas?.restaurantId?.endTime)}
               </Typography>
               <Typography variant="body2" color="text.secondary">
                 Location:{datas?.restaurantId?.location}
