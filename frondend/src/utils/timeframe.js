@@ -1,6 +1,12 @@
-export function timeFrames(start, end) {
-    const startTime = new Date(start);
-    // console.log("652",startTime);
+export function timeFrames(start, end ,date) {
+// console.log("1==",date?.$d.getTime() );
+// console.log("2==",new Date().getTime() );
+//     const selectedDate = date ? (date.$d.getTime() === new Date().getTime() ? 'samad' : start ): new Date()
+//     console.log("dates:-", selectedDate);
+    const currentTime = new Date(); // Get the current time
+    const minutes = currentTime.getMinutes(); // Get the current minutes
+    currentTime.setMinutes(minutes + 30 - (minutes % 30));
+    const startTime = date ? new Date(start) : (currentTime > new Date(start).getTime() ? currentTime : new Date(start))
     const endTime = new Date(end);
     const breakfastFrames = [];
     const noonFrames = [];
@@ -13,21 +19,21 @@ export function timeFrames(start, end) {
         let category = '';
 
         if (startTime.getHours() < 12) {
-            category = 'breakfast';         
+            category = 'Breakfast';
             breakfastFrames.push(startTime.toLocaleTimeString([], {
                 hour: '2-digit',
                 minute: '2-digit',
                 hour12: true,
             }));
         } else if (startTime.getHours() >= 12 && startTime.getHours() < 16) {
-            category = 'noon';
+            category = 'Lunch';
             noonFrames.push(startTime.toLocaleTimeString([], {
                 hour: '2-digit',
                 minute: '2-digit',
                 hour12: true,
             }));
         } else if (startTime.getHours() >= 16 && startTime.getHours() < endTime.getHours()) {
-            category = 'dinner';
+            category = 'Dinner';
             dinnerFrames.push(startTime.toLocaleTimeString([], {
                 hour: '2-digit',
                 minute: '2-digit',

@@ -50,7 +50,7 @@ function a11yProps(index) {
 const DetailsBar = ({ details }) => {
   console.log("54sa:-", details.startTime);
   const [value, setValue] = React.useState();
-  console.log('date', value);
+  // console.log('date', value);
 
   const theme = useTheme();
   const [values, setValues] = React.useState(0);
@@ -80,11 +80,6 @@ const DetailsBar = ({ details }) => {
 
 // const addTime =dateObject.setMinutes(dateObject.getMinutes() + 30);
 // console.log("change date:-",addTime);
-
-
-  
-
-
   return (
     <div>
       <Scrollbar style={{ height: '500px' }}>
@@ -120,10 +115,14 @@ const DetailsBar = ({ details }) => {
                     aria-label="full width tabs example"
                     
                   >
-                    {details.mealsType.map((element, index) =><Tab label={element} {...a11yProps(index)} />)}
-                    {/* <Tab label="Breakfast" {...a11yProps(0)} />
-                                    <Tab label="Lunch" {...a11yProps(1)} />
-                                    <Tab label="Dinner" {...a11yProps(2)} /> */}
+                    {/* {details.mealsType.map((element, index) =><Tab label={element} {...a11yProps(index)} />)} */}
+                    {timeFrames(details.startTime, details.endTime ,value).map((element, index) => {
+                      //  console.log(Object.keys(element),index)
+                      const object = Object.keys(element)
+                    return (                  
+                      <Tab label={object[index]} {...a11yProps(index)} />
+                    )
+                  })}
                   </Tabs>
                 </AppBar>
                 <SwipeableViews
@@ -132,25 +131,14 @@ const DetailsBar = ({ details }) => {
                   onChangeIndex={handleChangeIndex}
                 >
 
-                  {timeFrames(details.startTime, details.endTime).map((element, index) => {
+                  {timeFrames(details.startTime, details.endTime,value).map((element, index) => {
                     return (
-                      <TabPanel value={values} index={index} dir={theme.direction} spacing={2}>
-                        {/* {console.log(Object.values(element)[0].map(x=>console.log(x)))} */}
-                        {Object.values(element)[0].map(x=><Button variant="outlined" color="error" sx={{margin:'5px'}}>{x}</Button>)}
+                      <TabPanel value={values} index={index} dir={theme.direction}>
+                        {Object.values(element)[0].map(x=><Button variant="outlined" color="error" sx={{margin:'2px'}}>{x}</Button>)}
                         
                       </TabPanel>
                     )
                   })}
-
-
-                 {/* <TabPanel value={values} index={0} dir={theme.direction}>
-                                 {details.startTime } <Button>5:30</Button>
-                                </TabPanel>
-                                <TabPanel value={values} index={1} dir={theme.direction}>
-                                </TabPanel>
-                                <TabPanel value={values} index={2} dir={theme.direction}>
-                                    Dinner
-                                </TabPanel>  */}
                 </SwipeableViews>
               </Box>
             </Grid>
