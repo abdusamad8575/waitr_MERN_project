@@ -1,12 +1,10 @@
 export function timeFrames(start, end ,date) {
-// console.log("1==",date?.$d.getTime() );
-// console.log("2==",new Date().getTime() );
-//     const selectedDate = date ? (date.$d.getTime() === new Date().getTime() ? 'samad' : start ): new Date()
-//     console.log("dates:-", selectedDate);
+console.log("1==",date?.$d.toLocaleDateString());
+console.log("2==",new Date().toLocaleDateString());
     const currentTime = new Date(); // Get the current time
     const minutes = currentTime.getMinutes(); // Get the current minutes
     currentTime.setMinutes(minutes + 30 - (minutes % 30));
-    const startTime = date ? new Date(start) : (currentTime > new Date(start).getTime() ? currentTime : new Date(start))
+    const startTime = date ? (date?.$d.toLocaleDateString() === new Date().toLocaleDateString() ?  currentTime  :  new Date(start)) : (currentTime > new Date(start).getTime() ? currentTime : new Date(start))
     const endTime = new Date(end);
     const breakfastFrames = [];
     const noonFrames = [];
@@ -43,9 +41,9 @@ export function timeFrames(start, end ,date) {
 
         startTime.setTime(next);
     }
-    breakfastFrames.length && slots.push({ 'breakfast': breakfastFrames })
-    noonFrames.length && slots.push({ 'noon': noonFrames })
-    dinnerFrames.length && slots.push({ 'dinner': dinnerFrames })
+    breakfastFrames.length && slots.push({ 'Breakfast': breakfastFrames })
+    noonFrames.length && slots.push({ 'Lunch': noonFrames })
+    dinnerFrames.length && slots.push({ 'Dinner': dinnerFrames })
     console.log('sdfas', slots);
     return slots
 }

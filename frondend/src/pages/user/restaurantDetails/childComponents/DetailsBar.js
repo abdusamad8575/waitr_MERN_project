@@ -40,7 +40,6 @@ TabPanel.propTypes = {
 };
 
 function a11yProps(index) {
-  // console.log("index",index);
   return {
     id: `full-width-tab-${index}`,
     'aria-controls': `full-width-tabpanel-${index}`,
@@ -50,7 +49,6 @@ function a11yProps(index) {
 const DetailsBar = ({ details }) => {
   console.log("54sa:-", details.startTime);
   const [value, setValue] = React.useState();
-  // console.log('date', value);
 
   const theme = useTheme();
   const [values, setValues] = React.useState(0);
@@ -62,24 +60,6 @@ const DetailsBar = ({ details }) => {
   const handleChangeIndex = (index) => {
     setValues(index);
   };
-
-
-
-//   // Your time string
-// const timeString = details.startTime;
-// // Split the time string into hours and minutes
-// const [hoursString, minutesString] = timeString.split(":");
-// // Parse hours and minutes as integers
-// const hours = parseInt(hoursString, 10);
-// const minutes = parseInt(minutesString, 10);
-// // Create a new Date object with the time set to 09:00 AM
-// const dateObject = new Date();
-// // dateObject.setHours(hours);
-// // dateObject.setMinutes(minutes);
-// // dateObject.setSeconds(0); // Optional: Set seconds to 0 if needed
-
-// const addTime =dateObject.setMinutes(dateObject.getMinutes() + 30);
-// console.log("change date:-",addTime);
   return (
     <div>
       <Scrollbar style={{ height: '500px' }}>
@@ -117,10 +97,9 @@ const DetailsBar = ({ details }) => {
                   >
                     {/* {details.mealsType.map((element, index) =><Tab label={element} {...a11yProps(index)} />)} */}
                     {timeFrames(details.startTime, details.endTime ,value).map((element, index) => {
-                      //  console.log(Object.keys(element),index)
                       const object = Object.keys(element)
                     return (                  
-                      <Tab label={object[index]} {...a11yProps(index)} />
+                      <Tab label={object[0]} {...a11yProps(index)} />
                     )
                   })}
                   </Tabs>
