@@ -12,6 +12,7 @@ import PropTypes from 'prop-types';
 import SwipeableViews from 'react-swipeable-views';
 import { useTheme } from '@mui/material/styles';
 import {timeFrames} from '../../../../utils/timeframe';
+import GuestsDetails from './GuestsDetails';
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
   console.log("cxcx", children, value, index, other);
@@ -47,12 +48,17 @@ function a11yProps(index) {
 }
 
 const DetailsBar = ({ details }) => {
-  console.log("54sa:-", details.startTime);
+  // console.log("54sa:-", details.startTime);
   const [value, setValue] = React.useState();
 
   const theme = useTheme();
   const [values, setValues] = React.useState(0);
-
+  const [detail, setDetails] = React.useState({
+    date:'',
+    time:'',
+    guestsCount:'',
+  })
+  const [componentStetings,setComponentStetings] =  React.useState(false);
   const handleChange = (event, newValue) => {
     setValues(newValue);
   };
@@ -60,18 +66,31 @@ const DetailsBar = ({ details }) => {
   const handleChangeIndex = (index) => {
     setValues(index);
   };
+  const handleButton = (time,selectDate) =>{
+    const date = selectDate ? selectDate?.$d.toLocaleDateString() : new Date().toLocaleDateString()
+    console.log(time,date);
+    setDetails({
+      ...detail,
+      date,
+      time,
+    })
+    setComponentStetings(true)
+
+  }
+  console.log('datais:-',detail);
   return (
     <div>
-      <Scrollbar style={{ height: '500px' }}>
-        <Paper variant="outlined" elevation={3} >
-          <Box sx={{ height: '40px', backgroundColor: 'rgb(255, 100, 90)', borderRadius: '5px 5px 0 0' }}>
-            <Typography
+      <Scrollbar style={{ height: '600px',borderRadius:'5px'}}>
+        <Paper variant="outlined" elevation={3} sx={{borderRadius: '5px'}}>
+          <Box sx={{width:"100%", height: '40px', backgroundColor: 'rgb(255, 100, 90)',borderRadius: '5px 5px 0 0'}}>
+            <Typography 
               variant="h6"
               color="#fff"
               sx={{ textAlign: 'center', paddingTop: '5px', }}>
               Details
             </Typography>
           </Box>
+          {componentStetings ? <GuestsDetails detail={detail} setDetails={setDetails} state={componentStetings} setState={setComponentStetings}/> : (
           <Grid container p={1} >
             <Grid item sx={{ width: '100%' }}>
               <Stack spacing={2} sx={{ alignItems: 'center' }}>
@@ -113,7 +132,7 @@ const DetailsBar = ({ details }) => {
                   {timeFrames(details.startTime, details.endTime,value).map((element, index) => {
                     return (
                       <TabPanel value={values} index={index} dir={theme.direction}>
-                        {Object.values(element)[0].map(x=><Button variant="outlined" color="error" sx={{margin:'2px'}}>{x}</Button>)}
+                        {Object.values(element)[0].map(x=><Button variant="outlined" color="error" sx={{margin:'2px'}} onClick={()=>handleButton(x,value)}>{x}</Button>)}
                         
                       </TabPanel>
                     )
@@ -122,9 +141,10 @@ const DetailsBar = ({ details }) => {
               </Box>
             </Grid>
 
-          </Grid>
+          </Grid>)}
         </Paper>
       </Scrollbar>
+                
     </div>
   )
 }

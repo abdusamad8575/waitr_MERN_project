@@ -1,16 +1,22 @@
-export function timeFrames(start, end ,date) {
-console.log("1==",date?.$d.toLocaleDateString());
-console.log("2==",new Date().toLocaleDateString());
+export function timeFrames(start, end, date) {
+    // console.log("1==", date?.$d.toLocaleDateString());
+    // console.log("2==", new Date().toLocaleDateString());
+
+
     const currentTime = new Date(); // Get the current time
+    // Create two Date objects representing the times you want to compare
     const minutes = currentTime.getMinutes(); // Get the current minutes
     currentTime.setMinutes(minutes + 30 - (minutes % 30));
-    const startTime = date ? (date?.$d.toLocaleDateString() === new Date().toLocaleDateString() ?  currentTime  :  new Date(start)) : (currentTime > new Date(start).getTime() ? currentTime : new Date(start))
+    const startTime = date ? (date?.$d.toLocaleDateString() === new Date().toLocaleDateString() ? currentTime : new Date(start)) : (currentTime > new Date(start).getTime() ? currentTime : new Date(start))
+    // console.log("startTime", startTime);
+
+
     const endTime = new Date(end);
     const breakfastFrames = [];
     const noonFrames = [];
     const dinnerFrames = [];
     const slots = []
-    while (startTime < endTime) {
+    while (compare(startTime, endTime)) {
         const next = new Date(startTime);
         next.setMinutes(startTime.getMinutes() + 30);
 
@@ -57,4 +63,25 @@ export const showTime = (date) => {
     const minutes = dateObject.getUTCMinutes();
 
     return `${(hours % 12).toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")}`;
-}  
+}
+
+const compare = (start, end) => {
+
+    const hours1 = start.getHours();
+    const minutes1 = start.getMinutes();
+
+    const hours2 = end.getHours();
+    const minutes2 = end.getMinutes();
+
+    if (hours1 < hours2) {
+        return true
+    } else if (hours1 > hours2) {
+        return false
+    } else if (minutes1 < minutes2) {
+        return true
+    } else if (minutes1 > minutes2) {
+        return false
+    } else {
+        return false
+    }
+}
