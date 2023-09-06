@@ -1,14 +1,58 @@
-import { Button, Grid, Typography, Box ,TextField} from '@mui/material'
-import React, { useState } from 'react'
+import { Button, Grid, Typography, Box, TextField } from '@mui/material'
+import React, { useEffect, useState } from 'react'
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 
-const GuestsDetails = ({ detail, setDetails, state, setState }) => {
-    const [guests, setGuests] = useState(0)
+const GuestsDetails = ({ detail, setDetails, setState }) => {
+    const initial = detail.guestsCount ? detail.guestsCount : 0;
+    const [guests, setGuests] = useState(initial)
+    const [formErrors, setFormErrors] = useState({
+        guestsCount: '',
+        name: '',
+        phone: '',
+        email: ''
+    })
     const handleClick = () => {
         setState(false)
     }
-console.log("zxc=",detail);
+    useEffect(() => {
+        setDetails({ ...detail, guestsCount: guests })
+    }, [guests])
+
+    const validateForm = () => {
+        let valid = true;
+        const newFormErrors = { ...formErrors };
+
+        if (detail.name.trim() === '') {
+            newFormErrors.name = 'Restaurant name is required';
+            valid = false;
+        } else {
+            newFormErrors.name = '';
+        }
+
+        if(detail.phone.trim() === ''){
+            newFormErrors.phone = 'Phone nomber is required';
+            valid = false;
+        }else {
+            newFormErrors.phone = '';
+        }
+
+        if(!/\S+@\S+\.\S+/.test(detail.email)){
+            newFormErrors.email = 'Phone nomber is required';
+            valid = false;
+        }else {
+            newFormErrors.email = '';
+        }
+
+
+        setFormErrors(newFormErrors);
+        return valid;
+    }
+
+    const handleSubmit = () => {
+        const isValid = validateForm();
+    }
+    console.log("zxc=", detail);
     return (
         <>
             <Grid container sx={{ justifyContent: 'center' }}>
@@ -39,25 +83,31 @@ console.log("zxc=",detail);
                     <Typography variant='body2'>Enter Guest Details</Typography>
                 </Grid>
                 <Grid item>
-                    <TextField fullWidth label="name" id="Full Name" 
-                    value={detail.name}
-                    onChange={(event)=>setDetails({...detail,name:event.target.value})}
+                    <TextField fullWidth label="name" id="Full Name"
+                        value={detail.name}
+                        onChange={(event) => setDetails({ ...detail, name: event.target.value })}
+                        error={!!formErrors.name}
+                        helperText={formErrors.name}
                     />
                 </Grid>
                 <Grid item>
-                    <TextField fullWidth label="phone" id="Phone" 
-                    value={detail.phone}
-                    onChange={(event)=>setDetails({...detail,phone:event.target.value})}
+                    <TextField fullWidth label="phone" id="Phone"
+                        value={detail.phone}
+                        onChange={(event) => setDetails({ ...detail, phone: event.target.value })}
+                        error={!!formErrors.phone}
+                        helperText={formErrors.phone}
                     />
                 </Grid>
                 <Grid item>
-                    <TextField fullWidth label="email" id="Email" 
-                    value={detail.email}
-                    onChange={(event)=>setDetails({...detail,email:event.target.value})}
+                    <TextField fullWidth label="email" id="Email"
+                        value={detail.email}
+                        onChange={(event) => setDetails({ ...detail, email: event.target.value })}
+                        error={!!formErrors.email}
+                        helperText={formErrors.email}
                     />
                 </Grid>
                 <Grid item>
-                <Button variant='contained' sx={{ backgroundColor: 'rgb(255, 100, 90)', justifyContent: 'center' }} onClick={handleClick}>Selected Foods</Button>
+                    <Button variant='contained' sx={{ backgroundColor: 'rgb(255, 100, 90)', display: 'flex', justifyContent: 'center' }} onClick={handleSubmit}>Selected Foods</Button>
                 </Grid>
             </Grid>
 

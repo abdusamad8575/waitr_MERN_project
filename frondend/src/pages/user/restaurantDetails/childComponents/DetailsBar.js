@@ -93,7 +93,7 @@ const DetailsBar = ({ details }) => {
               Details
             </Typography>
           </Box>
-          {componentStetings ? <GuestsDetails detail={detail} setDetails={setDetails} state={componentStetings} setState={setComponentStetings}/> : (
+          {componentStetings ? <GuestsDetails detail={detail} setDetails={setDetails} setState={setComponentStetings}/> : (
           <Grid container p={1} >
             <Grid item sx={{ width: '100%' }}>
               <Stack spacing={2} sx={{ alignItems: 'center' }}>
