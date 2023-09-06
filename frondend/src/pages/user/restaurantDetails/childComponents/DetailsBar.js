@@ -57,6 +57,9 @@ const DetailsBar = ({ details }) => {
     date:'',
     time:'',
     guestsCount:'',
+    name:'',
+    phone:'',
+    email:''
   })
   const [componentStetings,setComponentStetings] =  React.useState(false);
   const handleChange = (event, newValue) => {
