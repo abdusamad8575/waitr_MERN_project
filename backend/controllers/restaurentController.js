@@ -54,7 +54,7 @@ const fetchRestaurant = async (req,res) =>{
        const userId = req.id
        const restaurant =  await User.findById(userId).populate('restaurantId')
           console.log("5464",restaurant);       
-          if(!restaurant){
+          if(!restaurant.restaurantId){
             return res.status(400).json({message:'data not fetch'})
         }else{
               return res.status(200).json({message:'restaurant data fetch saccessfully',restaurant})    
@@ -65,8 +65,33 @@ const fetchRestaurant = async (req,res) =>{
     }
 }
 
+
+const foodDetails = async (req, res) => {
+    try {
+        const { foodName,price,description, id } = req.body;
+        const images = req.files.map(file => file.filename);
+        console.log(foodName,price,description, id );
+    //     if(id && images) {
+    // const img = images.map(img=>`http://localhost:8000/assets/${img}`)
+    //     const restaurant = new Restaurant({  
+    //         ownerId:id,
+    //         restaurantName: restaurantName,
+    //         images: img ,
+    //     })
+    //     console.log("datas-",restaurant)
+    //     await restaurant.save()
+    //     await User.updateOne({_id:id},{$set:{restaurantId:restaurant._id}})
+    //     return res.json({ message: 'Data saved successfully' });
+        
+    // }
+    }
+    catch (error) {
+        return res.status(500).json({ message: 'Server Error' });
+    }
+}
      
 module.exports = {
     adminAddRestorent,
-    fetchRestaurant
+    fetchRestaurant,
+    foodDetails
 }

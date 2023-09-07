@@ -1,7 +1,6 @@
-
 import { Button, Dialog, DialogTitle, DialogContent, DialogActions, TextField } from '@mui/material';
 import { useState } from 'react';
-
+import axiosInstance from '../../../../axios'
 
 const allowedImageTypes = ['image/jpeg', 'image/png', 'image/gif'];
 const DialogBox = ({ openAddDialog, setOpenAddDialog }) => {
@@ -84,26 +83,27 @@ const DialogBox = ({ openAddDialog, setOpenAddDialog }) => {
             }
             const id = localStorage.getItem("userId")
             newFormData.append('id', id);
-            // axiosInstance.post('/restaurant/adminAddRestorent', newFormData, {
-            //     headers: {
-            //         'Content-Type': 'multipart/form-data'
-            //     }
-            // })
-            //     .then(response => {
-            //         console.log('Response from backend:', response.data);
-            //         setFormData({
-            //    foodName: '',
-            //    price: '',
-            //    description: '',
-            //         })
-            //         setSelectedImages([])
-            //         setOpenAddDialog(false);
-            //     })
-            //     .catch(error => {
-            //         console.error('Error:', error);
-            //     });
+            axiosInstance.post('/restaurant/foodDetails', newFormData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            })
+                .then(response => {
+                    console.log('Response from backend:', response.data);
+                    setFormData({
+               foodName: '',
+               price: '',
+               description: '',
+                    })
+                    setSelectedImages([])
+                    setOpenAddDialog(false);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
         }
     };
+    console.log("fdata:-",formData,selectedImages);
 
     return (
         <>
@@ -118,7 +118,7 @@ const DialogBox = ({ openAddDialog, setOpenAddDialog }) => {
 
                     <TextField fullWidth label="Price" id="price" sx={{ mb: 2 }}
                         value={formData.price}
-                        onChange={(e) => setFormData({ ...formData, Price: e.target.value })}
+                        onChange={(e) => setFormData({ ...formData, price: e.target.value })}
                         error={!!formErrors.price}
                         helperText={formErrors.price} />
 

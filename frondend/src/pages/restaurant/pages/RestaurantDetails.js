@@ -65,9 +65,11 @@ export default function RestaurantDetails() {
       try {
         await axiosInstance.get('/restaurant/fetchRestaurant')
           .then((res) =>
-            // console.log(res.data.restaurant)
+            // console.log("lll",res.data.restaurant)
             setDatas(res.data.restaurant)
-          )
+          ).catch((error)=>{
+            console.log(error);
+          })
       } catch (error) {
         console.log(error)
       }
@@ -271,7 +273,7 @@ export default function RestaurantDetails() {
   const handleCloseAddDialog = () => {
     setOpenAddDialog(false);
   };
-  console.log("samad", formData);
+  console.log("samad1", datas);
   return (
     <>
       <Helmet>
@@ -542,7 +544,7 @@ export default function RestaurantDetails() {
           </DialogActions>
         </Dialog>
 
-        <Card >
+       {datas ? ( <Card >
           <CardActionArea>
             <CardMedia
               component="img"
@@ -579,7 +581,7 @@ export default function RestaurantDetails() {
           delete
         </Button>
       </CardActions> */}
-        </Card>
+        </Card> ): <Typography sx={{display:'flex',justifyContent:'center',color:'red'}}>Please Add Restaurant Details</Typography>}
       </Container>
     </>
   );
