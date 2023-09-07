@@ -202,6 +202,7 @@ export default function RestaurantDetails() {
   };
 
   const handleSubmit = async () => {
+    console.log("samad1", formData);
     const isValid = validateForm();
 
     if (!isValid) {
@@ -238,6 +239,7 @@ export default function RestaurantDetails() {
       }
       const id = localStorage.getItem("userId")
       newFormData.append('id', id);
+      
       axiosInstance.post('/restaurant/adminAddRestorent', newFormData, {
         headers: {
           'Content-Type': 'multipart/form-data'
@@ -273,7 +275,7 @@ export default function RestaurantDetails() {
   const handleCloseAddDialog = () => {
     setOpenAddDialog(false);
   };
-  console.log("samad1", datas);
+  
   return (
     <>
       <Helmet>
