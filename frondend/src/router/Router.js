@@ -7,6 +7,7 @@ import Account from '../pages/user/account/Account'
 import UserProtected from './userProtected';
 import ListRestaurant from '../pages/user/listRestaurant/listRestaurant';
 import RestaurantDetails from '../pages/user/restaurantDetails/RestaurantDetails';
+import FoodDetails from '../pages/user/foodDetails/FoodDetails';
 
 function Router() { 
   return (
@@ -18,6 +19,7 @@ function Router() {
           <Route path = '/account' element = {<Account />} />
           <Route path = '/findrestaurant' element = {<ListRestaurant />} />
           <Route path = '/DetailPage' element = {<RestaurantDetails />} />
+          <Route path = '/foodDetails' element ={<FoodDetails />} />
           {/* </Route> */}
           <Route path='/signup' element={<SignUp />} />
           <Route path='/signin' element={<SignIn />} />

@@ -1,20 +1,16 @@
-
-import React, { useEffect, useState } from "react";
-import { Box, Container, Grid, Typography ,Breadcrumbs, Link,} from "@mui/material";
-import Album from "./childComponents/cards";
+import React,{ useEffect, useState } from 'react'
+import Navebar from '../../../components/Navebar'
+import Footer from '../../../components/Footer'
+import { Typography, Breadcrumbs ,Grid, Link,Container,Box} from '@mui/material'
+import { useNavigate } from 'react-router-dom';
+import NavigateNextIcon from '@mui/icons-material/NavigateNext';
+import styled from "@emotion/styled";
+import Album from "./childComponents/cards"; 
 import Filiter from "./childComponents/filter";
 import FreeSolo from "./childComponents/SearchBar";
-import styled from "@emotion/styled";
-import Navebar from "../../../components/Navebar";
-import Footer from "../../../components/Footer";
-import NavigateNextIcon from '@mui/icons-material/NavigateNext';
-import { useNavigate } from 'react-router-dom'
-
-const Page = styled(Box)({
-  background: "#F8F8F8",
-});
 
 const FiliterContainer = styled(Container)({});
+
 
 const LeftSide = styled(Box)({
   display: "flex",
@@ -33,11 +29,29 @@ function totalElements(obj) {
   }
   return totalCount
 }
-function ListRestaurant() {
+const FoodDetails = () => {
   const navigate = useNavigate()
   const [filters, setFilters] = useState({})
   const [filterCount, setCount] = useState(0)
   const [search, setSearch] = React.useState('')
+  const breadcrumbs = [
+    <Link underline="hover" key="1" color="inherit" onClick={()=>navigate('/')}>
+      Home
+    </Link>,
+    <Link
+      underline="hover"
+      key="2"
+      color="inherit"
+      href=""
+      onClick={()=>navigate('/findrestaurant')}
+    >
+      Find Restaurant
+    </Link>,
+    <Typography key="3" color="text.primary">
+      Food Details
+    </Typography>,
+  ];
+
   useEffect(() => {
     console.log(search);
     setFilters(prev => ({ ...prev, search }))
@@ -50,45 +64,34 @@ function ListRestaurant() {
   useEffect(() => {
     !filterCount && setFilters({})
   }, [filterCount])
-
-  const breadcrumbs = [
-    <Link underline="hover" key="1" color="inherit" onClick={()=>navigate('/')}>
-      Home
-    </Link>,
-    <Typography key="3" color="text.primary">
-      Find Restaurant
-    </Typography>,
-  ];
-
   return (
     <>
+      <Navebar />
+      <Breadcrumbs
+        separator={<NavigateNextIcon fontSize="small" />}
+        aria-label="breadcrumb"
+        ml='20px'
+      >
+        {breadcrumbs}
+      </Breadcrumbs>
 
-      <Page>
-        <Navebar />
-        <Breadcrumbs
-          separator={<NavigateNextIcon fontSize="small" />}
-          aria-label="breadcrumb"
-          ml='20px'
-        >
-          {breadcrumbs}
-        </Breadcrumbs>
-        <FiliterContainer>
+      <FiliterContainer>
           <FreeSolo filterCount={filterCount} search={search} apply={setSearch} removeFilter={setCount} />
           <Grid container >
-            <Grid item xs={12} md={3} lg={2.5} marginTop={1}>
+            {/* <Grid item xs={12} md={3} lg={2.5} marginTop={1}>
               <Filiter filter={filterCount} apply={setFilters} />
-            </Grid>
+            </Grid> */}
             <Grid item xs={12} md={9} sm={12} lg={9.5}>
               <LeftSide>
-                <Album filter={filters} />
+                <Album />
               </LeftSide>
             </Grid>
           </Grid>
         </FiliterContainer>
-        <Footer />
-      </Page>
+      
+      <Footer />
     </>
-  );
+  )
 }
 
-export default ListRestaurant;
+export default FoodDetails

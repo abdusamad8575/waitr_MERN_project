@@ -4,7 +4,7 @@ import DashboardLayout from './layouts/dashboard';
 import SimpleLayout from './layouts/simple';
 import Page404 from './pages/Page404';
 import DashboardAppPage from './pages/DashboardAppPage';
-import Addfood from './pages/Addfood';
+import Addfood from './pages/addFood/Addfood';
 import Orders from './pages/Orders';
 import Offres from './pages/Offres';
 import RestaurantDetails from './pages/RestaurantDetails';

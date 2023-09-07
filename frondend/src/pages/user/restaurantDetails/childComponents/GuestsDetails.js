@@ -2,8 +2,10 @@ import { Button, Grid, Typography, Box, TextField } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import { useNavigate } from 'react-router-dom';
 
 const GuestsDetails = ({ detail, setDetails, setState }) => {
+    const navigate = useNavigate()
     const initial = detail.guestsCount ? detail.guestsCount : 0;
     const [guests, setGuests] = useState(initial)
     const [formErrors, setFormErrors] = useState({
@@ -30,15 +32,15 @@ const GuestsDetails = ({ detail, setDetails, setState }) => {
             newFormErrors.name = '';
         }
 
-        if(detail.phone.trim() === ''){
-            newFormErrors.phone = 'Phone nomber is required';
+        if(/^\d{10}$/.test(detail.phone)){
+            newFormErrors.phone = '';
             valid = false;
         }else {
-            newFormErrors.phone = '';
+            newFormErrors.phone = 'Please Enter 10-digit Phone Number';
         }
 
         if(!/\S+@\S+\.\S+/.test(detail.email)){
-            newFormErrors.email = 'Phone nomber is required';
+            newFormErrors.email = 'Email is required';
             valid = false;
         }else {
             newFormErrors.email = '';
@@ -51,6 +53,11 @@ const GuestsDetails = ({ detail, setDetails, setState }) => {
 
     const handleSubmit = () => {
         const isValid = validateForm();
+        if(!isValid){
+            return
+        }else{
+            navigate('/foodDetails')
+        }
     }
     console.log("zxc=", detail);
     return (
@@ -106,9 +113,9 @@ const GuestsDetails = ({ detail, setDetails, setState }) => {
                         helperText={formErrors.email}
                     />
                 </Grid>
-                <Grid item>
-                    <Button variant='contained' sx={{ backgroundColor: 'rgb(255, 100, 90)', display: 'flex', justifyContent: 'center' }} onClick={handleSubmit}>Selected Foods</Button>
-                </Grid>
+                {guests>0 && <Grid item sx={{ display: 'flex', justifyContent: 'center'}}>
+                    <Button variant='contained' sx={{ backgroundColor: 'rgb(255, 100, 90)' }} onClick={handleSubmit}>Selected Foods</Button>
+                </Grid>}
             </Grid>
 
         </>

@@ -181,8 +181,8 @@ function Navebar() {
       newErrors.Rlocation = 'Location is required';
     }
 
-    if (!addHotel.Rcontact.trim()) {
-      newErrors.Rcontact = 'Contact Number is required';
+    if (! /^\d{10}$/.test(addHotel.Rcontact)) {
+      newErrors.Rcontact = 'Please Enter 10-digit Phone Number';
     }
 
     setErrors(newErrors);
