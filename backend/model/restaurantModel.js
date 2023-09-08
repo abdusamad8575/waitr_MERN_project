@@ -56,21 +56,42 @@ const RestaurantDetailsSchema = new mongoose.Schema({
             type:String,
         },
     ],
-    addTable:[
+    foodDetails:[
         {
-            tableName:{
-                type:String,
+            foodName:{
+                type: String,
             },
-            charCount:{
-                type:Number,
+            price:{
+                type:Number
             },
-            Images:[
+            description:{
+                type:String
+            },
+            images:[
                 {
-                    type:String
+                    type:String,
                 }
-            ]
+            ],
+            rating:{
+                type:Number
+            }
         }
     ]
+    // addTable:[
+    //     {
+    //         tableName:{
+    //             type:String,
+    //         },
+    //         charCount:{
+    //             type:Number,
+    //         },
+    //         Images:[
+    //             {
+    //                 type:String
+    //             }
+    //         ]
+    //     }
+    // ]
 
 });
 const RestaurantDetails = mongoose.model('Restaurant',RestaurantDetailsSchema);

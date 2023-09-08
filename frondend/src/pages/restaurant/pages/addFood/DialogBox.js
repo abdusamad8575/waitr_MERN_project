@@ -77,6 +77,9 @@ const DialogBox = ({ openAddDialog, setOpenAddDialog }) => {
         } else {
             // Create a new FormData object
             const newFormData = new FormData();
+            for (const [key, value] of Object.entries(formData)) {
+                newFormData.append(key, value);
+            }
 
             for (const image of selectedImages) {
                 newFormData.append('images', image);
