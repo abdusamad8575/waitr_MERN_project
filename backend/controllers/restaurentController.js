@@ -7,8 +7,6 @@ dotenv.config()
 const adminAddRestorent = async (req, res) => {
     try {
         const { restaurantName, location, startTime, endTime, mealsType, daysOfWeek, addTable, cuisines, restaurantType, id } = req.body;
-        // console.log("startTime", startTime);
-        // console.log("endTime", endTime);
         const start = new Date(startTime)
         const end = new Date(endTime)
         const images = req.files.map(file => file.filename);

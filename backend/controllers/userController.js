@@ -2,6 +2,8 @@ const User = require('../model/userModel')
 const jwt = require('jsonwebtoken');
 const { OAuth2Client } = require('google-auth-library');
 const Restaurant = require('../model/restaurantModel')
+const dotenv = require('dotenv')
+dotenv.config()
 
 const signup = async (req, res, next) => {
 
@@ -177,17 +179,17 @@ async function verify(req,res) {
 }
 
 const uploadProfilepicture = async(req,res)=>{
-    console.log("ss",req.file);
+    // console.log("ss",req.file);
     try {
         const id = req.query.id
       if (!req.file) {
         return res.json({ error: 'Image is required' });
       }
-      const filepath = req.file.path.replace(/\\/g, '/').slice(7);
-      console.log("filepath",filepath);
+      const filepath = req.file.filename;
+
       await User.findByIdAndUpdate(id, {
         $set: {
-          profilePic: `http://localhost:8000/${filepath}`,
+          profilePic: `${process.env.URL}${filepath}`,
         },
       });
       const user = await User.findById(id);
