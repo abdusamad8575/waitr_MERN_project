@@ -275,6 +275,8 @@ export default function RestaurantDetails() {
   const handleCloseAddDialog = () => {
     setOpenAddDialog(false);
   };
+console.log("datas1",datas);
+
   
   return (
     <>
@@ -562,17 +564,17 @@ export default function RestaurantDetails() {
                 Location:{datas?.restaurantId?.location}
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                Start Time:{showTime(datas?.restaurantId?.startTime)}
+                Start Time:{datas?.startTime}
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                End Time:{showTime(datas?.restaurantId?.endTime)}
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                Location:{datas?.restaurantId?.location}
+                End Time:{datas?.endTime}
               </Typography>
               <Typography variant="body2" color="text.secondary">
                 Location:{datas?.restaurantId?.location}
               </Typography>
+              {/* <Typography variant="body2" color="text.secondary">
+                Location:{datas?.restaurantId?.location}
+              </Typography> */}
             </CardContent>
           </CardActionArea>
           {/* <CardActions>
