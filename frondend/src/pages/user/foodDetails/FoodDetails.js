@@ -55,16 +55,6 @@ const FoodDetails = () => {
     </Typography>,
   ];
 
-
-  if(search){
-    console.log(search)
-    const regex = new RegExp(search, 'i'); // 'i' for case-insensitive
-    const filteredResults = datas.filter(item => 
-      regex.test(item.restaurantName) 
-    );
-    setDatas(filteredResults)
-  }
-
   // useEffect(() => {
   //   console.log(search);
   //   setFilters(prev => ({ ...prev, search }))
@@ -89,7 +79,7 @@ const FoodDetails = () => {
       </Breadcrumbs>
 
       <FiliterContainer>
-          <FreeSolo apply={setSearch} />
+          
           <Grid container >
             <Grid item xs={12}>
               <LeftSide>
