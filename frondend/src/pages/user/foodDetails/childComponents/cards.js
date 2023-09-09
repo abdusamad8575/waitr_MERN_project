@@ -10,8 +10,7 @@ import { Box, Skeleton } from "@mui/material";
 import { useNavigate } from "react-router";
 import styled from "@emotion/styled";
 import { useDispatch, useSelector } from "react-redux";
-import customFilter from "./customFilter";
-import {selectRestaurant} from '../../../../redux-toolkit/userSlice'
+import { selectRestaurant } from '../../../../redux-toolkit/userSlice'
 
 import Pagination from '@mui/material/Pagination';
 
@@ -34,98 +33,83 @@ const H3 = styled(Typography)({
   paddingTop: "1px",
 });
 
-export default function Album({ filter}) {
-  const dispatch = useDispatch()
-  const navigate = useNavigate();
-  const [data, setData] = React.useState([""]);
- 
-  const [FilterData, setFilterdData] = React.useState([""]);
-  const [loading, setLoading] = React.useState(true);
-  const location = useSelector(store => store.user.location)
+export default function Album({data}) {
+  // const data = useSelector((state) => state.user.details.foodDetails)
+  // const data = useSelector((state) => state.user.details)
+  console.log("datas12/:-",data);
+  // const dispatch = useDispatch()
+  // const navigate = useNavigate();
   const [currentPage, setCurrentPage] = React.useState(1);
+  // const [surchData, setSurchData] = React.useState();
 
-  React.useEffect(() => {
-    try {
-      setLoading(true)
-      const fetchData = async () => {
-        await axiosInstance.get('/restorentDetails')
-          .then((res) => res && setData(res.data.restaurant))
-          .then(() => setLoading(false))
-      }
-      fetchData();
-    } catch (error) {
-      console.log(error.message);
-    }
-  }, []);
-  React.useEffect(() => {
-    const datas = customFilter(data, filter, location)
-    setFilterdData(datas)
-  }, [filter, location, data])
-
-
-  const itemsPerPage = 9;
+  const itemsPerPage = 8;
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const itemsToDisplay = FilterData.slice(startIndex, endIndex);
-  const handleRestaurantDetails = (id) =>{
-    const restaurantData = itemsToDisplay.filter((value)=>value._id === id)
-    dispatch(selectRestaurant(restaurantData[0]))
-    navigate('/DetailPage')
+  // const datas = surchData  ?  surchData : data ;
+  // console.log("datas1",datas);
+  const itemsToDisplay = data.slice(startIndex, endIndex);
+
+
+  const handleselect = (id) => {
+    const restaurantData = itemsToDisplay.filter((value) => value._id === id)
+    // dispatch(selectRestaurant(restaurantData[0]))
+    // navigate('/DetailPage')
   }
 
   return (
-    <Container sx={{ py: 1 }} maxWidth="md">
+    <Container sx={{ py: 1 }} >
       <Grid container spacing={4}>
         {itemsToDisplay.map((card, index) => (
-            <Grid item key={index} xs={12} sm={6} md={4}>
-              <Card
-                sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}
-              >
-                {loading ? (
-                  <Skeleton
-                    variant="rectangular"
-                    // width={100}
-                    height={150}
-                  />
+          <Grid item key={index} xs={12} sm={6} md={3}>
+            <Card
+              sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}
+            >
+              {!data ? (
+                <Skeleton
+                  variant="rectangular"
+                  // width={100}
+                  height={150}
+                />
+              ) : (
+                <CardMedia
+                  onClick={() => handleselect(card._id)}
+                  key={`media-${card._id}`}
+                  component="div"
+                  sx={{
+                    pt: "56.25%",
+                    cursor: "pointer",
+                  }}
+                  image={
+                    card.images && card.images[0]
+                  }
+                />
+              )}
+              <CardContent sx={{ flexGrow: 1, cursor: "pointer" }}>
+                {!data ? (
+                  <Box sx={{ pt: 0.5 }}>
+                    <Skeleton />
+                    <Skeleton width="60%" />
+                  </Box>
                 ) : (
-                  <CardMedia
-                    onClick={()=>handleRestaurantDetails(card._id)}
-                    key={`media-${card._id}`}
-                    component="div"
-                    sx={{
-                      pt: "56.25%",
-                      cursor: "pointer",
-                    }}
-                    image={
-                      card.images && card.images[0]
-                    }
-                  />
-                )}
-                <CardContent sx={{ flexGrow: 1, cursor: "pointer" }}>
-                  {loading ? (
-                    <Box sx={{ pt: 0.5 }}>
-                      <Skeleton />
-                      <Skeleton width="60%" />
-                    </Box>
-                  ) : (
-                    <>                <Typography gutterBottom variant="h5" component="h2">
-                      <H1>{card.restaurantName}</H1>
+                  <>
+                    <Typography gutterBottom variant="h5" component="h2">
+                      <H1>{card.foodName}</H1>
                     </Typography>
-                      <Typography>
-                        <H3 variant="body2" component="poppins"> {card.location} </H3>
-                      </Typography>
-                    </>
+                    <Typography>
+                      <H3 variant="body2" component="poppins"> {card.price} </H3>
+                    </Typography>
+                  </>
 
-                  )}
-                </CardContent>
-              </Card>
-            </Grid>
+                )}
+              </CardContent>
+            </Card>
+          </Grid>
           // ))}
         ))}
       </Grid>
 
       <Pagination
-        count={Math.ceil(FilterData.length / itemsPerPage)}
+        count={Math.ceil(data.length / itemsPerPage)}
         page={currentPage}
         onChange={(event, value) => setCurrentPage(value)}
         sx={{ marginTop: 2, display: 'flex', justifyContent: 'center' }}

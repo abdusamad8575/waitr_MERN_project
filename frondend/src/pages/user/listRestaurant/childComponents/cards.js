@@ -69,6 +69,7 @@ export default function Album({ filter}) {
   const itemsToDisplay = FilterData.slice(startIndex, endIndex);
   const handleRestaurantDetails = (id) =>{
     const restaurantData = itemsToDisplay.filter((value)=>value._id === id)
+    // console.log(":-",restaurantData);
     dispatch(selectRestaurant(restaurantData[0]))
     navigate('/DetailPage')
   }

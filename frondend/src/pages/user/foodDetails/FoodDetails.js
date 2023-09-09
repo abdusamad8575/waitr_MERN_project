@@ -6,8 +6,9 @@ import { useNavigate } from 'react-router-dom';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import styled from "@emotion/styled";
 import Album from "./childComponents/cards"; 
-import Filiter from "./childComponents/filter";
+// import Filiter from "./childComponents/filter";
 import FreeSolo from "./childComponents/SearchBar";
+import { useSelector } from 'react-redux';
 
 const FiliterContainer = styled(Container)({});
 
@@ -20,21 +21,23 @@ const LeftSide = styled(Box)({
   marginTop: { md: 2, lg: 2, xl: 2, sx: 0 },
   marginLeft: { md: 2, lg: 2, xl: 2 },
 });
-function totalElements(obj) {
-  let totalCount = 0;
-  for (const key in obj) {
-    if (obj.hasOwnProperty(key) && Array.isArray(obj[key])) {
-      totalCount += obj[key].length;
-    }
-  }
-  return totalCount
-}
+// function totalElements(obj) {
+//   let totalCount = 0;
+//   for (const key in obj) {
+//     if (obj.hasOwnProperty(key) && Array.isArray(obj[key])) {
+//       totalCount += obj[key].length;
+//     }
+//   }
+//   return totalCount
+// }
 const FoodDetails = () => {
+  const data = useSelector((state) => state.user.details.foodDetails)
+  console.log("data5:-",data);
   const navigate = useNavigate()
-  const [filters, setFilters] = useState({})
-  const [filterCount, setCount] = useState(0)
+  const [datas, setDatas] = useState(data)
   const [search, setSearch] = React.useState('')
-  const breadcrumbs = [
+  // const [filterCount, setCount] = useState(0)
+  const breadcrumbs = [ 
     <Link underline="hover" key="1" color="inherit" onClick={()=>navigate('/')}>
       Home
     </Link>,
@@ -52,18 +55,28 @@ const FoodDetails = () => {
     </Typography>,
   ];
 
-  useEffect(() => {
-    console.log(search);
-    setFilters(prev => ({ ...prev, search }))
-    console.log(filters);
-  }, [search])
-  useEffect(() => {
-    const count = totalElements(filters)
-    setCount(count)
-  }, [filters])
-  useEffect(() => {
-    !filterCount && setFilters({})
-  }, [filterCount])
+
+  if(search){
+    console.log(search)
+    const regex = new RegExp(search, 'i'); // 'i' for case-insensitive
+    const filteredResults = datas.filter(item => 
+      regex.test(item.restaurantName) 
+    );
+    setDatas(filteredResults)
+  }
+
+  // useEffect(() => {
+  //   console.log(search);
+  //   setFilters(prev => ({ ...prev, search }))
+  //   console.log(filters);
+  // }, [search])
+  // useEffect(() => {
+  //   const count = totalElements(filters)
+  //   setCount(count)
+  // }, [filters])
+  // useEffect(() => {
+  //   !filterCount && setFilters({})
+  // }, [filterCount])
   return (
     <>
       <Navebar />
@@ -76,14 +89,11 @@ const FoodDetails = () => {
       </Breadcrumbs>
 
       <FiliterContainer>
-          <FreeSolo filterCount={filterCount} search={search} apply={setSearch} removeFilter={setCount} />
+          <FreeSolo apply={setSearch} />
           <Grid container >
-            {/* <Grid item xs={12} md={3} lg={2.5} marginTop={1}>
-              <Filiter filter={filterCount} apply={setFilters} />
-            </Grid> */}
-            <Grid item xs={12} md={9} sm={12} lg={9.5}>
+            <Grid item xs={12}>
               <LeftSide>
-                <Album />
+                <Album search={search} data ={datas}/>
               </LeftSide>
             </Grid>
           </Grid>

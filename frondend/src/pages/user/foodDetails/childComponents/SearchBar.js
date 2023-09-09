@@ -52,40 +52,10 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export default function SearchAppBar({ filterCount,search, removeFilter ,apply}) {
-console.log(filterCount);
+export default function SearchAppBar({ search,apply}) {
   return (
     <Box sx={{ flexGrow: 1, pt: 1 }}>
       <Toolbar>
-        <Tooltip title="clear filters">
-          <IconButton
-            size="large"
-            edge="start"
-            onClick={() => removeFilter(0)}
-            aria-label="open drawer"
-            sx={{ mr: 2 }}
-          >
-            <Badge
-              badgeContent={filterCount ? filterCount : null}
-              color="error"
-            >
-              <FilterListIcon />
-            </Badge>
-          </IconButton>
-        </Tooltip>
-
-        <Typography
-          variant="h6"
-          noWrap
-          component="div"
-          sx={{
-            flexGrow: 1,
-            display: { xs: "none", sm: "block" },
-            color: "#000",
-          }}
-        >
-          Filters
-        </Typography>
         <Search>
           <SearchIconWrapper>
             <SearchIcon />
