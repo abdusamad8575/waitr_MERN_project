@@ -39,9 +39,7 @@ function ListRestaurant() {
   const [filterCount, setCount] = useState(0)
   const [search, setSearch] = React.useState('')
   useEffect(() => {
-    console.log(search);
     setFilters(prev => ({ ...prev, search }))
-    console.log(filters);
   }, [search])
   useEffect(() => {
     const count = totalElements(filters)

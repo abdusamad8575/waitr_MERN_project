@@ -100,8 +100,28 @@ const foodDetails = async (req, res) => {
     }
 }
 
+
+const getFoodDetails = async (req, res) => {
+    try {
+        const userId = req.id
+        const restaurant = await User.findById(userId).populate('restaurantId')
+        const foodDetails = restaurant.restaurantId.foodDetails
+        console.log("DF",foodDetails);
+        
+        if (!foodDetails) {
+            return res.status(400).json({ message: 'data not fetch' })
+        } else {
+            return res.status(200).json({ message: 'food data fetch saccessfully', foodDetails }) 
+        }
+
+    } catch (error) {
+        return res.status(500).json({ message: 'Server Error' });
+    }
+}
+
 module.exports = {
     adminAddRestorent,
     fetchRestaurant,
-    foodDetails
+    foodDetails,
+    getFoodDetails
 }
