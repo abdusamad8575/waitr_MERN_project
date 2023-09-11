@@ -1,11 +1,13 @@
 import Navebar from '../../../components/Navebar'
 import Footer from '../../../components/Footer'
-import { Typography, Breadcrumbs, Grid, Link, Container, Box } from '@mui/material'
-import { useNavigate } from 'react-router-dom';
+import { Typography, Breadcrumbs, Grid, Container, Box } from '@mui/material'
+import { Link, useNavigate } from 'react-router-dom';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import styled from "@emotion/styled";
 import Album from "./childComponents/cards";
 import { useSelector } from 'react-redux';
+// import { Link } from '@react-navigation/native';
+
 
 const FiliterContainer = styled(Container)({});
 
@@ -21,18 +23,17 @@ const LeftSide = styled(Box)({
 const FoodDetails = () => {
   const data = useSelector((state) => state.user.details.foodDetails)
   const datas = data.map((value)=>{return{...value,count:0}})
-  // console.log("data5:-",datas);
   const navigate = useNavigate()
   const breadcrumbs = [
-    <Link underline="hover" key="1" color="inherit" onClick={() => navigate('/')}>
+    <Link underline="hover" key="1" color="inherit" to={'/'} style={{ textDecoration: 'none',color:'black' }}>
       Home
     </Link>,
     <Link
       underline="hover"
       key="2"
       color="inherit"
-      href=""
-      onClick={() => navigate('/findrestaurant')}
+      to={'/findrestaurant'}
+      style={{ textDecoration: 'none',color:'black' }}
     >
       Find Restaurant
     </Link>,

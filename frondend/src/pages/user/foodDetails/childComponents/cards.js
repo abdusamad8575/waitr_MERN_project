@@ -5,19 +5,17 @@ import CardMedia from "@mui/material/CardMedia";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import axiosInstance from "../../../../axios";
 import { Box, Skeleton,Button } from "@mui/material";
-import { useNavigate } from "react-router";
 import styled from "@emotion/styled";
-import { useDispatch, useSelector } from "react-redux";
-import { selectRestaurant } from '../../../../redux-toolkit/userSlice'
 import FreeSolo from "./SearchBar";
 import searchData from './custamsearch'
 import CurrencyRupeeIcon from '@mui/icons-material/CurrencyRupee';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 
 import Pagination from '@mui/material/Pagination';
+import { Link, useNavigate } from "react-router-dom";
 
 const H1 = styled(Typography)({
   variant: "body1",
@@ -39,6 +37,7 @@ const H3 = styled(Typography)({
 });
 
 export default function Album({ data }) {
+  const navigate = useNavigate()
   const [search, setSearch] = React.useState('')
   const [datas, setDatas] = React.useState()
   const [prodect, setProdect] = React.useState([])
@@ -56,26 +55,19 @@ export default function Album({ data }) {
   const filterDatas = datas  ?  datas : data ;
   const itemsToDisplay = filterDatas.slice(startIndex, endIndex);
 
-
-  const handleselect = (id) => {
-    const restaurantData = itemsToDisplay.filter((value) => value._id === id)
-    // dispatch(selectRestaurant(restaurantData[0]))
-    // navigate('/DetailPage')
-  }
 const setCount = (index,type)=>{
   itemsToDisplay[index].count += type === 'inc' ? 1 : itemsToDisplay[index].count? -1 : 0
-  const newProdect = prodect
-  const filterData = newProdect.filter((value)=>value.foodName !== itemsToDisplay[index].foodName)
- setProdect([...filterData,itemsToDisplay[index]])
-  console.log("itemsToDisplay:-",prodect);
-
-
-// })
+  console.log("itemsToDisplay:-",itemsToDisplay);
+  const filterData = prodect.filter((value)=>value.foodName !== itemsToDisplay[index].foodName && value.count)
+  setProdect([...filterData,itemsToDisplay[index]])
+  
+  
 }
+console.log("filterData:-",prodect)
   return (  
     <>
       <FreeSolo search={search} apply={setSearch} />
-      <Container sx={{ py: 1 }} >
+      <Container sx={{ py: 1 ,width:"100%"}} >
         <Grid container spacing={4}>
           {itemsToDisplay.map((card, index) => (
             <Grid item key={index} xs={12} sm={6} md={3}>
@@ -90,7 +82,6 @@ const setCount = (index,type)=>{
                   />
                 ) : (
                   <CardMedia
-                    // onClick={() => handleselect(card._id)}
                     key={`media-${index}`}
                     component="div"
                     sx={{
@@ -122,13 +113,12 @@ const setCount = (index,type)=>{
                     <H3 variant="body2" component="poppins"> {card.description} </H3>
                   </Typography>
                   <Grid sx={{display:'flex',justifyContent:'center',marginTop:1}}>
-                    {card.count ? <Box sx={{ width: '100px', height: '31px', backgroundColor: '#d32f2f', color: '#ffffff', display: 'flex', justifyContent: 'center', alignItems: 'center', borderRadius: '4px' }}>
+                    {card.count ? <Box sx={{ width: '100px', height: '31px', backgroundColor: '#ff645a', color: '#ffffff', display: 'flex', justifyContent: 'center', alignItems: 'center', borderRadius: '4px' }}>
                         <RemoveIcon onClick={() => setCount(index,'dec')} sx={{ cursor: 'pointer' }} />
-                        {/* <Box sx={{ fontWeight: 600, }} mr={2} ml={2} >{guests[index] ?? 0}</Box> */}
                         <Box sx={{ fontWeight: 600, }} mr={2} ml={2} >{card.count}</Box>
                         <AddIcon onClick={() => setCount(index,'inc')} sx={{ cursor: 'pointer' }} />
                     </Box> :
-                  <Button variant="contained" color="error" size="small" sx={{width: '100px'}} onClick={() => setCount(index,'inc')} >Add Food</Button>}
+                  <Button variant="contained" color="error" size="small" sx={{width: '100px',backgroundColor:'#ff645a'}} onClick={() => setCount(index,'inc')} >Add Food</Button>}
                   </Grid>
                   </>
 
@@ -136,9 +126,14 @@ const setCount = (index,type)=>{
                 </CardContent>
               </Card>
             </Grid>
-            // ))}
           ))}
         </Grid>
+           {prodect.length && prodect[0].count ? <Grid sx={{display:'flex',justifyContent:'center',position:'sticky',bottom:0,marginTop:2}}>
+              <Box   sx={{backgroundColor:'#ff645a',width:{xs:'100%',sm:'500px',md:'800px'},borderRadius:'3px',padding:2,color:'#fff',display:'flex',justifyContent:'space-between'}} onClick={navigate('/')}>
+                <Typography sx={{fontWeight:700}}>{prodect.length}item|<CurrencyRupeeIcon sx={{fontSize :'18px'}} />{prodect.reduce((total,value)=>total+=value.price*value.count,0)}</Typography>
+                <Typography sx={{fontWeight:700}}>VIEW CART <ShoppingCartIcon sx={{fontWeight:700}} /></Typography>
+              </Box>
+            </Grid>: ''}
 
         <Pagination
           count={Math.ceil(data.length / itemsPerPage)}

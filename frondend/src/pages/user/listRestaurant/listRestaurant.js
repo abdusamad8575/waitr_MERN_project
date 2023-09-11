@@ -1,6 +1,6 @@
 
 import React, { useEffect, useState } from "react";
-import { Box, Container, Grid, Typography ,Breadcrumbs, Link,} from "@mui/material";
+import { Box, Container, Grid, Typography ,Breadcrumbs} from "@mui/material";
 import Album from "./childComponents/cards";
 import Filiter from "./childComponents/filter";
 import FreeSolo from "./childComponents/SearchBar";
@@ -8,7 +8,7 @@ import styled from "@emotion/styled";
 import Navebar from "../../../components/Navebar";
 import Footer from "../../../components/Footer";
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
-import { useNavigate } from 'react-router-dom'
+import { Link,useNavigate } from 'react-router-dom'
 
 const Page = styled(Box)({
   background: "#F8F8F8",
@@ -50,7 +50,7 @@ function ListRestaurant() {
   }, [filterCount])
 
   const breadcrumbs = [
-    <Link underline="hover" key="1" color="inherit" onClick={()=>navigate('/')}>
+    <Link underline="hover" key="1" style={{ textDecoration: 'none',color:'black' }}  color="inherit" to={'/'}>
       Home
     </Link>,
     <Typography key="3" color="text.primary">
