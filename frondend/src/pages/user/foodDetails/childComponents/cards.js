@@ -129,7 +129,7 @@ console.log("filterData:-",prodect)
           ))}
         </Grid>
            {prodect.length && prodect[0].count ? <Grid sx={{display:'flex',justifyContent:'center',position:'sticky',bottom:0,marginTop:2}}>
-              <Box   sx={{backgroundColor:'#ff645a',width:{xs:'100%',sm:'500px',md:'800px'},borderRadius:'3px',padding:2,color:'#fff',display:'flex',justifyContent:'space-between'}} onClick={navigate('/')}>
+              <Box   sx={{backgroundColor:'#ff645a',width:{xs:'100%',sm:'500px',md:'800px'},borderRadius:'3px',padding:2,color:'#fff',display:'flex',justifyContent:'space-between',cursor:'pointer'}} onClick={()=>navigate('/cart')}>
                 <Typography sx={{fontWeight:700}}>{prodect.length}item|<CurrencyRupeeIcon sx={{fontSize :'18px'}} />{prodect.reduce((total,value)=>total+=value.price*value.count,0)}</Typography>
                 <Typography sx={{fontWeight:700}}>VIEW CART <ShoppingCartIcon sx={{fontWeight:700}} /></Typography>
               </Box>

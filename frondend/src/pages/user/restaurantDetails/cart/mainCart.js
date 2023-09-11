@@ -1,6 +1,6 @@
 import React from 'react'
 
-const mainCart = () => {
+const MainCart = () => {
   return (
     <>
       hello
@@ -8,4 +8,4 @@ const mainCart = () => {
   )
 }
 
-export default mainCart
+export default MainCart

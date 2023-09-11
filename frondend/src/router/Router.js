@@ -8,6 +8,7 @@ import UserProtected from './userProtected';
 import ListRestaurant from '../pages/user/listRestaurant/listRestaurant';
 import RestaurantDetails from '../pages/user/restaurantDetails/RestaurantDetails';
 import FoodDetails from '../pages/user/foodDetails/FoodDetails';
+import MainCart from '../pages/user/restaurantDetails/cart/mainCart';
 
 function Router() { 
   return (
@@ -20,6 +21,7 @@ function Router() {
           <Route path = '/findrestaurant' element = {<ListRestaurant />} />
           <Route path = '/DetailPage' element = {<RestaurantDetails />} />
           <Route path = '/foodDetails' element ={<FoodDetails />} />
+          <Route path = '/cart' element ={<MainCart />} />
           {/* </Route> */}
           <Route path='/signup' element={<SignUp />} />
           <Route path='/signin' element={<SignIn />} />
