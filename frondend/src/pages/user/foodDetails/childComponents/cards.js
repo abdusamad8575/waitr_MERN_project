@@ -6,13 +6,16 @@ import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import axiosInstance from "../../../../axios";
-import { Box, Skeleton } from "@mui/material";
+import { Box, Skeleton,Button } from "@mui/material";
 import { useNavigate } from "react-router";
 import styled from "@emotion/styled";
 import { useDispatch, useSelector } from "react-redux";
 import { selectRestaurant } from '../../../../redux-toolkit/userSlice'
 import FreeSolo from "./SearchBar";
 import searchData from './custamsearch'
+import CurrencyRupeeIcon from '@mui/icons-material/CurrencyRupee';
+import AddIcon from '@mui/icons-material/Add';
+import RemoveIcon from '@mui/icons-material/Remove';
 
 import Pagination from '@mui/material/Pagination';
 
@@ -38,6 +41,7 @@ const H3 = styled(Typography)({
 export default function Album({ data }) {
   const [search, setSearch] = React.useState('')
   const [datas, setDatas] = React.useState()
+  const [prodect, setProdect] = React.useState([])
   React.useEffect(() => {
     const searchDatas = searchData(search,data)
     setDatas(searchDatas)
@@ -50,7 +54,6 @@ export default function Album({ data }) {
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const filterDatas = datas  ?  datas : data ;
-  // console.log("datas1",datas);
   const itemsToDisplay = filterDatas.slice(startIndex, endIndex);
 
 
@@ -59,8 +62,17 @@ export default function Album({ data }) {
     // dispatch(selectRestaurant(restaurantData[0]))
     // navigate('/DetailPage')
   }
+const setCount = (index,type)=>{
+  itemsToDisplay[index].count += type === 'inc' ? 1 : itemsToDisplay[index].count? -1 : 0
+  const newProdect = prodect
+  const filterData = newProdect.filter((value)=>value.foodName !== itemsToDisplay[index].foodName)
+ setProdect([...filterData,itemsToDisplay[index]])
+  console.log("itemsToDisplay:-",prodect);
 
-  return (
+
+// })
+}
+  return (  
     <>
       <FreeSolo search={search} apply={setSearch} />
       <Container sx={{ py: 1 }} >
@@ -78,8 +90,8 @@ export default function Album({ data }) {
                   />
                 ) : (
                   <CardMedia
-                    onClick={() => handleselect(card._id)}
-                    key={`media-${card._id}`}
+                    // onClick={() => handleselect(card._id)}
+                    key={`media-${index}`}
                     component="div"
                     sx={{
                       pt: "56.25%",
@@ -98,13 +110,27 @@ export default function Album({ data }) {
                     </Box>
                   ) : (
                     <>
+                    <Box sx={{display:'flex',justifyContent:'space-between'}}>
                       <Typography gutterBottom variant="h5" component="h2">
                         <H1>{card.foodName}</H1>
                       </Typography>
                       <Typography>
-                        <H3 variant="body2" component="poppins"> {card.price} </H3>
+                        <H3 variant="body2" component="poppins"><CurrencyRupeeIcon sx={{fontSize :'small'}} />:{card.price} </H3>
                       </Typography>
-                    </>
+                    </Box>
+                    <Typography>
+                    <H3 variant="body2" component="poppins"> {card.description} </H3>
+                  </Typography>
+                  <Grid sx={{display:'flex',justifyContent:'center',marginTop:1}}>
+                    {card.count ? <Box sx={{ width: '100px', height: '31px', backgroundColor: '#d32f2f', color: '#ffffff', display: 'flex', justifyContent: 'center', alignItems: 'center', borderRadius: '4px' }}>
+                        <RemoveIcon onClick={() => setCount(index,'dec')} sx={{ cursor: 'pointer' }} />
+                        {/* <Box sx={{ fontWeight: 600, }} mr={2} ml={2} >{guests[index] ?? 0}</Box> */}
+                        <Box sx={{ fontWeight: 600, }} mr={2} ml={2} >{card.count}</Box>
+                        <AddIcon onClick={() => setCount(index,'inc')} sx={{ cursor: 'pointer' }} />
+                    </Box> :
+                  <Button variant="contained" color="error" size="small" sx={{width: '100px'}} onClick={() => setCount(index,'inc')} >Add Food</Button>}
+                  </Grid>
+                  </>
 
                   )}
                 </CardContent>

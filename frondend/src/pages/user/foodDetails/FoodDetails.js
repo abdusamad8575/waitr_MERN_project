@@ -20,7 +20,8 @@ const LeftSide = styled(Box)({
 });
 const FoodDetails = () => {
   const data = useSelector((state) => state.user.details.foodDetails)
-  // console.log("data5:-",data);
+  const datas = data.map((value)=>{return{...value,count:0}})
+  // console.log("data5:-",datas);
   const navigate = useNavigate()
   const breadcrumbs = [
     <Link underline="hover" key="1" color="inherit" onClick={() => navigate('/')}>
@@ -54,7 +55,7 @@ const FoodDetails = () => {
         <Grid container >
           <Grid item xs={12}>
             <LeftSide>
-              <Album data={data} />
+              <Album data={datas} />
             </LeftSide>
           </Grid>
         </Grid>
