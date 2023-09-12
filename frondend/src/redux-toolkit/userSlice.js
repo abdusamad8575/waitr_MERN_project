@@ -25,10 +25,10 @@ const userSlice = createSlice({
             state.details = action.payload
             // console.log("555",state.details);
         },
-        selectedFoods: (state, action) => {
-            console.log("666:-", action.payload);
-            state.foods = action.payload;
-        }
+        // selectedFoods: (state, action) => {
+        //     console.log("666:-", action.payload);
+        //     state.foods = action.payload;
+        // }
         
     }
 });

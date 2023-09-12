@@ -69,7 +69,6 @@ export default function Album({ filter}) {
   const itemsToDisplay = FilterData.slice(startIndex, endIndex);
   const handleRestaurantDetails = (id) =>{
     const restaurantData = itemsToDisplay.filter((value)=>value._id === id)
-    // console.log(":-",restaurantData);
     dispatch(selectRestaurant(restaurantData[0]))
     navigate('/DetailPage')
   }
@@ -78,7 +77,6 @@ export default function Album({ filter}) {
     <Container sx={{ py: 1 }} maxWidth="md">
       <Grid container spacing={4}>
         {itemsToDisplay.map((card, index) => (
-          // { FilterData && FilterData.map((card,index) => (
             <Grid item key={index} xs={12} sm={6} md={4}>
 
               <Card
@@ -87,7 +85,6 @@ export default function Album({ filter}) {
                 {loading ? (
                   <Skeleton
                     variant="rectangular"
-                    // width={100}
                     height={150}
                   />
                 ) : (

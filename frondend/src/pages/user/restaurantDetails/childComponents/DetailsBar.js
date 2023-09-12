@@ -48,9 +48,7 @@ function a11yProps(index) {
 }
 
 const DetailsBar = ({ details }) => {
-  // console.log("54sa:-", details.startTime);
   const [value, setValue] = React.useState();
-
   const theme = useTheme();
   const [values, setValues] = React.useState(0);
   const [detail, setDetails] = React.useState({
@@ -117,7 +115,6 @@ const DetailsBar = ({ details }) => {
                     aria-label="full width tabs example"
                     
                   >
-                    {/* {details.mealsType.map((element, index) =><Tab label={element} {...a11yProps(index)} />)} */}
                     {timeFrames(details.startTime, details.endTime ,value).map((element, index) => {
                       const object = Object.keys(element)
                     return (                  

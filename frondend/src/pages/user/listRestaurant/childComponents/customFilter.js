@@ -36,7 +36,7 @@ const customFilter = (data, filter, location) => {
   }
 if(filter?.search){
   console.log(filter.search)
-  const regex = new RegExp(filter.search, 'i'); // 'i' for case-insensitive
+  const regex = new RegExp(filter.search, 'i'); 
   const filteredResults = filterdData.filter(item => 
     regex.test(item.restaurantName) 
   );
