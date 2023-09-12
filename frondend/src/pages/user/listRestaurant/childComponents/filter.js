@@ -12,7 +12,6 @@ import {
   ListItemButton,
   ListItemIcon,
   Slider,
-  SliderThumb,
   Typography,
 } from "@mui/material";
 import SimpleSlider from "./mobFilter";

@@ -89,9 +89,6 @@ export default function Album({ filter}) {
                   />
                 ) : (
                   <CardMedia
-                    // onClick={() =>
-                    //   navigate(`/DetailPage?id=${card._id}`)
-                    // }
                     onClick={()=>handleRestaurantDetails(card._id)}
                     key={`media-${card._id}`}
                     component="div"
