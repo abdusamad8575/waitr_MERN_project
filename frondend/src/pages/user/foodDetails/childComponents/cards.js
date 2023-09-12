@@ -13,9 +13,11 @@ import CurrencyRupeeIcon from '@mui/icons-material/CurrencyRupee';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import {selectedFoods} from '../../../../redux-toolkit/userSlice'
 
 import Pagination from '@mui/material/Pagination';
 import { Link, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
 const H1 = styled(Typography)({
   variant: "body1",
@@ -41,6 +43,7 @@ export default function Album({ data }) {
   const [search, setSearch] = React.useState('')
   const [datas, setDatas] = React.useState()
   const [prodect, setProdect] = React.useState([])
+  const dispatch = useDispatch()
   React.useEffect(() => {
     const searchDatas = searchData(search,data)
     setDatas(searchDatas)
@@ -60,10 +63,12 @@ const setCount = (index,type)=>{
   console.log("itemsToDisplay:-",itemsToDisplay);
   const filterData = prodect.filter((value)=>value.foodName !== itemsToDisplay[index].foodName && value.count)
   setProdect([...filterData,itemsToDisplay[index]])
+  console.log("filterData:-1",prodect)
   
   
 }
 console.log("filterData:-",prodect)
+// dispatch(selectedFoods(prodect)) 
   return (  
     <>
       <FreeSolo search={search} apply={setSearch} />

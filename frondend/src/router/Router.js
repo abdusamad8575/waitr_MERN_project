@@ -8,7 +8,7 @@ import UserProtected from './userProtected';
 import ListRestaurant from '../pages/user/listRestaurant/listRestaurant';
 import RestaurantDetails from '../pages/user/restaurantDetails/RestaurantDetails';
 import FoodDetails from '../pages/user/foodDetails/FoodDetails';
-import MainCart from '../pages/user/restaurantDetails/cart/mainCart';
+import MainCart from '../pages/user/cart/mainCart';
 
 function Router() { 
   return (
