@@ -7,7 +7,6 @@ import styled from "@emotion/styled";
 import Album from "./childComponents/cards";
 import { useSelector } from 'react-redux';
 import { useEffect } from 'react';
-// import { Link } from '@react-navigation/native';
 
 
 const FiliterContainer = styled(Container)({});
@@ -23,16 +22,13 @@ const LeftSide = styled(Box)({
 });
 const FoodDetails = () => {
   const navigate = useNavigate()
-  // useEffect(()=>{
-
-  // },[])
   const storeDetails = useSelector((state)=>state.user.guestDetails)
   const guestDetails = storeDetails ? storeDetails : localStorage.getItem("guestDetails")
   const fetchFood = () =>{
     const details = useSelector((state)=>state.resData.details)
-    const datas = details ? details :( 
-      // const resId = useSelector((state) => state.user.restaurantId)
-    )
+    // const datas = details ? details :( 
+    //   // const resId = useSelector((state) => state.user.restaurantId)
+    // )
   }
   !guestDetails ? navigate('/DetailPage') : fetchFood()
   // const data = useSelector((state) => state.user.details.foodDetails)
