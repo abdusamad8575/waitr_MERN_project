@@ -38,7 +38,7 @@ const signin = async (req, res, next) => {
         } else {
             const adminBlocked = existingUser.AdminBlocked === 1;
             if (!adminBlocked) {
-                return res.status(400).json({ message: "this user admin blocked" })                
+                return res.status(400).json({ message: "this user admin blocked" })
             } else {
                 const isPassword = (await existingUser.matchPasswords(password))
                 if (!isPassword) {
@@ -50,7 +50,7 @@ const signin = async (req, res, next) => {
                     console.log("token send", token)
                     res.cookie("token", token, {
                         path: '/',
-                        expires: new Date(Date.now() +    1000 * 60 * 60 * 24), // 1 day expiration
+                        expires: new Date(Date.now() + 1000 * 60 * 60 * 24), // 1 day expiration
                         httpOnly: true,
                         sameSite: 'lax',
                     });
@@ -111,23 +111,23 @@ const addhotelreq = async (req, res) => {
 
 }
 
-const userDitails = async(req,res)=>{
-    try{
+const userDitails = async (req, res) => {
+    try {
         const userId = req.query.userId
         const user = await User.findById(userId)
-        if(!user){
+        if (!user) {
             return res.status(400).json({ message: "User not found" })
-        }else{
-            return res.status(200).json({message:"user data fetched",user})
+        } else {
+            return res.status(200).json({ message: "user data fetched", user })
         }
-    }catch (error) {
+    } catch (error) {
         return res.status(500).json({ message: 'Internal Server Error' });
     }
 }
 
 
-async function verify(req,res) {
-    const {client_id, jwtToken} = req.body
+async function verify(req, res) {
+    const { client_id, jwtToken } = req.body
     const client = new OAuth2Client(client_id);
 
     // Call the verifyIdToken to
@@ -140,78 +140,128 @@ async function verify(req,res) {
     // Get the JSON with all the user info
     const payload = ticket.getPayload();
     const email = payload.email;
-    const existingUser = await User.findOne( {email:email})
-    if(!existingUser){
+    const existingUser = await User.findOne({ email: email })
+    if (!existingUser) {
         console.log('acdsa');
         const user = new User({
-            firstName:payload.given_name,
-            lastName:payload.family_name,
+            firstName: payload.given_name,
+            lastName: payload.family_name,
             email,
-            profilePic:payload.picture
+            profilePic: payload.picture
         })
-    
+
         await user.save();
     }
-    else{
+    else {
         // This is a JSON object that contains
         // all the user info
         const adminBlocked = existingUser.AdminBlocked === 1;
-            if (!adminBlocked) {
-                return res.status(400).json({ message: "this user admin blocked" })                
-            } else {
-                const token = jwt.sign({ id: existingUser._id }, process.env.JWT_SECRET, {
-                    expiresIn: "1d"
-                })
-                res.cookie("token", token, {
-                    path: '/',
-                    expires: new Date(Date.now() + 24 * 1000 * 60 * 60), // 1 hour expiration
-                    httpOnly: true,
-                    sameSite: 'lax',
-                });
-                return res.status(200).json({
-                    message: "Successfully Logged in",
-                    user: existingUser,
-                    token,
-                    role: existingUser.role,
-                })
-            }
+        if (!adminBlocked) {
+            return res.status(400).json({ message: "this user admin blocked" })
+        } else {
+            const token = jwt.sign({ id: existingUser._id }, process.env.JWT_SECRET, {
+                expiresIn: "1d"
+            })
+            res.cookie("token", token, {
+                path: '/',
+                expires: new Date(Date.now() + 24 * 1000 * 60 * 60), // 1 hour expiration
+                httpOnly: true,
+                sameSite: 'lax',
+            });
+            return res.status(200).json({
+                message: "Successfully Logged in",
+                user: existingUser,
+                token,
+                role: existingUser.role,
+            })
+        }
     }
 }
 
-const uploadProfilepicture = async(req,res)=>{
+const uploadProfilepicture = async (req, res) => {
     // console.log("ss",req.file);
     try {
         const id = req.query.id
-      if (!req.file) {
-        return res.json({ error: 'Image is required' });
-      }
-      const filepath = req.file.filename;
+        if (!req.file) {
+            return res.json({ error: 'Image is required' });
+        }
+        const filepath = req.file.filename;
 
-      await User.findByIdAndUpdate(id, {
-        $set: {
-          profilePic: `${process.env.URL}${filepath}`,
-        },
-      });
-      const user = await User.findById(id);
-    
-      return res.json({ success: true, user});
+        await User.findByIdAndUpdate(id, {
+            $set: {
+                profilePic: `${process.env.URL}${filepath}`,
+            },
+        });
+        const user = await User.findById(id);
+
+        return res.json({ success: true, user });
     } catch (error) {
-      return res.status(500).json({ error: 'Internal server error' });
+        return res.status(500).json({ error: 'Internal server error' });
     }
-    
+
 }
 
-const restorentDetails = async(req,res)=>{
+const restorentDetails = async (req, res) => {
     try {
         const restaurant = await Restaurant.find()
-        if(restaurant){
-            return res.status(200).json({message:"Restaurant details fetch saccessfully",restaurant})
-        }else{
-            return res.status(400).json({message:"Restaurant details fetch Error"})
+        if (restaurant) {
+            return res.status(200).json({ message: "Restaurant details fetch saccessfully", restaurant })
+        } else {
+            return res.status(400).json({ message: "Restaurant details fetch Error" })
         }
-        
+
     } catch (error) {
-      return res.status(500).json({ error: 'Internal server error' });
+        return res.status(500).json({ error: 'Internal server error' });
+    }
+}
+const filterData = async (req, res) => {
+    try {
+        const { filter, location, currentPage } = req.body;
+        const { RestaurantType, cuisines, search } = filter;
+        console.log("currentPage", currentPage);
+        const query = []
+
+        location && query.push({ location: location });
+        RestaurantType?.length && query.push({ restaurantType: { $in: RestaurantType } });
+        cuisines?.length && query.push({ cuisines: { $in: cuisines } });
+        search && query.push({ restaurantName: { $regex: search, $options: 'i' } })
+
+        //   search && query.push({    $or: [
+        //     { restaurantName: { $regex: search, $options: 'i' } }, 
+        //     { location: { $regex: search, $options: 'i' } }
+        //   ]})
+
+        console.log(query);
+        const Query = query.length ? { $and: query } : {}
+        const data = await Restaurant.find(Query)
+
+        //pagination
+        const itemsPerPage = 9;
+        const startIndex = (currentPage - 1) * itemsPerPage;
+        const endIndex = startIndex + itemsPerPage;
+        const itemsToDisplay = data?.slice(startIndex, endIndex);
+        const totalDataLength = data.length
+        if (!data) {
+            return res.status(404).json({ message: "Something Went Wrong !" });
+        }
+        return res.status(200).json({returnData:{itemsToDisplay,totalDataLength}});
+
+    } catch (error) {
+        return new Error(error);
+    }
+}
+const selectedRestaurant = async (req, res) => {
+    try {
+        const {id} = req.body
+        const restaurant = await Restaurant.findById(id)
+        if (restaurant) {
+            return res.status(200).json({ message: "Restaurant details fetch saccessfully", restaurant })
+        } else {
+            return res.status(400).json({ message: "Restaurant details fetch Error" })
+        }
+
+    } catch (error) {
+        return res.status(500).json({ error: 'Internal server error' });
     }
 }
 module.exports = {
@@ -222,5 +272,7 @@ module.exports = {
     userDitails,
     verify,
     uploadProfilepicture,
-    restorentDetails
+    restorentDetails,
+    filterData,
+    selectedRestaurant
 }
