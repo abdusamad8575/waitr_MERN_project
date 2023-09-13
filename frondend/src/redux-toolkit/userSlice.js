@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const userSlice = createSlice({
     name: 'user',
-    initialState: { isLoggedIn: localStorage.getItem('userLoggedIn') === 'true',location:'',restaurantId:'',foods:[],details:""},
+    initialState: { isLoggedIn: localStorage.getItem('userLoggedIn') === 'true',location:'',restaurantId:'',guestDetails:""},
     reducers: {
         signin: (state, data) => {
             const userDitails = JSON.stringify(data.payload)
@@ -17,6 +17,7 @@ const userSlice = createSlice({
             localStorage.setItem('userLoggedIn', 'false');
             localStorage.setItem('user','')
             localStorage.setItem('userId', '');
+            localStorage.setItem('restaurantId', '');
         },
         locations: (state,action) =>{
             state.location = action.payload
@@ -25,16 +26,15 @@ const userSlice = createSlice({
             const resId = JSON.stringify(action.payload)
             state.restaurantId = action.payload
             localStorage.setItem('restaurantId', resId);
-            console.log("555",state.restaurantId);
         },
-        // selectedFoods: (state, action) => {
-        //     console.log("666:-", action.payload);
-        //     state.foods = action.payload;
-        // }
-        
+        orderUserDetails:(state,action)=>{
+            state.guestDetails = action.payload
+            const guest = JSON.stringify(action.payload)
+            localStorage.setItem("guestDetails",guest)
+        }        
     },
 
 });
 
-export const { signin, logout, locations, selectRestaurant,selectedFoods } = userSlice.actions;
+export const { signin, logout, locations, selectRestaurant,orderUserDetails } = userSlice.actions;
 export default userSlice.reducer;

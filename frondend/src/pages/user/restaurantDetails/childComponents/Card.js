@@ -42,7 +42,6 @@ const Cards = ({ details }) => {
                   <Box
                     component="img"
                     sx={{
-                      // height: 255,
                       maxHeight: { xs: '200px', lg: '450px' ,md:'450px',sm:'350px'},
                       display: 'block',
                       overflow: 'hidden',

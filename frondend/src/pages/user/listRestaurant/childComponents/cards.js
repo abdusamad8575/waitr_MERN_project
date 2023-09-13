@@ -37,7 +37,6 @@ const H3 = styled(Typography)({
 export default function Album({ filter }) {
   const dispatch = useDispatch()
   const navigate = useNavigate();
-  // const [data, setData] = React.useState([""]);
 
   const [FilterData, setFilterdData] = React.useState([""]);
   const [loading, setLoading] = React.useState(true);
@@ -56,7 +55,6 @@ export default function Album({ filter }) {
 
 
   const handleRestaurantDetails = (id) => {
-    // const restaurantData = FilterData.itemsToDisplay.filter((value) => value._id === id)
     dispatch(selectRestaurant(id))
     navigate('/DetailPage')
   }

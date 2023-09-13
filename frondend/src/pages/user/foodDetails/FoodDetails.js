@@ -6,6 +6,7 @@ import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import styled from "@emotion/styled";
 import Album from "./childComponents/cards";
 import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
 // import { Link } from '@react-navigation/native';
 
 
@@ -21,9 +22,21 @@ const LeftSide = styled(Box)({
   marginLeft: { md: 2, lg: 2, xl: 2 },
 });
 const FoodDetails = () => {
-  const data = useSelector((state) => state.user.details.foodDetails)
-  const datas = data.map((value)=>{return{...value,count:0}})
   const navigate = useNavigate()
+  // useEffect(()=>{
+
+  // },[])
+  const storeDetails = useSelector((state)=>state.user.guestDetails)
+  const guestDetails = storeDetails ? storeDetails : localStorage.getItem("guestDetails")
+  const fetchFood = () =>{
+    const details = useSelector((state)=>state.resData.details)
+    const datas = details ? details :( 
+      // const resId = useSelector((state) => state.user.restaurantId)
+    )
+  }
+  !guestDetails ? navigate('/DetailPage') : fetchFood()
+  // const data = useSelector((state) => state.user.details.foodDetails)
+  const datas = details.map((value)=>{return{...value,count:0}}) = useNavigate()
   const breadcrumbs = [
     <Link underline="hover" key="1" color="inherit" to={'/'} style={{ textDecoration: 'none',color:'black' }}>
       Home

@@ -5,12 +5,11 @@ import Cards from './childComponents/Card'
 import { useDispatch, useSelector } from 'react-redux'
 import { Typography, Breadcrumbs, Grid, Button } from '@mui/material'
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
-import { Link, useNavigate } from 'react-router-dom'
+import { Link} from 'react-router-dom'
 import { useEffect } from 'react'
 import {fetchData} from '../../../redux-toolkit/fetchData'
 
 const RestaurantDetails = () => {
-  // const navigate = useNavigate()
   const dispatch = useDispatch()
   const resId = useSelector((state) => state.user.restaurantId)
   useEffect(() => {

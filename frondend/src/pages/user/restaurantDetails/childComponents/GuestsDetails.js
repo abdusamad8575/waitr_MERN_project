@@ -3,9 +3,12 @@ import React, { useEffect, useState } from 'react'
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import {orderUserDetails} from '../../../../redux-toolkit/userSlice'
 
 const GuestsDetails = ({ detail, setDetails, setState }) => {
     const navigate = useNavigate()
+    const dispatch = useDispatch()
     const initial = detail.guestsCount ? detail.guestsCount : 0;
     const [guests, setGuests] = useState(initial)
     const [formErrors, setFormErrors] = useState({
@@ -56,6 +59,7 @@ const GuestsDetails = ({ detail, setDetails, setState }) => {
         if(!isValid){
             return
         }else{
+            dispatch(orderUserDetails(detail))
             navigate('/foodDetails')
         }
     }
