@@ -13,7 +13,7 @@ import CurrencyRupeeIcon from '@mui/icons-material/CurrencyRupee';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import {selectedFoods} from '../../../../redux-toolkit/userSlice'
+import {orderFoodDetails, selectedFoods} from '../../../../redux-toolkit/userSlice'
 
 import Pagination from '@mui/material/Pagination';
 import { Link, useNavigate } from "react-router-dom";
@@ -48,9 +48,6 @@ export default function Album({ data }) {
     const searchDatas = searchData(search,data)
     setDatas(searchDatas)
   }, [search])
-  // console.log("datas12/:-", data);
-  // const dispatch = useDispatch()
-  // const navigate = useNavigate();
   const [currentPage, setCurrentPage] = React.useState(1);
   const itemsPerPage = 8;
   const startIndex = (currentPage - 1) * itemsPerPage;
@@ -63,9 +60,10 @@ const setCount = (index,type)=>{
   console.log("itemsToDisplay:-",itemsToDisplay);
   const filterData = prodect.filter((value)=>value.foodName !== itemsToDisplay[index].foodName && value.count)
   setProdect([...filterData,itemsToDisplay[index]])
-  console.log("filterData:-1",prodect)
-  
-  
+}
+const handleCart=()=>{
+  dispatch(orderFoodDetails(prodect))
+  navigate('/cart')
 }
 console.log("filterData:-",prodect)
 // dispatch(selectedFoods(prodect)) 
@@ -134,7 +132,7 @@ console.log("filterData:-",prodect)
           ))}
         </Grid>
            {prodect.length && prodect[0].count ? <Grid sx={{display:'flex',justifyContent:'center',position:'sticky',bottom:0,marginTop:2}}>
-              <Box   sx={{backgroundColor:'#ff645a',width:{xs:'100%',sm:'500px',md:'800px'},borderRadius:'3px',padding:2,color:'#fff',display:'flex',justifyContent:'space-between',cursor:'pointer'}} onClick={()=>navigate('/cart')}>
+              <Box   sx={{backgroundColor:'#ff645a',width:{xs:'100%',sm:'500px',md:'800px'},borderRadius:'3px',padding:2,color:'#fff',display:'flex',justifyContent:'space-between',cursor:'pointer'}} onClick={handleCart}>
                 <Typography sx={{fontWeight:700}}>{prodect.length}item|<CurrencyRupeeIcon sx={{fontSize :'18px'}} />{prodect.reduce((total,value)=>total+=value.price*value.count,0)}</Typography>
                 <Typography sx={{fontWeight:700}}>VIEW CART <ShoppingCartIcon sx={{fontWeight:700}} /></Typography>
               </Box>

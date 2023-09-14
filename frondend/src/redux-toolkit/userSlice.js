@@ -31,10 +31,16 @@ const userSlice = createSlice({
             state.guestDetails = action.payload
             const guest = JSON.stringify(action.payload)
             localStorage.setItem("guestDetails",guest)
-        }        
+        },
+        orderFoodDetails: (state,action)=>{
+            state.orders = action.payload
+            const foods = JSON.stringify(action.payload)
+            localStorage.setItem("orderFoodDetails",foods)
+            // console.log("setData:-",action.payload);         
+        }      
     },
 
 });
 
-export const { signin, logout, locations, selectRestaurant,orderUserDetails } = userSlice.actions;
+export const { signin, logout, locations, selectRestaurant,orderUserDetails,orderFoodDetails } = userSlice.actions;
 export default userSlice.reducer;
