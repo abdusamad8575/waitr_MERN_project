@@ -5,8 +5,11 @@ import { Link, useNavigate } from 'react-router-dom';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import styled from "@emotion/styled";
 import Album from "./childComponents/cards";
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
+import  { fetchData } from '../../../redux-toolkit/fetchData';    
+// import {fetchData} from '../../../redux-toolkit/fetchData'
+
 
 
 const FiliterContainer = styled(Container)({});
@@ -22,21 +25,22 @@ const LeftSide = styled(Box)({
 });
 const FoodDetails = () => {
   const navigate = useNavigate()
+  const dispatch = useDispatch()
   const storeDetails = useSelector((state)=>state.user.guestDetails)
-  const guestDetails = storeDetails ? storeDetails : localStorage.getItem("guestDetails")
-  const fetchFood = () =>{
-    const details = useSelector((state)=>state.resData.details)
-    // const datas = details ? details :( 
-    //   // const resId = useSelector((state) => state.user.restaurantId)
-    // )
-  }
-  !guestDetails ? navigate('/DetailPage') : fetchFood()
-  // const data = useSelector((state) => state.user.details.foodDetails)
-  const datas = details.map((value)=>{return{...value,count:0}}) = useNavigate()
+  const guestDetails = storeDetails ? storeDetails : (JSON.parse(localStorage.getItem("guestDetails")))
+  console.log('guestDetails',guestDetails); 
+  const details = useSelector((state)=>state.resData.details)
+  useEffect(()=>{
+    if(!details){
+      let resId = JSON.parse(localStorage.getItem('restaurantId'))
+      dispatch(fetchData(resId))
+    }
+  },[])
+  const datas = details?.foodDetails.map((value)=>{return{...value,count:0}})
   const breadcrumbs = [
     <Link underline="hover" key="1" color="inherit" to={'/'} style={{ textDecoration: 'none',color:'black' }}>
       Home
-    </Link>,
+    </Link>,   
     <Link
       underline="hover"
       key="2"
@@ -65,7 +69,7 @@ const FoodDetails = () => {
         <Grid container >
           <Grid item xs={12}>
             <LeftSide>
-              <Album data={datas} />
+              {datas && <Album data={datas} />}
             </LeftSide>
           </Grid>
         </Grid>

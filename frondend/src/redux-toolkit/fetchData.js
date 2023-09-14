@@ -4,6 +4,7 @@ import axiosInstance from '../axios';
 export const fetchData = createAsyncThunk(
     'fetchData/restaurant',
     async(id,{rejectWithValue}) => {
+        console.log("id:--",id);
         try{
         const response = await axiosInstance.post('/selectedRestaurant',{id})
         return response.data
