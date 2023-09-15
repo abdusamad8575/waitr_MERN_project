@@ -4,58 +4,37 @@ import 'react-perfect-scrollbar/dist/css/styles.css';
 import { Paper, Box, Typography, Grid, Divider, Button } from '@mui/material';
 import SlideshowIcon from '@mui/icons-material/Slideshow';
 import CurrencyRupeeIcon from '@mui/icons-material/CurrencyRupee';
-import axiosInstance from '../../../../axios';
-
+import axiosInstance from '../../../../axios'; 
 const SideBar = ({ data }) => {
     React.useEffect(() => {
         const script = document.createElement("script");
         script.src = "https://checkout.razorpay.com/v1/checkout.js";
         script.async = true;
         document.body.appendChild(script);
-        return () => {
-            document.body.removeChild(script);
-        };
+
     }, []);
     const handleSubmit = async () => {
-        const total = data.reduce((total, val) => total += val.count * val.price, 0)
-        const res = await axiosInstance.post('/payment/razorpay', { total }).then((res) => {
-            var options = {
-                "key": res.data.key_id,
-                "amount": parseInt(res.data.total),
-                "name": "WAITR",
-                "description": "Payment for your order",
-                "image": "/uploads/logo.png",
-                "order_id": res.data.order_id,
-                "handler": function (response) {
-                    console.log(response + 'la la la');
-                    var payment_id = response.razorpay_payment_id;
-                },
-                "prefill": {
-                    "name": 'data.user.name',
-                    "email": 'data.user.email',
-                    "contact": 'data.user.mobile'
-                },
-                "theme": {
-                    "color": "#212529"
-                }
+        const total = data.reduce((total, val) => total += val.count * val.price, 0)    
+            const options = {
+              key: 'rzp_test_wNhVz81BFxrIrL',
+              amount: total * 100,
+              currency: 'INR',
+              name: 'CINEFY',
+              description: 'Add Money to Wallet',
+              handler: function (response) {
+                console.log('success')
+                          },
+              prefill: {
+                email: 'samad',
+              },
+              theme: {
+                color: '#fff', 
+              },
             };
-            var rzp = new Razorpay(options);
-            rzp.on('payment.cancel', function (response) {
-                // handle the payment cancellation
-                alert('Payment cancelled!');
-            });
-
-            rzp.on('payment.error', function (response) {
-                // handle the payment error
-                var error_code = response.error.code;
-                var error_description = response.error.description;
-                alert('Payment error: ' + error_description + ' (' + error_code + ')');
-            });
-            rzp.open();
-
-        })
         
-    }
+            const rzp = new window.Razorpay(options);
+            rzp.open()
+          };
 
     return (
         <>
