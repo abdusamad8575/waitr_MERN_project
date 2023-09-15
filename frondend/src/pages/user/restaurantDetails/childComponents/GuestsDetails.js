@@ -118,7 +118,7 @@ const GuestsDetails = ({ detail, setDetails, setState }) => {
                     />
                 </Grid>
                 {guests>0 && <Grid item sx={{ display: 'flex', justifyContent: 'center'}}>
-                    <Button variant='contained' sx={{ backgroundColor: 'rgb(255, 100, 90)' }} onClick={handleSubmit}>Selected Foods</Button>
+                    <Button variant='contained' color='error' sx={{ backgroundColor: 'rgb(255, 100, 90)' }} onClick={handleSubmit}>Selected Foods</Button>
                 </Grid>}
             </Grid>
 
