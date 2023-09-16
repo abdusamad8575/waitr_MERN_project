@@ -265,6 +265,22 @@ const selectedRestaurant = async (req, res) => {
         return res.status(500).json({ error: 'Internal server error' });
     }
 }
+const orderFullDetails = async (req, res) => {
+    try {
+        console.log("body",req.body);
+        const {total, data, paymentId , restaurantId , guest ,userId} = req.body   
+        console.log("fdsa1:-",total, data, paymentId , restaurantId , guest ,userId);   
+        // const restaurant = await Restaurant.findById(id)
+        // if (restaurant) {
+        //     return res.status(200).json({ message: "Restaurant details fetch saccessfully", restaurant })
+        // } else {
+        //     return res.status(400).json({ message: "Restaurant details fetch Error" })
+        // }    
+
+    } catch (error) {           
+        return res.status(500).json({ error: 'Internal server error' });
+    }
+}
 module.exports = {
     signup,
     signin,
@@ -275,5 +291,6 @@ module.exports = {
     uploadProfilepicture,
     restorentDetails,
     filterData,
-    selectedRestaurant
+    selectedRestaurant,
+    orderFullDetails
 }

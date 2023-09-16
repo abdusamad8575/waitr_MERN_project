@@ -7,7 +7,6 @@ const path = require('path');
 const user_router = require('./routes/user_router')
 const admin_router = require('./routes/admin_router')
 const restaurent_router =require('./routes/restaurent_router')
-const Payment_router = require('./routes/payment_router')
 const cookieParser = require('cookie-parser')
 
 const mongodbURL = config.mongodbURL;
@@ -19,7 +18,6 @@ app.use(cors({credentials:true,origin:"http://localhost:3000"}))
 app.use('/',user_router)
 app.use('/dashboard',admin_router)
 app.use('/restaurant',restaurent_router)
-app.use('/payment',Payment_router)
 
 
 

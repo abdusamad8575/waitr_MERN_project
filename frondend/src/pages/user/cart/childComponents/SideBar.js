@@ -4,37 +4,67 @@ import 'react-perfect-scrollbar/dist/css/styles.css';
 import { Paper, Box, Typography, Grid, Divider, Button } from '@mui/material';
 import SlideshowIcon from '@mui/icons-material/Slideshow';
 import CurrencyRupeeIcon from '@mui/icons-material/CurrencyRupee';
+import axiosInstance from '../../../../axios';
+import { useSelector } from 'react-redux';
 
-
-console.log("procce",process.env.RAZORPAY_ID_KEY);
 const SideBar = ({ data }) => {
+    const total = data.reduce((total, val) => total += val.count * val.price, 0)
+    const State = useSelector((state)=>state.user.restaurantId) 
+    const restaurantId =  State.restaurantId ? State.restaurantId : JSON.parse(localStorage.getItem('restaurantId'));
+    const guest = State.guestDetails ? State.guestDetails : JSON.parse(localStorage.getItem('guestDetails'));
+    const userId = State.userId ?  State.userId : JSON.parse(localStorage.getItem('userId'));
+
     React.useEffect(() => {
         const script = document.createElement("script");
         script.src = "https://checkout.razorpay.com/v1/checkout.js";
         script.async = true;
         document.body.appendChild(script);
-
     }, []);
+
+    const handleOrderPlaved =async(paymentId)=>{
+        // console.log(total, data, paymentId , restaurantId , guest ,userId);
+        await axiosInstance.post('/orderFullDetails',{total, data, paymentId , restaurantId , guest ,userId})
+        // await axiosInstance.post('/orderFullDetails',fullDatas,{
+        // headers: {
+        //     'Content-Type': 'multipart/form-data',
+        //   }})
+    }
     const handleSubmit = async () => {
-        const total = data.reduce((total, val) => total += val.count * val.price, 0)    
             const options = {
               key: process.env.REACT_APP_RAZORPAY_ID_KEY,
               amount: total * 100,
               currency: 'INR',
               name: 'WAITR',
               description: 'Add Money to Wallet',
-              handler: function (response) {
-                console.log('success')
+              image: "/assets/1689067571491.png",
+            //   order_id: data.order_id,
+              handler: (response)=> {
+                // console.log('response:-',response.razorpay_payment_id)
+                if(response.razorpay_payment_id){
+                    handleOrderPlaved(response.razorpay_payment_id)
+                }
+
                           },
               prefill: {
-                email: 'samad',
+                email: 'samadns8575@gmail.com',
               },
               theme: {
-                color: '#fff', 
+                color: '#ff645a', 
               },
             };
         
             const rzp = new window.Razorpay(options);
+            rzp.on('payment.cancel', function(response) {
+                // handle the payment cancellation
+                alert('Payment cancelled!');
+            });
+            
+            rzp.on('payment.error', function(response) {
+                // handle the payment error
+                const error_code = response.error.code;
+                const error_description = response.error.description;
+                alert('Payment error: ' + error_description + ' (' + error_code + ')');
+            });
             rzp.open()
           };
 

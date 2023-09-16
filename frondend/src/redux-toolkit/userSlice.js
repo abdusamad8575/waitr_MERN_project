@@ -8,9 +8,11 @@ const userSlice = createSlice({
         signin: (state, data) => {
             const userDitails = JSON.stringify(data.payload)
             state.isLoggedIn = true;
+            state.userId= data.payload._id;
             localStorage.setItem('userLoggedIn', 'true');
             localStorage.setItem('user',userDitails)
-            localStorage.setItem('userId', data.payload._id);
+            const userIds = JSON.stringify(data.payload._id)
+            localStorage.setItem('userId',userIds);
         },
         logout: (state) => {
             state.isLoggedIn = false;
@@ -18,6 +20,8 @@ const userSlice = createSlice({
             localStorage.setItem('user','')
             localStorage.setItem('userId', '');
             localStorage.setItem('restaurantId', '');
+            localStorage.setItem("guestDetails",'')
+            localStorage.setItem("orderFoodDetails",'')
         },
         locations: (state,action) =>{
             state.location = action.payload
