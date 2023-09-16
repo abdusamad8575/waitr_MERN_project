@@ -4,7 +4,9 @@ import 'react-perfect-scrollbar/dist/css/styles.css';
 import { Paper, Box, Typography, Grid, Divider, Button } from '@mui/material';
 import SlideshowIcon from '@mui/icons-material/Slideshow';
 import CurrencyRupeeIcon from '@mui/icons-material/CurrencyRupee';
-import axiosInstance from '../../../../axios'; 
+
+
+console.log("procce",process.env.RAZORPAY_ID_KEY);
 const SideBar = ({ data }) => {
     React.useEffect(() => {
         const script = document.createElement("script");
@@ -16,10 +18,10 @@ const SideBar = ({ data }) => {
     const handleSubmit = async () => {
         const total = data.reduce((total, val) => total += val.count * val.price, 0)    
             const options = {
-              key: 'rzp_test_wNhVz81BFxrIrL',
+              key: process.env.REACT_APP_RAZORPAY_ID_KEY,
               amount: total * 100,
               currency: 'INR',
-              name: 'CINEFY',
+              name: 'WAITR',
               description: 'Add Money to Wallet',
               handler: function (response) {
                 console.log('success')
