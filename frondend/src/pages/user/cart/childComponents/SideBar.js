@@ -5,9 +5,13 @@ import { Paper, Box, Typography, Grid, Divider, Button } from '@mui/material';
 import SlideshowIcon from '@mui/icons-material/Slideshow';
 import CurrencyRupeeIcon from '@mui/icons-material/CurrencyRupee';
 import axiosInstance from '../../../../axios';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { orderSuccess } from '../../../../redux-toolkit/userSlice';
 
 const SideBar = ({ data }) => {
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
     const total = data.reduce((total, val) => total += val.count * val.price, 0)
     const State = useSelector((state)=>state.user.restaurantId) 
     const restaurantId =  State.restaurantId ? State.restaurantId : JSON.parse(localStorage.getItem('restaurantId'));
@@ -22,12 +26,12 @@ const SideBar = ({ data }) => {
     }, []);
 
     const handleOrderPlaved =async(paymentId)=>{
-        // console.log(total, data, paymentId , restaurantId , guest ,userId);
         await axiosInstance.post('/orderFullDetails',{total, data, paymentId , restaurantId , guest ,userId})
-        // await axiosInstance.post('/orderFullDetails',fullDatas,{
-        // headers: {
-        //     'Content-Type': 'multipart/form-data',
-        //   }})
+        .then((res)=>{
+            dispatch(orderSuccess(res.data.order))
+            navigate('/orderSuccess')
+        })
+        
     }
     const handleSubmit = async () => {
             const options = {

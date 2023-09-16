@@ -2,6 +2,7 @@ const User = require('../model/userModel')
 const jwt = require('jsonwebtoken');
 const { OAuth2Client } = require('google-auth-library');
 const Restaurant = require('../model/restaurantModel')
+const Order = require('../model/orderModul')
 const dotenv = require('dotenv')
 dotenv.config()
 
@@ -267,15 +268,18 @@ const selectedRestaurant = async (req, res) => {
 }
 const orderFullDetails = async (req, res) => {
     try {
-        console.log("body",req.body);
-        const {total, data, paymentId , restaurantId , guest ,userId} = req.body   
-        console.log("fdsa1:-",total, data, paymentId , restaurantId , guest ,userId);   
-        // const restaurant = await Restaurant.findById(id)
-        // if (restaurant) {
-        //     return res.status(200).json({ message: "Restaurant details fetch saccessfully", restaurant })
-        // } else {
-        //     return res.status(400).json({ message: "Restaurant details fetch Error" })
-        // }    
+        const {total, data, paymentId , restaurantId , guest ,userId} = req.body    
+        const order = new Order({
+            userId,
+            restaurantId,
+            paymentId,
+            totalAmount:total,
+            guestDetails:guest,
+            foodDetails:data
+        })
+        await order.save()
+        return res.status(200).json({message:'order stored saccessfully',order})
+        
 
     } catch (error) {           
         return res.status(500).json({ error: 'Internal server error' });

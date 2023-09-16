@@ -14,7 +14,6 @@ user_router.post('/uploadProfilepicture',upload.single('image'),uploadProfilepic
 user_router.get('/restorentDetails',restorentDetails)
 user_router.post('/filterData',filterData)
 user_router.post('/selectedRestaurant',verifyToken,selectedRestaurant)
-// user_router.post('/orderFullDetails',verifyToken,upload.single('cxz'),orderFullDetails)
 user_router.post('/orderFullDetails',verifyToken,orderFullDetails)
 
 

@@ -4,11 +4,12 @@ import { Route, Routes } from 'react-router-dom'
 import SignIn from '../pages/SignIn';
 import SignUp from '../pages/SingUp';
 import Account from '../pages/user/account/Account'
-import UserProtected from './userProtected';
+// import UserProtected from './userProtected';
 import ListRestaurant from '../pages/user/listRestaurant/listRestaurant';
 import RestaurantDetails from '../pages/user/restaurantDetails/RestaurantDetails';
 import FoodDetails from '../pages/user/foodDetails/FoodDetails';
 import MainCart from '../pages/user/cart/mainCart';
+import Sccessfull from '../pages/user/successfull/Sccessfull';
 
 function Router() { 
   return (
@@ -22,6 +23,7 @@ function Router() {
           <Route path = '/DetailPage' element = {<RestaurantDetails />} />
           <Route path = '/foodDetails' element ={<FoodDetails />} />
           <Route path = '/cart' element ={<MainCart />} />
+          <Route path = '/orderSuccess' element ={<Sccessfull />} />
           {/* </Route> */}
           <Route path='/signup' element={<SignUp />} />
           <Route path='/signin' element={<SignIn />} />

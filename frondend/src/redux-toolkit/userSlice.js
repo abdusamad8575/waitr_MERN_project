@@ -22,6 +22,7 @@ const userSlice = createSlice({
             localStorage.setItem('restaurantId', '');
             localStorage.setItem("guestDetails",'')
             localStorage.setItem("orderFoodDetails",'')
+            localStorage.setItem('orderData','')
         },
         locations: (state,action) =>{
             state.location = action.payload
@@ -39,12 +40,16 @@ const userSlice = createSlice({
         orderFoodDetails: (state,action)=>{
             state.orders = action.payload
             const foods = JSON.stringify(action.payload)
-            localStorage.setItem("orderFoodDetails",foods)
-            // console.log("setData:-",action.payload);         
-        }      
+            localStorage.setItem("orderFoodDetails",foods)       
+        },
+        orderSuccess:(state,action)=>{
+            state.orderDetails= action.payload
+            const orderData = JSON.stringify(action.payload)
+            localStorage.setItem('orderData',orderData)
+        }
     },
 
 });
 
-export const { signin, logout, locations, selectRestaurant,orderUserDetails,orderFoodDetails } = userSlice.actions;
+export const { signin, logout, locations, selectRestaurant,orderUserDetails,orderFoodDetails,orderSuccess } = userSlice.actions;
 export default userSlice.reducer;
