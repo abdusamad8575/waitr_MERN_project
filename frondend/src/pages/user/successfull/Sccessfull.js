@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import Navebar from '../../../components/Navebar';
 import Footer from '../../../components/Footer';
-import { Box, Typography, Container, Card, CardContent } from '@mui/material';
+import { Box, Typography, Container, Card, CardContent, Grid } from '@mui/material';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import SlideshowIcon from '@mui/icons-material/Slideshow';
 import { useSpring, animated } from 'react-spring';
-import './style.css' 
+import './style.css'
 import { useSelector } from 'react-redux';
 
 const Successful = () => {
-    const order = useSelector((state)=>state.user.orderDetails)
+    const order = useSelector((state) => state.user.orderDetails)
     const orderDetails = order || JSON.parse(localStorage.getItem('orderData'))
-    console.log('dsa',orderDetails);
+    console.log('dsa', orderDetails);
     const [showOrderDetails, setShowOrderDetails] = useState(false);
 
     const fadeIn = useSpring({
@@ -45,7 +46,7 @@ const Successful = () => {
                 }}
             >
                 <animated.div style={fadeIn}>
-                    <Box sx={{display:'flex',flexDirection: 'column',alignItems: 'center'}}>
+                    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                         <CheckCircleIcon sx={{ fontSize: 80, color: '#6ac576' }} />
                         <Typography variant="h5" sx={{ marginTop: 2, color: '#6f7274', margin: 0 }}>
                             Payment Successful
@@ -100,46 +101,58 @@ const Successful = () => {
                                             <Typography variant="body2" color="text.secondary">
                                                 Order No.
                                             </Typography>
-                                            <Typography>012j1gvs356c</Typography>
+                                            <Typography>{orderDetails._id}</Typography>
                                         </div>
                                     </div>
 
-                                    <Box
-                                        sx={{
-                                            backgroundColor: '#f2f2f2',
-                                            p: 3,
-                                            borderRadius: 4,
-                                            boxShadow: '0px 3px 5px rgba(0, 0, 0, 0.2)',
-                                        }}
-                                    >
-                                        <Box
+
+                                    {orderDetails.foodDetails.map((value, index) => {
+                                        return <Grid container
+                                             key={index}
                                             sx={{
-                                                display: 'flex',
-                                                justifyContent: 'space-between',
+                                                backgroundColor: '#f2f2f2',
+                                                p: 3,
+                                                borderRadius: 4,
+                                                boxShadow: '0px 3px 5px rgba(0, 0, 0, 0.2)',
+                                                minWidth:{sm:"300px",md:"400px"},
                                                 mb: 1,
+                                                // direction:'coluam'   
                                             }}
                                         >
-                                            <div>
-                                                <Typography>BEATS Solo 3 Wireless Headphones</Typography>
-                                            </div>
-                                            <div>
-                                                <Typography>₹299.99</Typography>
-                                            </div>
-                                        </Box>
-                                        <Box
-                                            sx={{
-                                                display: 'flex',
-                                                justifyContent: 'space-between',
-                                            }}
-                                        >
-                                            <div>
-                                                <Typography>Shipping</Typography>
-                                            </div>
-                                            <div>
-                                                <Typography>₹33.00</Typography>
-                                            </div>
-                                        </Box>
-                                    </Box>
+                                            <Grid item xs={1}>
+                                            <SlideshowIcon sx={{ fontSize: 'x-small', color: 'green' }} />
+                                            </Grid>
+                                            <Grid item xs={11}>
+                                                <Box
+                                                    sx={{
+                                                        display: 'flex',
+                                                        justifyContent: 'space-between',
+                                                        mb: 1,
+                                                    }}
+                                                >
+                                                    <div>
+                                                        <Typography>{value.foodName}</Typography>
+                                                    </div>
+                                                    <div>
+                                                        <Typography>₹{value.price}</Typography>
+                                                    </div>
+                                                </Box>
+                                                <Box
+                                                    sx={{
+                                                        display: 'flex',
+                                                        justifyContent: 'space-between',
+                                                    }}
+                                                >
+                                                    <div>
+                                                        <Typography>Count:{value.count}</Typography>
+                                                    </div>
+                                                    <div>
+                                                        <Typography>₹{value.count * value.price}</Typography>
+                                                    </div>
+                                                </Box>
+                                            </Grid>
+                                        </Grid>
+                                    })}
 
                                     <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
                                         <Typography
