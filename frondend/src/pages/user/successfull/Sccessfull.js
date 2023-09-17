@@ -17,13 +17,13 @@ const Successful = () => {
     const fadeIn = useSpring({
         opacity: showOrderDetails ? 1 : 0,
         transform: showOrderDetails ? 'translateY(0)' : 'translateY(20px)',
-        config: { duration: 300 }, // Animation duration in milliseconds
+        config: { duration: 300 }, 
     });
 
     const slideIn = useSpring({
         opacity: showOrderDetails ? 1 : 0,
         transform: showOrderDetails ? 'translateY(0)' : 'translateY(-20px)',
-        config: { duration: 1000 }, // Animation duration in milliseconds
+        config: { duration: 1000 },
     });
 
     useEffect(() => {
@@ -115,8 +115,7 @@ const Successful = () => {
                                                 borderRadius: 4,
                                                 boxShadow: '0px 3px 5px rgba(0, 0, 0, 0.2)',
                                                 minWidth:{sm:"300px",md:"400px"},
-                                                mb: 1,
-                                                // direction:'coluam'   
+                                                mb: 1, 
                                             }}
                                         >
                                             <Grid item xs={1}>
@@ -162,14 +161,6 @@ const Successful = () => {
                                             ₹{orderDetails.totalAmount}
                                         </Typography>
                                     </Box>
-
-                                    {/* <Typography
-                                        variant="h6"
-                                        sx={{ color: '#ff645a', fontWeight: 'bold', mt: 4, mb: 2 }}
-                                    >
-                                        Tracking Order
-                                    </Typography> */}
-
 
 
                                     <Typography variant="body2" mt={2} mb={0}>
