@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { MDBCol, MDBContainer, MDBRow, MDBCard, MDBCardText, MDBCardBody, MDBCardImage, MDBTypography } from 'mdb-react-ui-kit';
 import axiosInstance from '../../../axios';
 // import { IconButton } from '@mui/material';
-import { Box, Typography, Grid, IconButton, Button ,Card , Avatar} from '@mui/material';
+import { Box, Typography, Grid, IconButton, Button, Card, Avatar } from '@mui/material';
 import './account.css'
 import { signin } from '../../../redux-toolkit/userSlice';
 import EditIcon from '@mui/icons-material/Edit';
@@ -130,72 +130,55 @@ export default function AccountContant() {
 
               </div> */}
               <Card
-      elevation={0}
-      sx={{
-        backgroundColor: '#FF645A',
-        height: 'auto', // Adjust height as needed for responsiveness
-        color: 'white',
-        padding: '16px',
-        display:'flex',
-        justifyContent:'center'
-      }}
-    >
-      <Grid container alignItems="center" spacing={2}>
-        <Grid item xs={12} md={4}>
-          <div style={{ width: '100%' }}>
-            <div className="image-upload-container">
-              <IconButton
-                color="primary"
-                aria-label="upload picture"
-                component="label"
-                onMouseEnter={() => setHovered(true)}
-                onMouseLeave={() => setHovered(false)}
+                elevation={0}
+                sx={{
+                  backgroundColor: '#FF645A',
+                  height: 'auto', 
+                  color: 'white',
+                  padding: '16px',
+                }}
               >
-                <input
-                  hidden
-                  accept="image/*"
-                  type="file"
-                  onChange={handleImageChange}
-                />
-                {/* <Avatar
-                  src={
-                    selectedImage
-                      ? selectedImage
-                      : 'https://cdn3.iconfinder.com/data/icons/avatars-flat/33/man_5-1024.png'
-                  }
-                  alt="User Profile"
-                  sx={{
-                    width: '100%',
-                    height: 'auto', // Responsive image size
-                    '&:hover': {
-                      filter: 'brightness(90%)',
-                    },
-                  }}
-                /> */}
-                <MDBCardImage
-                        src={selectedImage
-                          ? selectedImage
-                          : 'https://cdn3.iconfinder.com/data/icons/avatars-flat/33/man_5-1024.png'}
-                        alt="User Profile"
-                        className="mt-4 mb-2 img-thumbnail"
-                        fluid
-                        style={{ width: '150px' }}
-                      />
-                {hovered && (
-                  <div className="edit-icon-container">
-                    <EditIcon className="edit-icon" />
-                  </div>
-                )}
-              </IconButton>
-            </div>
-          </div>
-        </Grid>
-        <Grid item xs={12} md={8}>
-          <Typography variant="h5">{user.firstName + ' ' + user.lastName}</Typography>
-          <Typography>{user.email}</Typography>
-        </Grid>
-      </Grid>
-    </Card> 
+                <Grid container alignItems={"center"}>
+                  <Grid item xs={12} md={4} >
+                    <div style={{ width: '100%' }}>
+                      <div className="image-upload-container" >
+                        <IconButton
+                          color="primary"
+                          aria-label="upload picture"
+                          component="label"
+                          onMouseEnter={() => setHovered(true)}
+                          onMouseLeave={() => setHovered(false)}
+                        >
+                          <input
+                            hidden
+                            accept="image/*"
+                            type="file"
+                            onChange={handleImageChange}
+                          />
+                          <MDBCardImage
+                            src={selectedImage
+                              ? selectedImage
+                              : 'https://cdn3.iconfinder.com/data/icons/avatars-flat/33/man_5-1024.png'}
+                            alt="User Profile"
+                            className="mt-4 mb-2 img-thumbnail"
+                            fluid
+                            style={{ width: '150px' }}
+                          />
+                          {hovered && (
+                            <div className="edit-icon-container">
+                              <EditIcon className="edit-icon" />
+                            </div>
+                          )}
+                        </IconButton>
+                      </div>
+                    </div>
+                  </Grid>
+                  <Grid item xs={12} md={8}>
+                    <Typography variant="h5" >{user.firstName + ' ' + user.lastName}</Typography>
+                    <Typography>{user.email}</Typography>
+                  </Grid>
+                </Grid>
+              </Card>
               <div className="p-2 text-black" style={{ backgroundColor: '#f8f9fa' }}>
                 <Grid container justifyContent={{ xs: 'center', sm: 'flex-end' }} alignItems="center" spacing={3}>
                   <Grid item>
