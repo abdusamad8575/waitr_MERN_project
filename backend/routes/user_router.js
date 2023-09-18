@@ -1,6 +1,6 @@
 const express = require('express');
 const user_router = express.Router();
-const {signup,signin,logout,addhotelreq,userDitails,verify,uploadProfilepicture,restorentDetails,filterData,selectedRestaurant,orderFullDetails} =require('../controllers/userController')
+const {signup,signin,logout,addhotelreq,userDitails,verify,uploadProfilepicture,restorentDetails,filterData,selectedRestaurant,orderFullDetails,fetchOrderDetails} =require('../controllers/userController')
 const { verifyToken } = require('../middleware/userMiddleware')
 const {upload} = require('../middleware/multer')
 
@@ -15,8 +15,9 @@ user_router.get('/restorentDetails',restorentDetails)
 user_router.post('/filterData',filterData)
 user_router.post('/selectedRestaurant',verifyToken,selectedRestaurant)
 user_router.post('/orderFullDetails',verifyToken,orderFullDetails)
+user_router.get('/fetchOrderDetails',verifyToken,fetchOrderDetails)
 
-
+  
 module.exports = user_router;
 
 

@@ -254,7 +254,7 @@ const filterData = async (req, res) => {
 const selectedRestaurant = async (req, res) => {
     try {
         const {id} = req.body 
-        console.log("fdsa1:-",id);   
+        // console.log("fdsa1:-",id);   
         const restaurant = await Restaurant.findById(id)
         if (restaurant) {
             return res.status(200).json({ message: "Restaurant details fetch saccessfully", restaurant })
@@ -285,7 +285,24 @@ const orderFullDetails = async (req, res) => {
         return res.status(500).json({ error: 'Internal server error' });
     }
 }
-module.exports = {
+
+const fetchOrderDetails = async (req, res) => {
+    try {
+        const id = req.query.userId
+        const order = await Order.find({userId:id})
+        // console.log("fdsa1:-",order);   
+
+        if (order) {
+            return res.status(200).json({ message: "Restaurant details fetch saccessfully", order })
+        } else {
+            return res.status(400).json({ message: "Restaurant details fetch Error" })
+        }
+
+    } catch (error) {           
+        return res.status(500).json({ error: 'Internal server error' });
+    }
+}
+module.exports = {  
     signup,
     signin,
     logout,
@@ -296,5 +313,6 @@ module.exports = {
     restorentDetails,
     filterData,
     selectedRestaurant,
-    orderFullDetails
+    orderFullDetails,
+    fetchOrderDetails
 }
