@@ -60,7 +60,6 @@ export default function Album({ data }) {
                 {!data ? (
                   <Skeleton
                     variant="rectangular"
-                    // width={100}
                     height={150}
                   />
                 ) : (

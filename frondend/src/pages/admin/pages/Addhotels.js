@@ -199,12 +199,6 @@ const Addhotels = () => {
 
                                                 <TableCell align="left">{startTime+"-"+endTime}</TableCell>
 
-                                              
-
-
-                                                
-
-                                               
                                             </TableRow>
                                         );
                                     })}

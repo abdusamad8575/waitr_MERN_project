@@ -15,7 +15,7 @@ import {timeFrames} from '../../../../utils/timeframe';
 import GuestsDetails from './GuestsDetails';
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
-  console.log("cxcx", children, value, index, other);
+  // console.log("cxcx", children, value, index, other);
 
   return (
     <div

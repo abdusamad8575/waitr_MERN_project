@@ -61,8 +61,9 @@ export const showTime = (date) => {
     const dateObject = new Date(date);
     const hours = dateObject.getUTCHours();
     const minutes = dateObject.getUTCMinutes();
+    const period = hours < 12 ? 'AM' : 'PM';
 
-    return `${(hours % 12).toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")}`;
+    return `${(hours % 12).toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")}${period}`;
 }
 
 const compare = (start, end) => {
@@ -84,4 +85,12 @@ const compare = (start, end) => {
     } else {
         return false
     }
+}
+
+export const timeChanges = (time) => {
+    const adjustedTimestamp = new Date(time);
+    adjustedTimestamp.setMinutes(adjustedTimestamp.getMinutes() + 330);
+    const ISTformat = adjustedTimestamp.toISOString();
+    const times = showTime(ISTformat)
+    return times;
 }

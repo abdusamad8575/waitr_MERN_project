@@ -1,5 +1,6 @@
 
 const Restaurant = require('../model/restaurantModel')
+const Order = require('../model/orderModul')
 const User = require('../model/userModel')
 const moment = require('moment');
 const dotenv = require('dotenv')
@@ -69,12 +70,14 @@ const fetchRestaurant = async (req, res) => {
 
 const foodDetails = async (req, res) => {
     try {
+        console.log("afsafdsadf");
         const { id,...datas } = req.body;
         const images = req.files.map(file => file.filename);
         const img = images.map(img => `${process.env.URL}${img}`)
+        console.log("datas:-",datas);
         
-        
-        const user = await User.findById(id);
+        const userId = JSON.parse(id)
+        const user = await User.findById(userId);
         if (!user || !user.restaurantId) {
             return res.status(404).json({ message: 'Restaurant not found for this user' });
         }
@@ -82,7 +85,7 @@ const foodDetails = async (req, res) => {
         console.log("89",reId);
         const restaurant = await Restaurant.findById(reId);
         if (!restaurant) {
-            return res.status(404).json({ message: 'Restaurant not found' });
+            return res.status(404).json({ message: 'Restaurant not found' });   
 
         }
 
@@ -119,9 +122,25 @@ const getFoodDetails = async (req, res) => {
     }
 }
 
+const allOrderDEtails = async (req, res) => {
+    try {
+        const userId = req.id
+        const fetchResId = await User.findById(userId , 'restaurantId')
+        const orders = await Order.find({restaurantId:fetchResId.restaurantId})
+        if (!orders) {
+            return res.status(400).json({ message: 'data not fetch' })
+        } else {
+            return res.status(200).json({ message: 'food data fetch saccessfully', orders })    
+        }
+
+    } catch (error) {
+        return res.status(500).json({ message: 'Server Error' });
+    }
+}
 module.exports = {
     adminAddRestorent,
     fetchRestaurant,
     foodDetails,
-    getFoodDetails
+    getFoodDetails,
+    allOrderDEtails
 }

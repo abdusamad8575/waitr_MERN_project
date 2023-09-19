@@ -67,6 +67,9 @@ const RestaurantDetailsSchema = new mongoose.Schema({
             description:{
                 type:String
             },
+            categories:{
+                type:String
+            },
             images:[
                 {
                     type:String,

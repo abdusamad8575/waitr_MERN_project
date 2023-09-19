@@ -13,11 +13,13 @@ const DialogBox = ({ openAddDialog, setOpenAddDialog }) => {
         foodName: '',
         price: '',
         description: '',
+        categories: ''
     });
     const [formErrors, setFormErrors] = useState({
         foodName: '',
         price: '',
         description: '',
+        categories: ''
     });
 
     const handleImageUpload = (event) => {
@@ -65,6 +67,13 @@ const DialogBox = ({ openAddDialog, setOpenAddDialog }) => {
             newFormErrors.images = '';
         }
 
+        if (formData.categories === '') {
+            newFormErrors.categories = 'Categories is required';
+            valid = false;
+        } else {
+            newFormErrors.categories = '';
+        }
+
         setFormErrors(newFormErrors);
         return valid;
     };
@@ -97,6 +106,7 @@ const DialogBox = ({ openAddDialog, setOpenAddDialog }) => {
                foodName: '',
                price: '',
                description: '',
+               categories:'',
                     })
                     setSelectedImages([])
                     setOpenAddDialog(false);
@@ -131,10 +141,12 @@ const DialogBox = ({ openAddDialog, setOpenAddDialog }) => {
                         error={!!formErrors.description}
                         helperText={formErrors.description} />
 
+                    <TextField fullWidth label="Categories" id="categories" sx={{ mb: 2 }}
+                        value={formData.categories}
+                        onChange={(e) => setFormData({ ...formData, categories: e.target.value })}
+                        error={!!formErrors.categories}
+                        helperText={formErrors.categories} />
 
-                    {formErrors.location && (
-                        <p style={{ color: 'red', textAlign: 'center', fontSize: 'small' }}>{formErrors.location}</p>
-                    )}
 
                     <div style={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap' }}>
                         {selectedImages.map((imageSrc, index) => (
