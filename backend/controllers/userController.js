@@ -4,6 +4,7 @@ const { OAuth2Client } = require('google-auth-library');
 const Restaurant = require('../model/restaurantModel')
 const Order = require('../model/orderModul')
 const dotenv = require('dotenv')
+const nodemailer = require('nodemailer');
 dotenv.config()
 
 const signup = async (req, res, next) => {
@@ -245,15 +246,15 @@ const filterData = async (req, res) => {
         if (!data) {
             return res.status(404).json({ message: "Something Went Wrong !" });
         }
-        return res.status(200).json({returnData:{itemsToDisplay,totalDataLength}});    
+        return res.status(200).json({ returnData: { itemsToDisplay, totalDataLength } });
 
     } catch (error) {
         return new Error(error);
     }
-}       
+}
 const selectedRestaurant = async (req, res) => {
     try {
-        const {id} = req.body 
+        const { id } = req.body
         // console.log("fdsa1:-",id);   
         const restaurant = await Restaurant.findById(id)
         if (restaurant) {
@@ -262,26 +263,58 @@ const selectedRestaurant = async (req, res) => {
             return res.status(400).json({ message: "Restaurant details fetch Error" })
         }
 
-    } catch (error) {           
+    } catch (error) {
         return res.status(500).json({ error: 'Internal server error' });
     }
 }
 const orderFullDetails = async (req, res) => {
     try {
-        const {total, data, paymentId , restaurantId , guest ,userId} = req.body    
+        const { total, data, paymentId, restaurantId, guest, userId } = req.body
         const order = new Order({
             userId,
             restaurantId,
             paymentId,
-            totalAmount:total,
-            guestDetails:guest,
-            foodDetails:data
+            totalAmount: total,
+            guestDetails: guest,
+            foodDetails: data
         })
         await order.save()
-        return res.status(200).json({message:'order stored saccessfully',order})
+
+
+
+
+
+
+
+
         
 
-    } catch (error) {           
+        const transporter = nodemailer.createTransport({
+            service: 'Gmail',
+            auth: {
+                user: 'hr.waitr@gmail.com',
+                pass: 'waitr8575' // Use an app-specific password for better security
+            }
+        });
+
+        const mailOptions = {
+            from: 'samadpts786313@gmail.com',
+            to: 'samadns8575@gmail.com',
+            subject: 'Hello from Nodemailer',
+            text: 'This is a test email sent from Nodemailer!'
+        };
+
+        transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
+                console.error('Error sending email: ', error);
+            } else {
+                console.log('Email sent successfully: ', info.response);
+            }
+        });
+        return res.status(200).json({ message: 'order stored saccessfully', order })
+
+
+    } catch (error) {
         return res.status(500).json({ error: 'Internal server error' });
     }
 }
@@ -289,7 +322,7 @@ const orderFullDetails = async (req, res) => {
 const fetchOrderDetails = async (req, res) => {
     try {
         const id = req.query.userId
-        const order = await Order.find({userId:id})
+        const order = await Order.find({ userId: id })
         // console.log("fdsa1:-",order);   
 
         if (order) {
@@ -298,11 +331,11 @@ const fetchOrderDetails = async (req, res) => {
             return res.status(400).json({ message: "Restaurant details fetch Error" })
         }
 
-    } catch (error) {           
+    } catch (error) {
         return res.status(500).json({ error: 'Internal server error' });
     }
 }
-module.exports = {  
+module.exports = {
     signup,
     signin,
     logout,
