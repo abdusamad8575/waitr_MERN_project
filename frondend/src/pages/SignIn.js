@@ -11,8 +11,8 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
 import axiosInstance from '../axios';
 import 'react-toastify/dist/ReactToastify.css';
-import {useDispatch} from 'react-redux'
-import {signin} from '../redux-toolkit/userSlice'
+import { useDispatch } from 'react-redux'
+import { signin } from '../redux-toolkit/userSlice'
 import { Google } from './google';
 import tryCatch from '../utils/tryCatch';
 
@@ -39,9 +39,9 @@ export default function SignIn() {
     setShowErrors(false);
   };
 
-  const sendRequest=tryCatch(()=>{
-      const res =  axiosInstance.post('/signin',formData);
-      return res
+  const sendRequest = tryCatch(() => {
+    const res = axiosInstance.post('/signin', formData);
+    return res
   })
 
   const handleSubmit = (event) => {
@@ -65,23 +65,23 @@ export default function SignIn() {
       return;
     }
     sendRequest()
-    .then((res)=>{
-      console.log(res.data.user);
-      const userRole = res.data.role;
-      dispatch(signin(res.data.user))
-      switch (userRole) {
-        case 'admin':
-          History('/dashboard'); 
-          break;
-        case 'restaurant':
-          History('/restaurant');
-          break;
-        default:
-          History('/');
-          break;
-      }
+      .then((res) => {
+        console.log(res.data.user);
+        const userRole = res.data.role;
+        dispatch(signin(res.data.user))
+        switch (userRole) {
+          case 'admin':
+            History('/dashboard');
+            break;
+          case 'restaurant':
+            History('/restaurant');
+            break;
+          default:
+            History('/');
+            break;
+        }
 
-    }).catch((err)=>console.log(err))
+      }).catch((err) => console.log(err))
   };
 
   return (
@@ -119,8 +119,8 @@ export default function SignIn() {
               autoFocus
               value={formData.email}
               onChange={handleChange}
-              error={showErrors && (!formData.email.trim() || !/\S+@\S+\.\S+/.test(formData.email))} 
-                  helperText={showErrors && !formData.email.trim() ? 'Email is required' : (showErrors && !/\S+@\S+\.\S+/.test(formData.email) ? 'Invalid email format' : '')}
+              error={showErrors && (!formData.email.trim() || !/\S+@\S+\.\S+/.test(formData.email))}
+              helperText={showErrors && !formData.email.trim() ? 'Email is required' : (showErrors && !/\S+@\S+\.\S+/.test(formData.email) ? 'Invalid email format' : '')}
             />
             <TextField
               margin="normal"
@@ -144,7 +144,9 @@ export default function SignIn() {
             >
               Sign In
             </Button>
-            <Google />
+            <Box sx={{display:"flex",justifyContent:'center'}}>
+              <Google />
+            </Box>
             <Grid container mt={1}>
               <Grid item xs>
                 <Link variant="body2">Forgot password?</Link>

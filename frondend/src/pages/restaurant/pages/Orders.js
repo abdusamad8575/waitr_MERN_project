@@ -227,6 +227,8 @@ export default function EnhancedTable() {
   React.useEffect(()=>{
     const fetchDatas = async() =>{
       await axiosInstance.get('/restaurant/allOrderDEtails')
+      .then((res)=>setFullOrders(res.data.orders))
+      .catch((err)=>console.log(err))
     }
     fetchDatas()
   },[])
@@ -293,7 +295,7 @@ export default function EnhancedTable() {
       ),
     [order, orderBy, page, rowsPerPage],
   );
-
+console.log("fullOrders:-",fullOrders);
   return (
     <Box sx={{ width: '100%' }}>
       <Paper sx={{ width: '100%', mb: 2 }}>
