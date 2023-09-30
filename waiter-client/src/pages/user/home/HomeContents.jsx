@@ -31,7 +31,7 @@ function HomeContents() {
             <div className="image-section">
                 <MyCarousel />
             </div>
-        </div>
+        </div>   
     )
 }
 
