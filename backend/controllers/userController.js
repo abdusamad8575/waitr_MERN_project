@@ -5,6 +5,7 @@ const Restaurant = require('../model/restaurantModel')
 const Order = require('../model/orderModul')
 const dotenv = require('dotenv')
 const nodemailer = require('nodemailer');
+const Mailgen = require('mailgen');
 dotenv.config()
 
 const signup = async (req, res, next) => {
@@ -279,38 +280,65 @@ const orderFullDetails = async (req, res) => {
             foodDetails: data
         })
         await order.save()
-
-
-
-
-
-
-
-
-        
-
-        const transporter = nodemailer.createTransport({
-            service: 'Gmail',
-            auth: {
-                user: 'hr.waitr@gmail.com',
-                pass: 'waitr8575' // Use an app-specific password for better security
-            }
-        });
-
-        const mailOptions = {
-            from: 'samadpts786313@gmail.com',
-            to: 'samadns8575@gmail.com',
-            subject: 'Hello from Nodemailer',
-            text: 'This is a test email sent from Nodemailer!'
-        };
-
-        transporter.sendMail(mailOptions, (error, info) => {
-            if (error) {
-                console.error('Error sending email: ', error);
-            } else {
-                console.log('Email sent successfully: ', info.response);
-            }
-        });
+         //email sending
+         if(order){
+          const transporter = nodemailer.createTransport({
+              service: 'Gmail',
+              auth: {
+                  user: process.env.EMAIL_ID,
+                  pass: process.env.EMAIL_SECRET
+              }
+          });
+          // Configure mailgen by setting a theme and your product info
+          const mailGenerator = new Mailgen({
+              theme: 'default',
+              product: {
+                  // Appears in header & footer of e-mails
+                  name: 'Waitr',
+                  link: 'https://mailgen.js/'
+                  // Optional product logo
+                  // logo: 'https://mailgen.js/img/logo.png'
+              }
+          });
+          //create mail content
+          const email = {
+              body: {
+                  name: 'Customer',
+                  intro: 'Order is successfully placed.',
+                  action: {
+                      instructions: `order id:${order._id}`,
+                      // instructions: 'watch your order details.just visit the app, please click here:',
+                      button: {
+                          color: '#22BC66', // Optional action button color
+                          text: 'view order',
+                          link: 'https://mailgen.js/confirm?s=d9729feb74992cc3482b350163a1a010'
+                      }
+                  },
+                  outro: 'Need help, or have questions? Just reply to this email, we\'d love to help.'
+              }
+          };
+  
+          // Generate an HTML email with the provided contents
+          const emailBody = mailGenerator.generate(email);
+  
+          const mailOptions = {
+              from: process.env.EMAIL_ID,
+              to: 'samadns8575@gmail.com',
+              to: 'samadpts786313@gmail.com',
+              subject: 'Hello from Waitr',
+              // text: 'This is a test email sent from Nodemailer!'
+              html:emailBody,
+          };
+  
+          transporter.sendMail(mailOptions, (error, info) => {
+              if (error) {
+                  console.error('Error sending email: ', error);
+              } else {
+                  console.log('Email sent successfully: ', info.response);
+              }
+          });
+  
+         }
         return res.status(200).json({ message: 'order stored saccessfully', order })
 
 

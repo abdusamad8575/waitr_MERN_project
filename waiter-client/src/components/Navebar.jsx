@@ -1,7 +1,7 @@
-import * as React from 'react';
-import './Navebar.css'
+import React from 'react';
+import './Navebar.css';
 import AppBar from '@mui/material/AppBar';
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
@@ -16,16 +16,15 @@ import LocationOnIcon from '@mui/icons-material/LocationOn';
 import { useDispatch, useSelector } from 'react-redux';
 import axiosInstance from '../axios';
 import axios from 'axios';
-import { logout ,locations} from '../redux-toolkit/userSlice';
+import { logout, locations } from '../redux-toolkit/userSlice';
 import { Autocomplete, Box, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from '@mui/material';
 import { styled, alpha } from "@mui/material/styles";
 import tryCatch from '../utils/tryCatch';
+
 const pages = ['Home', 'Find Restaurant', 'Posts'];
 const settings = ['Login', 'Account', 'Add Hotels'];
 const LogInSettings = ['Account', 'Add Hotels', 'Logout'];
 
-
-//-----------------------------------------------------------------------------
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
   borderRadius: theme.shape.borderRadius,
@@ -55,7 +54,7 @@ const SearchIconWrapper = styled("div")(({ theme }) => ({
 //------------------------------------------------------------------------------------------
 
 function Navebar() {
-  const location = useSelector((state)=>state.user.location)
+  const location = useSelector((state) => state.user.location)
   const History = useNavigate();
   const dispatch = useDispatch();
 
@@ -64,6 +63,7 @@ function Navebar() {
   const [openAddDialog, setOpenAddDialog] = React.useState(false)
   const [showSearch, setShowSearch] = React.useState(false);
   const [errors, setErrors] = React.useState({});
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false); 
   const [addHotel, setAddHotel] = React.useState({
     Rname: '',
     Rlocation: '',
@@ -77,8 +77,8 @@ function Navebar() {
   const userDetails = localStorage.getItem("user")
   const user = userDetails ? JSON.parse(userDetails) : ''
 
-  
- 
+
+
 
   //-----------------------------------------------------------------------------
   const [names, setNames] = React.useState([]);
@@ -96,14 +96,14 @@ function Navebar() {
     fetchData();
   }, [])
 
-  const handleCarrentLocation = async() => {
+  const handleCarrentLocation = async () => {
     await axios.get('https://ipapi.co/json')
       .then((res) => dispatch(locations(res.data.city)))
       .catch((error) => console.log(error))
   }
 
 
-  console.log("location1-",location);
+  console.log("location1-", location);
   //------------------------------------------------------------------------------------------
 
   const sendLogoutReq = tryCatch(() => {
@@ -209,23 +209,15 @@ function Navebar() {
       [name]: value
     }))
   }
-
-
-
-  const handleToggleSearch = () => {
-    setShowSearch((prevShowSearch) => !prevShowSearch);
-  };
-console.log("location",location);
   return (
-    <Box mb={{xs:8,sm:9,md:11,lg:12}}>
+    <Box mb={{ xs: 8, sm: 9, md: 11, lg: 12 }}>
       <AppBar position="fixed" sx={{ backgroundColor: 'white' }} >
         <Container maxWidth="xl" >
-          <Toolbar disableGutters>  
+          <Toolbar disableGutters>
             <Typography
               variant="h6"
               noWrap
               component="a"
-              href="/"
               sx={{
                 mr: 2,
                 display: { xs: 'none', md: 'flex' },
@@ -235,6 +227,7 @@ console.log("location",location);
                 color: 'inherit',
                 textDecoration: 'none',
               }}
+              onClick={()=>History('/')}
             >
               <img src='/assets/1689067571491.png' alt="menu3" style={{ width: '70px', height: '30px' }} />
             </Typography>
@@ -275,13 +268,18 @@ console.log("location",location);
                 ))}
               </Menu>
             </Box>
+
+
+
+
+
+
             <Typography
               variant="h5"
               noWrap
               component="a"
-              href=""
               sx={{
-                mr: 2,
+                // mr: 2,
                 display: { xs: 'flex', md: 'none' },
                 flexGrow: 1,
                 fontFamily: 'monospace',
@@ -290,6 +288,7 @@ console.log("location",location);
                 color: 'inherit',
                 textDecoration: 'none',
               }}
+              onClick={()=>History('/')}
             >
               <img src='/assets/1689067571491.png' alt="menu3" style={{ width: '70px', height: '30px' }} />
             </Typography>
@@ -305,41 +304,46 @@ console.log("location",location);
                 </Button>
               ))}
             </Box>
-            <Search>
-            <Tooltip title="Current Location">
-              <LocationOnIcon style={{
-                color: "#8f8888",
-                paddingLeft:  6,
-                height: "100%",
-                position: "absolute",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                cursor:'pointer'
-              }} 
-              onClick={handleCarrentLocation}
-              />
+            <Search >
+              <Tooltip title="Current Location">
+                <LocationOnIcon style={{
+                  color: "#8f8888",
+                  paddingLeft: 6,
+                  height: "100%",
+                  position: "absolute",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  cursor: 'pointer'
+                }}
+                  onClick={handleCarrentLocation}
+                />
               </Tooltip>
               <Autocomplete
                 disablePortal
                 id="combo-box-demo"
                 value={location}
                 options={names}
-                sx={{ width: 250, paddingLeft: "30px" }}
+                sx={{ width: {xs:120,sm:250}, paddingLeft: { xs: '10px', sm: '20px', md: "30px" } }}
                 renderInput={(params) => <TextField {...params} placeholder='Location' sx={{
                   boxShadow: 'none',
                   '.MuiOutlinedInput-notchedOutline': {
                     border: 0,
                   },
                   '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                    borderColor: 'transparent', 
+                    borderColor: 'transparent',
                   },
                 }} />}
                 size='small'
-                onChange={(e,value) => dispatch(locations(value))}
+                onChange={(e, value) => dispatch(locations(value))}
 
               />
             </Search>
+
+
+
+
+
 
 
 
@@ -375,6 +379,23 @@ console.log("location",location);
                   </MenuItem>
                 ))}
               </Menu>
+            </Box>
+            <Box
+              sx={{
+                display: { xs: isMobileMenuOpen ? 'block' : 'none', md: 'none' },
+                width: '100%',
+                textAlign: 'center',
+              }}
+            >
+              {pages.map((page, index) => (
+                <Button
+                  key={page}
+                  onClick={handlePages}
+                  sx={{ my: 2, color: 'black', display: 'block' }}
+                >
+                  <Link className='linkStyle' to={index === 0 ? '/' : index === 1 ? '/findrestaurant' : '/post'}> {page}</Link>
+                </Button>
+              ))}
             </Box>
           </Toolbar>
         </Container>

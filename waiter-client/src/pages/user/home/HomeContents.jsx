@@ -1,5 +1,6 @@
 import React from 'react'
 import './HomeContents.css';
+import MyCarousel from './HomeCarosel'
 
 function HomeContents() {
     return (
@@ -28,12 +29,7 @@ function HomeContents() {
                     </div>
             </div>
             <div className="image-section">
-                <img
-                    src="/assets/img.webp"
-                    alt="Sample"
-                    width="300"
-                    height="350"
-                />
+                <MyCarousel />
             </div>
         </div>
     )

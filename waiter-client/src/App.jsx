@@ -1,6 +1,6 @@
 import React from 'react';
 import { ToastContainer } from 'react-toastify';
-import './App.css';
+// import './App.css';
 import Router from '../../waiter-client/src/router/Router';
 import { HelmetProvider } from 'react-helmet-async';
 import ThemeProvider from '../../waiter-client/src/pages/admin/theme';

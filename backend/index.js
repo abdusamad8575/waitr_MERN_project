@@ -11,15 +11,16 @@ const cookieParser = require('cookie-parser')
 
 const mongodbURL = config.mongodbURL;
 const port = config.PORT;
+const FRONDEND_PORT = config.FRONDEND_PORT
 app.use(cookieParser())
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json()) 
-app.use(cors({credentials:true,origin:"http://localhost:3000"}))
+app.use(cors({credentials:true,origin:FRONDEND_PORT}))
 app.use('/',user_router)
 app.use('/dashboard',admin_router)
 app.use('/restaurant',restaurent_router)
 
-
+   
 
 // Connect to MongoDB
 mongoose.connect(mongodbURL, {
