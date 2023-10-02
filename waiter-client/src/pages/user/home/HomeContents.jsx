@@ -1,10 +1,11 @@
 import React from 'react'
 import './HomeContents.css';
 import MyCarousel from './HomeCarosel'
+import { Box } from '@mui/material';
 
 function HomeContents() {
     return (
-        <div className="homepage-container">
+        <Box className="homepage-container" p={{xs:'20px',sm:'30px',md:'40px'}}>
             <div className="article-section">
                 <h3 className='MainHeader'>Download the Waitr App</h3>
                 <div className="header">
@@ -31,7 +32,7 @@ function HomeContents() {
             <div className="image-section">
                 <MyCarousel />
             </div>
-        </div>   
+        </Box>   
     )
 }
 

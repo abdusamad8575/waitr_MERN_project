@@ -3,7 +3,7 @@ import ReactCardCarousel from "react-card-carousel";
 
   function MyCarousel() {
   const CONTAINER_STYLE = {
-    marginTop:'15px',
+    marginTop:'10px',
     position: "relative",
     height: "50vh",
     width: "100%",

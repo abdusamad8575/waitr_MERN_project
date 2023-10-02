@@ -148,10 +148,10 @@ export default function SignIn() {
               <Google />
             </Box>
             <Grid container mt={1}>
-              <Grid item xs>
+              <Grid item xs={6}>
                 <Link variant="body2">Forgot password?</Link>
               </Grid>
-              <Grid item>
+              <Grid item xs={6}>
                 <Link onClick={() => History('/signup')} variant="body2">
                   {"Don't have an account? Sign Up"}
                 </Link>
