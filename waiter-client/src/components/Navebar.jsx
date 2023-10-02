@@ -36,8 +36,7 @@ const Search = styled("div")(({ theme }) => ({
   border: 20,
   width: "250px",
   [theme.breakpoints.down("sm")]: {
-    marginLeft: theme.spacing(1),
-    width: "120px",
+    width: "100%",
   },
 }));
 
@@ -61,7 +60,6 @@ function Navebar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const [openAddDialog, setOpenAddDialog] = React.useState(false)
-  const [showSearch, setShowSearch] = React.useState(false);
   const [errors, setErrors] = React.useState({});
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false); 
   const [addHotel, setAddHotel] = React.useState({
@@ -162,14 +160,6 @@ function Navebar() {
 
   // -----------------------------------------------------------------------
   const [selectOpen, setSelectOpen] = React.useState(false);
-  const handleClose = () => {
-    setSelectOpen(false);
-  };
-
-  const handleOpen = () => {
-    setSelectOpen(true);
-  };
-
   const validateForm = () => {
     const newErrors = {};
 
@@ -258,9 +248,49 @@ function Navebar() {
                 open={Boolean(anchorElNav)}
                 onClose={handlePages}
                 sx={{
-                  // display: { xs: 'block', md: 'none' },
+                  display: { xs: 'block', md: 'none' },
                 }}
               >
+                
+
+                <Search >
+              <Tooltip title="Current Location">
+                <LocationOnIcon style={{
+                  color: "#8f8888",
+                  paddingLeft: 6,
+                  height: "100%",
+                  position: "absolute",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  cursor: 'pointer'
+                }}
+                  onClick={handleCarrentLocation}
+                />
+              </Tooltip>
+              <Autocomplete
+                disablePortal
+                id="combo-box-demo"
+                value={location}
+                options={names}
+                sx={{ width: {xs:"100%",sm:250}, paddingLeft: { xs: '10px', sm: '20px', md: "30px" } }}
+                renderInput={(params) => <TextField {...params} placeholder='Location' sx={{
+                  boxShadow: 'none',
+                  '.MuiOutlinedInput-notchedOutline': {
+                    border: 0,
+                  },
+                  '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                    borderColor: 'transparent',
+                  },
+                }} />}
+                size='small'
+                onChange={(e, value) => dispatch(locations(value))}
+
+              />
+            </Search>
+
+
+
                 {pages.map((page, index) => (
                   <MenuItem key={page} onClick={handlePages}>
                     <Typography textAlign="center"><Link className='linkStyle' to={index === 0 ? '/' : index === 1 ? '/findrestaurant' : '/post'}>{page}</Link></Typography>
@@ -268,11 +298,6 @@ function Navebar() {
                 ))}
               </Menu>
             </Box>
-
-
-
-
-
 
             <Typography
               variant="h5"
@@ -304,7 +329,7 @@ function Navebar() {
                 </Button>
               ))}
             </Box>
-            <Search >
+            <Search sx={{display:{xs:'none',md:'block'}}}>
               <Tooltip title="Current Location">
                 <LocationOnIcon style={{
                   color: "#8f8888",

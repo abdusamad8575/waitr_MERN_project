@@ -14,8 +14,8 @@ import ReactCardCarousel from "react-card-carousel";
   };
 
   const CARD_STYLE = {
-    height: "300px",
-    width: "300px",  
+    height: "270px",
+    width: "245px",  
     // paddingTop: "80px",
     textAlign: "center",
     background: "#f9fafb",
