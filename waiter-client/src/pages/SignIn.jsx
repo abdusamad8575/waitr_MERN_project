@@ -35,7 +35,6 @@ export default function SignIn() {
       ...prevFormData,
       [name]: value,
     }));
-    // Disable validation while the user is filling the form
     setShowErrors(false);
   };
 
@@ -46,7 +45,6 @@ export default function SignIn() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    // Enable validation upon form submission
     setShowErrors(true);
 
     // Validation logic
