@@ -34,7 +34,6 @@ const adminAddRestorent = async (req, res) => {
                 //   })),
                 images: img,
             })
-            // console.log("datas-", restaurant)
             await restaurant.save()
             await User.updateOne({ _id: id }, { $set: { restaurantId: restaurant._id } })
             return res.json({ message: 'Data saved successfully' });
@@ -50,7 +49,6 @@ const fetchRestaurant = async (req, res) => {
     try {
         const userId = req.id
         const restaurant = await User.findById(userId).populate('restaurantId').lean()
-        // console.log({...restaurant});
         const start = restaurant.restaurantId.startTime;
         const startTime = moment(start).utcOffset('+05:30').format('HH:mm');
         const end = restaurant.restaurantId.endTime;
