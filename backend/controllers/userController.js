@@ -182,7 +182,6 @@ async function verify(req, res) {
 }
 
 const uploadProfilepicture = async (req, res) => {
-    // console.log("ss",req.file);
     try {
         const id = req.query.id
         if (!req.file) {
@@ -255,8 +254,7 @@ const filterData = async (req, res) => {
 }
 const selectedRestaurant = async (req, res) => {
     try {
-        const { id } = req.body
-        // console.log("fdsa1:-",id);   
+        const { id } = req.body  
         const restaurant = await Restaurant.findById(id)
         if (restaurant) {
             return res.status(200).json({ message: "Restaurant details fetch saccessfully", restaurant })
