@@ -348,8 +348,7 @@ const orderFullDetails = async (req, res) => {
 const fetchOrderDetails = async (req, res) => {
     try {
         const id = req.query.userId
-        const order = await Order.find({ userId: id })
-        // console.log("fdsa1:-",order);   
+        const order = await Order.find({ userId: id }) 
 
         if (order) {
             return res.status(200).json({ message: "Restaurant details fetch saccessfully", order })
