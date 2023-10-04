@@ -269,6 +269,7 @@ const selectedRestaurant = async (req, res) => {
 const orderFullDetails = async (req, res) => {
     try {
         const { total, data, paymentId, restaurantId, guest, userId } = req.body
+        console.log(total);
         const order = new Order({
             userId,
             restaurantId,
@@ -348,7 +349,7 @@ const orderFullDetails = async (req, res) => {
 const fetchOrderDetails = async (req, res) => {
     try {
         const id = req.query.userId
-        console.log(id);
+        // console.log(id);
         const order = await Order.find({ userId: id }) 
 
         if (order) {
