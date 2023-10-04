@@ -348,6 +348,7 @@ const orderFullDetails = async (req, res) => {
 const fetchOrderDetails = async (req, res) => {
     try {
         const id = req.query.userId
+        console.log(id);
         const order = await Order.find({ userId: id }) 
 
         if (order) {
