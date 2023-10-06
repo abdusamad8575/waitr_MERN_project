@@ -269,7 +269,7 @@ const selectedRestaurant = async (req, res) => {
 const orderFullDetails = async (req, res) => {
     try {
         const { total, data, paymentId, restaurantId, guest, userId } = req.body
-        console.log(total);
+        // console.log(total);
         const order = new Order({
             userId,
             restaurantId,
