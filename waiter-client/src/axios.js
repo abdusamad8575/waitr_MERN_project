@@ -1,7 +1,7 @@
 import axios from "axios"; 
 
 // const baseURL = "http://localhost:8000";
-const baseURL = "http://54.242.131.209:8000";
+const baseURL = "https://waitr-project.onrender.com";
 const axiosInstance = axios.create({
   baseURL: baseURL,
   // timeout: 10000,
