@@ -56,6 +56,7 @@ const signin = async (req, res, next) => {
                         expires: new Date(Date.now() + 1000 * 60 * 60 * 24), // 1 day expiration
                         httpOnly: true,
                         sameSite: 'lax',
+                        secure: true,
                     });
                     console.log('existingUser=>', existingUser);
                     return res.status(200).json({
