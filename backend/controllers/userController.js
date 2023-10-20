@@ -86,7 +86,7 @@ const logout = async (req, res) => {
 const addhotelreq = async (req, res) => {
     try {
         const { Rname, Rlocation, Rcontact } = req.body;
-        const userId = req.query.id;
+        const userId = parseInt(req.query.id);
         console.log('userId=>',userId);
         console.log('usertype=>', typeof(userId));
 
