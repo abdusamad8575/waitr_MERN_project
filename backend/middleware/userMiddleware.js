@@ -6,7 +6,8 @@ const verifyToken = (req, res, next) => {
     console.log("token24=" + token);
     if (!token) {
         console.log('no token');
-        return res.status(404).json({ message: 'No token found' });
+        // return res.status(404).json({ message: 'No token found' });
+        next();
     } else {
         console.log('token is valid');
         jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
