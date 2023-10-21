@@ -86,16 +86,17 @@ const logout = async (req, res) => {
 const addhotelreq = async (req, res) => {
     try {
         const { Rname, Rlocation, Rcontact } = req.body;
-        const userId = parseInt(req.query.id);
+        const userId = req.query.id;
         console.log('userId=>',userId);
         console.log('usertype=>', typeof(userId));
-
+        
         // Find the user by their ID
         const user = await User.findById(userId);
+        console.log('userDetails=>', user);
         if (!user) {
             return res.status(404).json({ message: 'User not found' });
         }
-
+        
         // Update the addHotel field of the user
         user.addHotel = {
             Rname,
@@ -103,6 +104,7 @@ const addhotelreq = async (req, res) => {
             Rcontact,
             adminverify: true
         };
+        console.log('next save');
 
         // Save the updated user document
         await user.save();
