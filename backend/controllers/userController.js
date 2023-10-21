@@ -89,6 +89,7 @@ const addhotelreq = async (req, res) => {
         const userId = req.query.id;
         console.log('userId=>',userId);
         console.log('usertype=>', typeof(userId));
+        console.log('passDetails=>', Rname, Rlocation, Rcontact);
         
         // Find the user by their ID
         const user = await User.findById(userId);
