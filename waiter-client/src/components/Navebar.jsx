@@ -137,6 +137,7 @@ function Navebar() {
   const handleLogout = () => {
     sendLogoutReq()
       .then(() => {
+        console.log("t1");
         dispatch(logout())
         History('/')
       })
