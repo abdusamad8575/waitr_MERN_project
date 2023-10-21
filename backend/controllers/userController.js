@@ -79,8 +79,8 @@ const logout = async (req, res) => {
     const token = req.cookies.token;
     jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
         res.clearCookie('token')
-        return res.status(200).json({ message: "Succefully Logged out" })
     });
+    return res.status(200).json({ message: "Succefully Logged out" })
 
 }
 const addhotelreq = async (req, res) => {
