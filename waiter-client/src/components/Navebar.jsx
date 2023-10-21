@@ -72,7 +72,7 @@ function Navebar() {
   })
   const isLoggedIn = isLogged.isLoggedIn;
   const localStoregeuserId = localStorage.getItem('userId')
-  const userId = JSON.parse('localStoregeuserId')
+  const userId = JSON.parse(localStoregeuserId)
   const userDetails = localStorage.getItem("user")
   const user = userDetails ? JSON.parse(userDetails) : ''
 
