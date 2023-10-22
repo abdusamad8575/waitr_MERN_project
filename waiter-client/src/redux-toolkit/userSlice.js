@@ -23,7 +23,6 @@ const userSlice = createSlice({
             localStorage.setItem("guestDetails",'')
             localStorage.setItem("orderFoodDetails",'')
             localStorage.setItem('orderData','')
-            console.log('t2');
         },
         locations: (state,action) =>{
             state.location = action.payload

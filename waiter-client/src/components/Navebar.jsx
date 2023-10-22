@@ -71,8 +71,7 @@ function Navebar() {
     return state.user;
   })
   const isLoggedIn = isLogged.isLoggedIn;
-  const localStoregeuserId = localStorage.getItem('userId')
-  const userId = JSON.parse(localStoregeuserId)
+  const userId = localStorage.getItem('userId')
   const userDetails = localStorage.getItem("user")
   const user = userDetails ? JSON.parse(userDetails) : ''
 
@@ -137,7 +136,6 @@ function Navebar() {
   const handleLogout = () => {
     sendLogoutReq()
       .then(() => {
-        console.log("t1");
         dispatch(logout())
         History('/')
       })

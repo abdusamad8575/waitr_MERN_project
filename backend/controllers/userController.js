@@ -77,6 +77,7 @@ const signin = async (req, res, next) => {
 const logout = async (req, res) => {
     console.log('logout1');
     const token = req.cookies.token;
+    console.log('logout time token', token);
     jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
         res.clearCookie('token')
     });
@@ -86,18 +87,19 @@ const logout = async (req, res) => {
 const addhotelreq = async (req, res) => {
     try {
         const { Rname, Rlocation, Rcontact } = req.body;
-        const userId = req.query.id;
-        console.log('userId=>',userId);
-        console.log('usertype=>', typeof(userId));
+        const userIdquery = req.query.id;
+        const userId = JSON.parse(userIdquery)
+        console.log('userId=>', userId);
+        console.log('usertype=>', typeof (userId));
         console.log('passDetails=>', Rname, Rlocation, Rcontact);
-        
+
         // Find the user by their ID
         const user = await User.findById(userId);
         console.log('userDetails=>', user);
         if (!user) {
             return res.status(404).json({ message: 'User not found' });
         }
-        
+
         // Update the addHotel field of the user
         user.addHotel = {
             Rname,
@@ -259,7 +261,7 @@ const filterData = async (req, res) => {
 }
 const selectedRestaurant = async (req, res) => {
     try {
-        const { id } = req.body  
+        const { id } = req.body
         const restaurant = await Restaurant.findById(id)
         if (restaurant) {
             return res.status(200).json({ message: "Restaurant details fetch saccessfully", restaurant })
@@ -284,65 +286,65 @@ const orderFullDetails = async (req, res) => {
             foodDetails: data
         })
         await order.save()
-         //email sending
-         if(order){
-          const transporter = nodemailer.createTransport({
-              service: 'Gmail',
-              auth: {
-                  user: process.env.EMAIL_ID,
-                  pass: process.env.EMAIL_SECRET
-              }
-          });
-          // Configure mailgen by setting a theme and your product info
-          const mailGenerator = new Mailgen({
-              theme: 'default',
-              product: {
-                  // Appears in header & footer of e-mails
-                  name: 'Waitr',
-                  link: 'https://mailgen.js/'
-                  // Optional product logo
-                  // logo: 'https://mailgen.js/img/logo.png'
-              }
-          });
-          //create mail content
-          const email = {
-              body: {
-                  name: 'Customer',
-                  intro: 'Order is successfully placed.',
-                  action: {
-                      instructions: `order id:${order._id}`,
-                      // instructions: 'watch your order details.just visit the app, please click here:',
-                      button: {
-                          color: '#22BC66', // Optional action button color
-                          text: 'view order',
-                          link: 'https://mailgen.js/confirm?s=d9729feb74992cc3482b350163a1a010'
-                      }
-                  },
-                  outro: 'Need help, or have questions? Just reply to this email, we\'d love to help.'
-              }
-          };
-  
-          // Generate an HTML email with the provided contents
-          const emailBody = mailGenerator.generate(email);
-  
-          const mailOptions = {
-              from: process.env.EMAIL_ID,
-              to: 'samadns8575@gmail.com',
-              to: 'samadpts786313@gmail.com',
-              subject: 'Hello from Waitr',
-              // text: 'This is a test email sent from Nodemailer!'
-              html:emailBody,
-          };
-  
-          transporter.sendMail(mailOptions, (error, info) => {
-              if (error) {
-                  console.error('Error sending email: ', error);
-              } else {
-                  console.log('Email sent successfully: ', info.response);
-              }
-          });
-  
-         }
+        //email sending
+        if (order) {
+            const transporter = nodemailer.createTransport({
+                service: 'Gmail',
+                auth: {
+                    user: process.env.EMAIL_ID,
+                    pass: process.env.EMAIL_SECRET
+                }
+            });
+            // Configure mailgen by setting a theme and your product info
+            const mailGenerator = new Mailgen({
+                theme: 'default',
+                product: {
+                    // Appears in header & footer of e-mails
+                    name: 'Waitr',
+                    link: 'https://mailgen.js/'
+                    // Optional product logo
+                    // logo: 'https://mailgen.js/img/logo.png'
+                }
+            });
+            //create mail content
+            const email = {
+                body: {
+                    name: 'Customer',
+                    intro: 'Order is successfully placed.',
+                    action: {
+                        instructions: `order id:${order._id}`,
+                        // instructions: 'watch your order details.just visit the app, please click here:',
+                        button: {
+                            color: '#22BC66', // Optional action button color
+                            text: 'view order',
+                            link: 'https://mailgen.js/confirm?s=d9729feb74992cc3482b350163a1a010'
+                        }
+                    },
+                    outro: 'Need help, or have questions? Just reply to this email, we\'d love to help.'
+                }
+            };
+
+            // Generate an HTML email with the provided contents
+            const emailBody = mailGenerator.generate(email);
+
+            const mailOptions = {
+                from: process.env.EMAIL_ID,
+                to: 'samadns8575@gmail.com',
+                to: 'samadpts786313@gmail.com',
+                subject: 'Hello from Waitr',
+                // text: 'This is a test email sent from Nodemailer!'
+                html: emailBody,
+            };
+
+            transporter.sendMail(mailOptions, (error, info) => {
+                if (error) {
+                    console.error('Error sending email: ', error);
+                } else {
+                    console.log('Email sent successfully: ', info.response);
+                }
+            });
+
+        }
         return res.status(200).json({ message: 'order stored saccessfully', order })
 
 
@@ -355,7 +357,7 @@ const fetchOrderDetails = async (req, res) => {
     try {
         const id = req.query.userId
         // console.log(id);
-        const order = await Order.find({ userId: id }) 
+        const order = await Order.find({ userId: id })
 
         if (order) {
             return res.status(200).json({ message: "Restaurant details fetch saccessfully", order })
