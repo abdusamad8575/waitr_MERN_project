@@ -35,7 +35,8 @@ const SideBar = ({ data }) => {
     }
     const handleSubmit = async () => {
             const options = {
-              key: import.meta.env.VITE_APP_RAZORPAY_ID_KEY,
+            //   key: import.meta.env.VITE_APP_RAZORPAY_ID_KEY,
+              key: 'rzp_test_os4sFTFYfRzAlS',
               amount: total * 100,
               currency: 'INR',
               name: 'WAITR',
@@ -43,7 +44,7 @@ const SideBar = ({ data }) => {
               image: "/assets/1689067571491.png",
             //   order_id: data.order_id,
               handler: (response)=> {
-                // console.log('response:-',response.razorpay_payment_id)
+                console.log('response:-',response.razorpay_payment_id)
                 if(response.razorpay_payment_id){
                     handleOrderPlaved(response.razorpay_payment_id)
                 }

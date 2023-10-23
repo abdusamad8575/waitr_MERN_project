@@ -7,18 +7,19 @@ const dotenv = require('dotenv')
 dotenv.config()
 const adminAddRestorent = async (req, res) => {
     try {
-        const { restaurantName, location, startTime, endTime, mealsType, daysOfWeek, addTable, cuisines, restaurantType, id } = req.body;
+        const { restaurantName, location, startTime, endTime, mealsType, daysOfWeek,  cuisines, restaurantType, id } = req.body;
         const start = new Date(startTime)
         const end = new Date(endTime)
         const images = req.files.map(file => file.filename);
-        if (id && images) {
+        const ids = JSON.parse(id)
+        if (ids && images) {
             const parsedMealsType = mealsType.split(',');
             const parsedDaysOfWeek = daysOfWeek.split(',');
             const parsedcuisines = cuisines.split(',');
             const parsedrestaurantType = restaurantType.split(',');
             const img = images.map(img => `${process.env.URL}${img}`)
             const restaurant = new Restaurant({
-                ownerId: id,
+                ownerId: ids,
                 restaurantName: restaurantName,
                 location: location,
                 startTime: start,
@@ -34,8 +35,9 @@ const adminAddRestorent = async (req, res) => {
                 //   })),
                 images: img,
             })
+            console.log("restaurant",restaurant); 
             await restaurant.save()
-            await User.updateOne({ _id: id }, { $set: { restaurantId: restaurant._id } })
+            await User.updateOne({ _id: ids }, { $set: { restaurantId: restaurant._id } })
             return res.json({ message: 'Data saved successfully' });
 
         }
