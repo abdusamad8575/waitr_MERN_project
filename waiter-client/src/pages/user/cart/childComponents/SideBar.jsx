@@ -35,8 +35,8 @@ const SideBar = ({ data }) => {
     }
     const handleSubmit = async () => {
             const options = {
-            //   key: import.meta.env.VITE_APP_RAZORPAY_ID_KEY,
-              key: 'rzp_test_os4sFTFYfRzAlS',
+              key: import.meta.env.VITE_APP_RAZORPAY_ID_KEY,
+            //   key: 'rzp_test_os4sFTFYfRzAlS',
               amount: total * 100,
               currency: 'INR',
               name: 'WAITR',

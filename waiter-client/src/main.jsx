@@ -10,8 +10,8 @@ import App from './App.jsx'
 ReactDOM.createRoot(document.getElementById('root')).render(
   <BrowserRouter>
   {/* <React.StrictMode> */}
-    {/* <GoogleOAuthProvider clientId={import.meta.env.VITE_APP_GOOGLE_ID}> */}
-    <GoogleOAuthProvider clientId={'135168302582-shh20g9vftn9he0k86sv9mpdpphjql8s.apps.googleusercontent.com'}>
+    <GoogleOAuthProvider clientId={import.meta.env.VITE_APP_GOOGLE_ID}>
+    {/* <GoogleOAuthProvider clientId={'135168302582-shh20g9vftn9he0k86sv9mpdpphjql8s.apps.googleusercontent.com'}> */}
       <Provider store={store}>
         <App />
       </Provider>
