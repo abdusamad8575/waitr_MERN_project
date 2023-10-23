@@ -11,7 +11,7 @@ import FoodDetails from '../pages/user/foodDetails/FoodDetails';
 import MainCart from '../pages/user/cart/mainCart';
 import Sccessfull from '../pages/user/successfull/Sccessfull';
 
-function Router() { 
+function  Router() { 
   return (
     <>
         <Routes>

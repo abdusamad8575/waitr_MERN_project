@@ -35,7 +35,7 @@ const GuestsDetails = ({ detail, setDetails, setState }) => {
             newFormErrors.name = '';
         }
 
-        if(/^\d{10}$/.test(detail.phone)){
+        if(/^\d{11}$/.test(detail.phone)){
             newFormErrors.phone = '';
             valid = false;
         }else {

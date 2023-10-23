@@ -115,7 +115,7 @@ const fetchRestaurants = async (req, res) => {
 const location = async(req,res)=>{
     try {
         const {location} = req.body
-        console.log("sdd",location);
+        // console.log("sdd",location);
         function capitalizeFirstLetter(str) {
             return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
         }
