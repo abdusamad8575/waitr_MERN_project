@@ -1,7 +1,7 @@
 export const Filters = [
     {
       id: 1,
-      title: "RestaurantType",
+      title: "Type",
       elements: [
         "Veg",
         "Non Veg",

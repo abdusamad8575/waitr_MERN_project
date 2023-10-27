@@ -26,7 +26,7 @@ function TabPanel(props) {
       {...other}
     >
       {value === index && (
-        <Box sx={{ p: 3 }}>
+        <Box sx={{ p: 2,textAlign:'center'}}>
           <Typography>{children}</Typography>
         </Box>
       )}
@@ -132,7 +132,7 @@ const DetailsBar = ({ details }) => {
                   {timeFrames(details.startTime, details.endTime,value).map((element, index) => {
                     return (
                       <TabPanel value={values} index={index} dir={theme.direction}>
-                        {Object.values(element)[0].map(x=><Button variant="outlined" color="error" sx={{margin:'2px'}} onClick={()=>handleButton(x,value)}>{x}</Button>)}
+                        {Object.values(element)[0].map(x=><Button variant="outlined" color="error" sx={{margin:'2px',padding: "5px 10px"}} onClick={()=>handleButton(x,value)}>{x}</Button>)}
                         
                       </TabPanel>
                     )

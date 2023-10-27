@@ -14,9 +14,9 @@ function Footer() {
     <footer style={{ backgroundColor: '#f5f5f5', padding: '20px 0' }}>
       <Container maxWidth="lg">
       <section className=''>
-        <MDBContainer className='text-center text-md-start mt-5'>
+        <MDBContainer className='text-center text-md-start'>
           <MDBRow className='mt-3'>
-            <MDBCol md='2' lg='2' xl='2' className='mx-auto mb-4'>
+            <MDBCol md='2' lg='2' xl='2' className='mx-auto'>
               <h6 className='text-uppercase fw-bold mb-4' style={{color:'#ff645a'}}>Discover
 </h6>
               <p>

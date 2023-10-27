@@ -80,7 +80,7 @@ const SimpleSlider = ({ filters , dispatch}) => {
   return (
     <Grid container>
       {Filters.map((card) => (
-        <Grid item xs={6} sm={6} sx={{paddingLeft:4}} key={card.id}>
+        <Grid item xs={6} sm={6} sx={{paddingLeft:2}} key={card.id}>
           <Button
           
           size="small" 

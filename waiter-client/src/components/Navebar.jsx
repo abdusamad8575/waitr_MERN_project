@@ -154,8 +154,8 @@ function Navebar() {
   };
 
   const handleSettings = () => {
-
     setAnchorElUser(null);
+    History('/signin')
   };
 
   // -----------------------------------------------------------------------
@@ -400,7 +400,7 @@ function Navebar() {
                   </MenuItem>
                 )) : settings.map((setting) => (
                   <MenuItem key={setting} onClick={handleSettings}>
-                    <Typography textAlign="center"><Link className='linkStyle' to={'/signin'}>{setting}</Link></Typography>
+                    <Typography textAlign="center"><Link className='linkStyle'>{setting}</Link></Typography>
                   </MenuItem>
                 ))}
               </Menu>
