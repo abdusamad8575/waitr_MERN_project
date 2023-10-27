@@ -213,7 +213,7 @@ export default function AccountContant() {
               <MDBCardBody className="text-black p-4">
                 <div className="mb-5">
                   <p className="lead fw-normal mb-1">Orders</p>
-                  <div className="p-4" style={{ backgroundColor: '#f8f9fa' }}>
+                  <Grid sx={{ backgroundColor: '#f8f9fa', padding:{sm:4} }}>
 
                     {order && order?.[orderShow]?.map((value, index) => (
 
@@ -221,7 +221,7 @@ export default function AccountContant() {
                         key={index}
                         sx={{
                           backgroundColor: '#f2f2f2',
-                          p: 3,
+                          p:{xs:'30px 10px',sm:3},
                           borderRadius: 4,
                           boxShadow: '0px 3px 5px rgba(0, 0, 0, 0.2)',
                           minWidth: { sm: "300px", md: "400px" },
@@ -265,7 +265,7 @@ export default function AccountContant() {
                               ))}
                             </Grid>
                             <Grid item xs={4} sx={{ display: 'flex', justifyContent: 'center', alignContent: 'center' }}>
-                              {compareTime(value.guestDetails.date, value.guestDetails.time) ? <Button color='success'>Active</Button> : <Button color='error'>Expired</Button>}
+                              {compareTime(value.guestDetails.date, value.guestDetails.time) ? <Button sx={{p:0}} color='success'>Active</Button> : <Button color='error'>Expired</Button>}
                             </Grid>
 
                           </Grid>
@@ -274,7 +274,7 @@ export default function AccountContant() {
                     ))}
 
 
-                  </div>
+                  </Grid>
                 </div>
 
               </MDBCardBody>
